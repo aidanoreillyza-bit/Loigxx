@@ -1,0 +1,107 @@
+{%- comment -%}
+  FAQ accordion — collapsible Q&A. Each FAQ is a Block, fully editable.
+{%- endcomment -%}
+
+<section class="lx-faq" id="lx-faq-{{ section.id }}">
+  <div class="lx-faq-inner">
+
+    <div class="lx-faq-head">
+      {% if section.settings.eyebrow != blank %}
+        <p class="lx-faq-eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      <h2 class="lx-faq-heading">{{ section.settings.heading | default: 'Frequently asked questions' }}</h2>
+      {% if section.settings.sub != blank %}
+        <p class="lx-faq-sub">{{ section.settings.sub }}</p>
+      {% endif %}
+    </div>
+
+    <div class="lx-faq-list">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'faq' %}
+            <details class="lx-faq-item" {{ block.shopify_attributes }}>
+              <summary class="lx-faq-q">
+                <span>{{ block.settings.question }}</span>
+                <span class="lx-faq-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </span>
+              </summary>
+              <div class="lx-faq-a">{{ block.settings.answer }}</div>
+            </details>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <details class="lx-faq-item">
+          <summary class="lx-faq-q">
+            <span>How long does UK delivery take?</span>
+            <span class="lx-faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </summary>
+          <div class="lx-faq-a"><p>Standard UK delivery arrives in 2–3 working days. Free on orders over £50.</p></div>
+        </details>
+        <details class="lx-faq-item">
+          <summary class="lx-faq-q">
+            <span>Do you ship to the US?</span>
+            <span class="lx-faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </summary>
+          <div class="lx-faq-a"><p>Yes. We ship worldwide and handle all import duties at checkout — no surprise fees on delivery. US shipments typically arrive in 5–7 working days.</p></div>
+        </details>
+        <details class="lx-faq-item">
+          <summary class="lx-faq-q">
+            <span>Are your supplements clinically backed?</span>
+            <span class="lx-faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </summary>
+          <div class="lx-faq-a"><p>All our supplements are formulated using ingredients with published clinical evidence and are recommended by fertility specialists in over 40 countries.</p></div>
+        </details>
+      {% endif %}
+    </div>
+
+    {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+      <div class="lx-faq-cta">
+        <p class="lx-faq-cta-text">{{ section.settings.cta_text }}</p>
+        <a href="{{ section.settings.cta_link }}" class="lx-faq-cta-btn">
+          {{ section.settings.cta_btn_text | default: 'Get in touch' }}
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)", "default": "FAQ" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently asked questions" },
+    { "type": "text", "id": "sub", "label": "Subtitle (optional)" },
+    { "type": "header", "content": "Bottom CTA (optional)" },
+    { "type": "text", "id": "cta_text", "label": "Text", "default": "Still have a question?" },
+    { "type": "text", "id": "cta_btn_text", "label": "Button label", "default": "Get in touch" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Your question?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Your answer here.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "faq", "settings": { "question": "How long does UK delivery take?", "answer": "<p>Standard UK delivery arrives in 2–3 working days. Free on orders over £50.</p>" } },
+        { "type": "faq", "settings": { "question": "Do you ship to the US?", "answer": "<p>Yes. We ship worldwide and handle all import duties at checkout — no surprise fees on delivery.</p>" } },
+        { "type": "faq", "settings": { "question": "Are your supplements clinically backed?", "answer": "<p>All our supplements use ingredients with published clinical evidence and are recommended by fertility specialists in 40+ countries.</p>" } },
+        { "type": "faq", "settings": { "question": "What's your returns policy?", "answer": "<p>30-day returns on unopened products. Reach out via Contact and we'll send a prepaid label.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

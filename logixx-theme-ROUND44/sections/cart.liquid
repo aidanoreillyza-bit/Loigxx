@@ -1,0 +1,276 @@
+<section class="lx-cart" id="lx-cart-{{ section.id }}">
+  <div class="container">
+
+    <!-- HEAD -->
+    <div class="lx-cart-head">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1>{{ section.settings.heading }}</h1>
+      {% if cart.item_count > 0 %}
+        <p class="lx-cart-count">{{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %} in your basket</p>
+      {% endif %}
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <form action="/cart" method="post" novalidate class="lx-cart-form" id="lx-cart-form">
+
+        <div class="lx-cart-grid">
+
+          <!-- LEFT: ITEMS LIST -->
+          <div class="lx-cart-items">
+            {% for item in cart.items %}
+              <article class="lx-cart-item" data-line="{{ forloop.index }}">
+                <a href="{{ item.url }}" class="lx-cart-item-media">
+                  {% if item.image %}
+                    <img src="{{ item.image | image_url: width: 240 }}" alt="{{ item.title }}">
+                  {% else %}
+                    <div class="lx-cart-item-placeholder"><i class="ph ph-package"></i></div>
+                  {% endif %}
+                </a>
+
+                <div class="lx-cart-item-info">
+                  <a href="{{ item.url }}" class="lx-cart-item-title">{{ item.product.title }}</a>
+                  {% if item.variant.title != 'Default Title' %}
+                    <span class="lx-cart-item-variant">{{ item.variant.title }}</span>
+                  {% endif %}
+
+                  {%- if item.selling_plan_allocation -%}
+                    <span class="lx-cart-item-plan">
+                      <i class="ph ph-repeat"></i> {{ item.selling_plan_allocation.selling_plan.name }}
+                    </span>
+                  {%- endif -%}
+
+                  {%- if item.properties.size > 0 -%}
+                    <ul class="lx-cart-item-props">
+                      {%- for p in item.properties -%}
+                        {%- unless p.last == blank or p.first == '_' -%}
+                          <li><strong>{{ p.first }}:</strong> {{ p.last }}</li>
+                        {%- endunless -%}
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+
+                  <div class="lx-cart-item-price-mobile">
+                    {{ item.final_line_price | money }}
+                  </div>
+                </div>
+
+                <div class="lx-cart-item-qty">
+                  <span class="lx-cart-item-label">Quantity</span>
+                  <div class="lx-cart-qty-control">
+                    <button type="button" class="lx-cart-qty-btn" data-action="dec" aria-label="Decrease quantity">
+                      <i class="ph ph-minus"></i>
+                    </button>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity" class="lx-cart-qty-input" data-line="{{ forloop.index }}">
+                    <button type="button" class="lx-cart-qty-btn" data-action="inc" aria-label="Increase quantity">
+                      <i class="ph ph-plus"></i>
+                    </button>
+                  </div>
+                  <button type="button" class="lx-cart-item-remove" data-remove-key="{{ item.key }}">
+                    <i class="ph ph-trash"></i> Remove
+                  </button>
+                </div>
+
+                <div class="lx-cart-item-price">
+                  {%- if item.original_line_price > item.final_line_price -%}
+                    <span class="lx-cart-item-was">{{ item.original_line_price | money }}</span>
+                  {%- endif -%}
+                  <strong>{{ item.final_line_price | money }}</strong>
+                </div>
+              </article>
+            {% endfor %}
+
+            <!-- Order note -->
+            {% if section.settings.show_note %}
+              <details class="lx-cart-note">
+                <summary>
+                  <i class="ph ph-note-pencil"></i>
+                  Add a note to your order
+                </summary>
+                <textarea name="note" rows="3" placeholder="Special instructions for delivery, gift messages, etc.">{{ cart.note }}</textarea>
+              </details>
+            {% endif %}
+          </div>
+
+          <!-- RIGHT: SUMMARY (sticky) -->
+          <aside class="lx-cart-summary">
+            <div class="lx-cart-summary-card">
+              <h2>Order summary</h2>
+
+              <div class="lx-cart-summary-row">
+                <span>Subtotal</span>
+                <strong>{{ cart.items_subtotal_price | money }}</strong>
+              </div>
+
+              {%- if cart.cart_level_discount_applications.size > 0 -%}
+                {%- for discount in cart.cart_level_discount_applications -%}
+                  <div class="lx-cart-summary-row lx-cart-summary-row--discount">
+                    <span><i class="ph ph-tag"></i> {{ discount.title }}</span>
+                    <strong>−{{ discount.total_allocated_amount | money }}</strong>
+                  </div>
+                {%- endfor -%}
+              {%- endif -%}
+
+              <div class="lx-cart-summary-row lx-cart-summary-row--shipping">
+                <span><i class="ph ph-truck"></i> Shipping</span>
+                <span>{{ section.settings.shipping_note }}</span>
+              </div>
+
+              <div class="lx-cart-summary-total">
+                <span>Total</span>
+                <strong>{{ cart.total_price | money }}</strong>
+              </div>
+
+              <button type="submit" name="checkout" class="lx-cart-checkout">
+                Secure checkout
+                <i class="ph ph-lock"></i>
+              </button>
+
+              <a href="{{ section.settings.continue_link }}" class="lx-cart-continue">
+                <i class="ph ph-arrow-left"></i> Continue shopping
+              </a>
+
+              <!-- Trust badges -->
+              <div class="lx-cart-trust">
+                <div class="lx-cart-trust-item">
+                  <i class="ph ph-shield-check"></i>
+                  <div>
+                    <strong>Secure checkout</strong>
+                    <span>SSL encrypted</span>
+                  </div>
+                </div>
+                <div class="lx-cart-trust-item">
+                  <i class="ph ph-truck"></i>
+                  <div>
+                    <strong>Free UK shipping</strong>
+                    <span>On orders over £50</span>
+                  </div>
+                </div>
+                <div class="lx-cart-trust-item">
+                  <i class="ph ph-arrow-counter-clockwise"></i>
+                  <div>
+                    <strong>30-day returns</strong>
+                    <span>No-quibble policy</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+      </form>
+
+    {% else %}
+
+      <!-- EMPTY STATE -->
+      <div class="lx-cart-empty">
+        <div class="lx-cart-empty-icon">
+          <i class="ph ph-shopping-bag"></i>
+        </div>
+        <h2>Your basket is empty</h2>
+        <p>{{ section.settings.empty_text }}</p>
+        <a href="{{ section.settings.continue_link }}" class="lx-cart-empty-cta">
+          Browse products
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+
+        <!-- Quick links -->
+        <div class="lx-cart-quicklinks">
+          <span>Or explore:</span>
+          <a href="/products/proxeed-plus">Proxeed Plus</a>
+          <a href="/products/proxeed-men">Proxeed Men</a>
+          <a href="/products/punalpin">Punalpin</a>
+        </div>
+      </div>
+
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('lx-cart-{{ section.id }}');
+  if (!section) return;
+
+  // Qty +/− buttons
+  section.addEventListener('click', function(e){
+    var btn = e.target.closest('.lx-cart-qty-btn');
+    if (!btn) return;
+    e.preventDefault();
+    var control = btn.closest('.lx-cart-qty-control');
+    if (!control) return;
+    var input = control.querySelector('.lx-cart-qty-input');
+    var val = parseInt(input.value, 10) || 0;
+    var action = btn.dataset.action;
+    if (action === 'inc') val += 1;
+    else if (action === 'dec' && val > 0) val -= 1;
+    input.value = val;
+    // Auto-submit when value changes
+    var form = document.getElementById('lx-cart-form');
+    if (form) {
+      var updateBtn = document.createElement('input');
+      updateBtn.type = 'hidden';
+      updateBtn.name = 'update';
+      updateBtn.value = '1';
+      form.appendChild(updateBtn);
+      form.submit();
+    }
+  });
+
+  // Remove item using AJAX cart change API with line item key (unique & reliable)
+  section.addEventListener('click', function(e){
+    var btn = e.target.closest('.lx-cart-item-remove');
+    if (!btn) return;
+    e.preventDefault();
+    var key = btn.dataset.removeKey;
+    if (!key) return;
+
+    // Visual feedback
+    var item = btn.closest('.lx-cart-item');
+    if (item) {
+      item.style.opacity = '0.4';
+      item.style.pointerEvents = 'none';
+    }
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: 0 })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(){
+      // Reload to refresh the cart display
+      window.location.reload();
+    })
+    .catch(function(err){
+      console.error('Remove failed:', err);
+      if (item) {
+        item.style.opacity = '';
+        item.style.pointerEvents = '';
+      }
+      alert('Could not remove item. Please try again.');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Basket" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your basket" },
+
+    { "type": "header", "content": "Summary" },
+    { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Calculated at checkout" },
+    { "type": "text", "id": "continue_link", "label": "Continue shopping URL", "default": "/" },
+
+    { "type": "header", "content": "Order note" },
+    { "type": "checkbox", "id": "show_note", "label": "Show order note field", "default": true },
+
+    { "type": "header", "content": "Empty state" },
+    { "type": "textarea", "id": "empty_text", "label": "Empty state text", "default": "Looks like you haven't added anything yet. Browse our science-backed range of fertility products." }
+  ]
+}
+{% endschema %}

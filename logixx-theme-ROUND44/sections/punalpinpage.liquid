@@ -1,0 +1,910 @@
+<section class="lx-pun" id="lx-pun-{{ section.id }}">
+
+  <!-- Botanical decorations -->
+  <div class="lx-pun-bg" aria-hidden="true">
+    {% for i in (1..14) %}
+      <span class="lx-pun-leaf lx-pun-leaf--{{ forloop.index | modulo: 5 | plus: 1 }}">
+        <i class="ph ph-leaf"></i>
+      </span>
+    {% endfor %}
+    {% for i in (1..8) %}
+      <span class="lx-pun-berry lx-pun-berry--{{ forloop.index }}"></span>
+    {% endfor %}
+  </div>
+
+  <!-- HERO -->
+  <div class="lx-pun-hero">
+    <div class="container">
+      <div class="lx-pun-hero-grid">
+        <div class="lx-pun-hero-text">
+          <div class="lx-pun-eyebrow">
+            <i class="ph ph-leaf"></i>
+            <span>{{ section.settings.eyebrow }}</span>
+          </div>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lx-pun-lead">{{ section.settings.subheading }}</p>
+
+          {% if section.settings.show_tags %}
+            <div class="lx-pun-tags">
+              {% if section.settings.tag_1 != blank %}<span class="lx-pun-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_1 }}</span>{% endif %}
+              {% if section.settings.tag_2 != blank %}<span class="lx-pun-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_2 }}</span>{% endif %}
+              {% if section.settings.tag_3 != blank %}<span class="lx-pun-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_3 }}</span>{% endif %}
+              {% if section.settings.tag_4 != blank %}<span class="lx-pun-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_4 }}</span>{% endif %}
+            </div>
+          {% endif %}
+
+          <div class="lx-pun-hero-actions">
+            <a href="{{ section.settings.cta_link }}" class="lx-pun-btn lx-pun-btn--primary">
+              {{ section.settings.cta_text }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="{{ section.settings.cta2_link }}" class="lx-pun-btn lx-pun-btn--ghost">{{ section.settings.cta2_text }}</a>
+          </div>
+        </div>
+        <div class="lx-pun-hero-visual">
+          {% if section.settings.hero_image != blank %}
+            <img src="{{ section.settings.hero_image | image_url: width: 1200 }}" alt="{{ section.settings.heading }}">
+          {% else %}
+            <div class="lx-pun-hero-placeholder">
+              <i class="ph ph-package"></i>
+              <span>Add hero image</span>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 KEY INGREDIENTS (botanical pillars) -->
+  {% if section.settings.show_pillars %}
+    <div class="lx-pun-pillars">
+      <div class="container">
+        <div class="lx-pun-section-head">
+          <span class="lx-pun-mini-eyebrow">{{ section.settings.pillars_eyebrow }}</span>
+          <h2>{{ section.settings.pillars_heading }}</h2>
+          <p>{{ section.settings.pillars_sub }}</p>
+        </div>
+        <div class="lx-pun-pillars-grid">
+          <div class="lx-pun-pillar">
+            <div class="lx-pun-pillar-icon"><i class="ph ph-circle-half-tilt"></i></div>
+            <h3>{{ section.settings.pillar_1_title }}</h3>
+            <p>{{ section.settings.pillar_1_desc }}</p>
+          </div>
+          <div class="lx-pun-pillar">
+            <div class="lx-pun-pillar-icon"><i class="ph ph-plant"></i></div>
+            <h3>{{ section.settings.pillar_2_title }}</h3>
+            <p>{{ section.settings.pillar_2_desc }}</p>
+          </div>
+          <div class="lx-pun-pillar">
+            <div class="lx-pun-pillar-icon"><i class="ph ph-cherries"></i></div>
+            <h3>{{ section.settings.pillar_3_title }}</h3>
+            <p>{{ section.settings.pillar_3_desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- PACK SIZE PRODUCT CARDS -->
+  {% if section.settings.show_packs %}
+    <div class="lx-pun-packs">
+      <div class="container">
+        <div class="lx-pun-section-head">
+          <span class="lx-pun-mini-eyebrow">{{ section.settings.packs_eyebrow }}</span>
+          <h2>{{ section.settings.packs_heading }}</h2>
+          <p>{{ section.settings.packs_sub }}</p>
+        </div>
+        <div class="lx-pun-packs-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'pack' %}
+              <article class="lx-pun-pack{% if block.settings.featured %} lx-pun-pack--featured{% endif %}" {{ block.shopify_attributes }}>
+                {% if block.settings.featured %}<span class="lx-pun-pack-badge">{{ block.settings.badge }}</span>{% endif %}
+                <div class="lx-pun-pack-media">
+                  {% if block.settings.image != blank %}
+                    <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title }}">
+                  {% else %}
+                    <div class="lx-pun-pack-placeholder"><i class="ph ph-package"></i></div>
+                  {% endif %}
+                </div>
+                <div class="lx-pun-pack-body">
+                  <span class="lx-pun-pack-eyebrow">{{ block.settings.eyebrow }}</span>
+                  <h3>{{ block.settings.title }}</h3>
+                  <p>{{ block.settings.tagline }}</p>
+                  <div class="lx-pun-pack-meta">
+                    <div class="lx-pun-pack-meta-item">
+                      <i class="ph ph-pill"></i>
+                      <span>{{ block.settings.tablets }}</span>
+                    </div>
+                    <div class="lx-pun-pack-meta-item">
+                      <i class="ph ph-calendar"></i>
+                      <span>{{ block.settings.duration }}</span>
+                    </div>
+                  </div>
+                  <div class="lx-pun-pack-pricing">
+                    <div class="lx-pun-pack-price">
+                      <strong>{{ block.settings.price }}</strong>
+                      {% if block.settings.compare_price != blank %}<span class="lx-pun-pack-compare">{{ block.settings.compare_price }}</span>{% endif %}
+                    </div>
+                    {% if block.settings.savings != blank %}<span class="lx-pun-pack-savings">{{ block.settings.savings }}</span>{% endif %}
+                  </div>
+                  <a href="{{ block.settings.cta_link }}" class="lx-pun-btn lx-pun-btn--primary lx-pun-pack-btn">{{ block.settings.cta_text }}</a>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- INGREDIENT BREAKDOWN (alternating fact-style) -->
+  {% assign ing_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'ingredient' %}{% assign ing_count = ing_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if ing_count > 0 %}
+    <div class="lx-pun-ingredients">
+      <div class="container">
+        <div class="lx-pun-section-head">
+          <span class="lx-pun-mini-eyebrow">{{ section.settings.ing_eyebrow }}</span>
+          <h2>{{ section.settings.ing_heading }}</h2>
+        </div>
+        {% assign idx = 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'ingredient' %}
+            <article class="lx-pun-ing{% cycle '', ' lx-pun-ing--alt' %}" {{ block.shopify_attributes }}>
+              <div class="lx-pun-ing-text">
+                <div class="lx-pun-ing-name-row">
+                  <span class="lx-pun-ing-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                  <h3>{{ block.settings.name }}</h3>
+                </div>
+                <span class="lx-pun-ing-tag">{{ block.settings.tag }}</span>
+                <div class="lx-pun-ing-body rte">{{ block.settings.body }}</div>
+                {% if block.settings.fact != blank %}
+                  <div class="lx-pun-ing-fact">
+                    <i class="ph ph-info"></i>
+                    <span>{{ block.settings.fact }}</span>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="lx-pun-ing-visual">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | image_url: width: 900 }}" alt="{{ block.settings.name }}">
+                {% else %}
+                  <div class="lx-pun-ing-placeholder">
+                    <i class="{{ block.settings.icon | default: 'ph ph-leaf' }}"></i>
+                  </div>
+                {% endif %}
+              </div>
+            </article>
+            {% assign idx = idx | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- INGREDIENTS TABLE (full disclosure) -->
+  {% if section.settings.show_table %}
+    <div class="lx-pun-table-section">
+      <div class="container">
+        <div class="lx-pun-section-head">
+          <span class="lx-pun-mini-eyebrow">{{ section.settings.table_eyebrow }}</span>
+          <h2>{{ section.settings.table_heading }}</h2>
+          <p>{{ section.settings.table_sub }}</p>
+        </div>
+        <div class="lx-pun-table-wrap">
+          <div class="lx-pun-table">
+            <div class="lx-pun-table-head">
+              <div class="lx-pun-table-cell"><strong>Ingredient</strong></div>
+              <div class="lx-pun-table-cell"><strong>Per daily dose</strong></div>
+              <div class="lx-pun-table-cell"><strong>Active compound</strong></div>
+            </div>
+            {% for block in section.blocks %}
+              {% if block.type == 'table_row' %}
+                <div class="lx-pun-table-row" {{ block.shopify_attributes }}>
+                  <div class="lx-pun-table-cell" data-label="Ingredient">{{ block.settings.name }}</div>
+                  <div class="lx-pun-table-cell" data-label="Per daily dose">{{ block.settings.dose }}</div>
+                  <div class="lx-pun-table-cell" data-label="Active compound">{{ block.settings.active }}</div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <p class="lx-pun-table-footnote">{{ section.settings.table_footnote }}</p>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- DAILY DOSE — 3-part editorial layout -->
+  {% if section.settings.show_dose %}
+    <div class="lx-pun-dose">
+      <div class="container">
+        <div class="lx-pun-dose-head">
+          <span class="lx-pun-mini-eyebrow">{{ section.settings.dose_eyebrow }}</span>
+          <h2>{{ section.settings.dose_heading }}</h2>
+          <p>{{ section.settings.dose_body }}</p>
+        </div>
+
+        <!-- Three-step visual: Morning → Evening → Result -->
+        <div class="lx-pun-dose-flow">
+          <div class="lx-pun-dose-step">
+            <div class="lx-pun-dose-step-icon"><i class="ph-fill ph-sun"></i></div>
+            <span class="lx-pun-dose-step-label">Morning</span>
+            <strong class="lx-pun-dose-step-value">3 tablets</strong>
+            <span class="lx-pun-dose-step-sub">With breakfast</span>
+          </div>
+
+          <div class="lx-pun-dose-connector">
+            <div class="lx-pun-dose-plus">+</div>
+          </div>
+
+          <div class="lx-pun-dose-step">
+            <div class="lx-pun-dose-step-icon"><i class="ph-fill ph-moon"></i></div>
+            <span class="lx-pun-dose-step-label">Evening</span>
+            <strong class="lx-pun-dose-step-value">3 tablets</strong>
+            <span class="lx-pun-dose-step-sub">With dinner</span>
+          </div>
+
+          <div class="lx-pun-dose-connector">
+            <div class="lx-pun-dose-eq">=</div>
+          </div>
+
+          <div class="lx-pun-dose-step lx-pun-dose-step--total">
+            <div class="lx-pun-dose-step-icon lx-pun-dose-step-icon--accent"><i class="ph-fill ph-pill"></i></div>
+            <span class="lx-pun-dose-step-label">Daily total</span>
+            <strong class="lx-pun-dose-step-value">6 tablets</strong>
+            <span class="lx-pun-dose-step-sub">Every day</span>
+          </div>
+        </div>
+
+        <!-- 90-day cycle band -->
+        <div class="lx-pun-cycle-band">
+          <div class="lx-pun-cycle-text">
+            <span class="lx-pun-cycle-label">One full spermatogenesis cycle</span>
+            <strong class="lx-pun-cycle-formula">6 tablets / day × 90 days</strong>
+          </div>
+          <div class="lx-pun-cycle-arrow">
+            <svg width="32" height="16" viewBox="0 0 32 16" fill="none"><path d="M1 8h28m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="lx-pun-cycle-result">
+            <strong>540</strong>
+            <span>tablets</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- ORGANIC FARM STORY -->
+  {% if section.settings.show_farm %}
+    <div class="lx-pun-farm">
+      <div class="container">
+        <div class="lx-pun-farm-grid">
+          <div class="lx-pun-farm-text">
+            <span class="lx-pun-mini-eyebrow">{{ section.settings.farm_eyebrow }}</span>
+            <h2>{{ section.settings.farm_heading }}</h2>
+            <div class="lx-pun-farm-body rte">{{ section.settings.farm_body }}</div>
+            <div class="lx-pun-farm-stats">
+              <div class="lx-pun-farm-stat"><strong>{{ section.settings.farm_stat1_num }}</strong><span>{{ section.settings.farm_stat1_label }}</span></div>
+              <div class="lx-pun-farm-stat"><strong>{{ section.settings.farm_stat2_num }}</strong><span>{{ section.settings.farm_stat2_label }}</span></div>
+              <div class="lx-pun-farm-stat"><strong>{{ section.settings.farm_stat3_num }}</strong><span>{{ section.settings.farm_stat3_label }}</span></div>
+            </div>
+          </div>
+          <div class="lx-pun-farm-visual">
+            {% if section.settings.farm_image != blank %}
+              <img src="{{ section.settings.farm_image | image_url: width: 1000 }}" alt="{{ section.settings.farm_heading }}">
+            {% else %}
+              <div class="lx-pun-farm-placeholder">
+                <i class="ph ph-tree"></i>
+                <span>Lejre Organic Farm, Denmark</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- BENEFITS GRID -->
+  {% assign benefit_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'benefit' %}{% assign benefit_count = benefit_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if benefit_count > 0 %}
+    <div class="lx-pun-benefits">
+      <div class="container">
+        <div class="lx-pun-section-head">
+          <span class="lx-pun-mini-eyebrow">{{ section.settings.benefits_eyebrow }}</span>
+          <h2>{{ section.settings.benefits_heading }}</h2>
+        </div>
+        <div class="lx-pun-benefits-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'benefit' %}
+              <div class="lx-pun-benefit-card" {{ block.shopify_attributes }}>
+                <div class="lx-pun-benefit-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-pun-closing">
+      <div class="container">
+        <div class="lx-pun-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-pun-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="lx-pun-btn lx-pun-btn--white">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="lx-pun-btn lx-pun-btn--outline-white">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+{% schema %}
+{
+  "name": "Punalpin Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Botanical fertility support"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Punalpin\u00ae PLUS"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "A botanical supplement based on pomegranate, galangal and Aronia berries \u2014 enriched with selenium and zinc to support normal spermatogenesis and male fertility."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero product image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tag_1",
+      "label": "Tag 1",
+      "default": "Pomegranate \u00b7 Galangal \u00b7 Aronia"
+    },
+    {
+      "type": "text",
+      "id": "tag_2",
+      "label": "Tag 2",
+      "default": "Zinc + Selenium"
+    },
+    {
+      "type": "text",
+      "id": "tag_3",
+      "label": "Tag 3",
+      "default": "Patented galangal process"
+    },
+    {
+      "type": "text",
+      "id": "tag_4",
+      "label": "Tag 4",
+      "default": "Organic Lejre farm, DK"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Primary CTA",
+      "default": "Shop Punalpin PLUS"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "Primary CTA link",
+      "default": "/pages/punalpin"
+    },
+    {
+      "type": "text",
+      "id": "cta2_text",
+      "label": "Secondary CTA",
+      "default": "Read the science"
+    },
+    {
+      "type": "text",
+      "id": "cta2_link",
+      "label": "Secondary CTA link",
+      "default": "/pages/male-infertility-facts"
+    },
+    {
+      "type": "header",
+      "content": "Three key ingredients"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pillars",
+      "label": "Show pillars",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pillars_eyebrow",
+      "label": "Eyebrow",
+      "default": "The botanical foundation"
+    },
+    {
+      "type": "text",
+      "id": "pillars_heading",
+      "label": "Heading",
+      "default": "Three plants. One precision tablet."
+    },
+    {
+      "type": "textarea",
+      "id": "pillars_sub",
+      "label": "Sub-text",
+      "default": "Punalpin\u00ae PLUS combines three powerful botanicals selected for their fertility-supporting compounds \u2014 formulated together using our patented processing method."
+    },
+    {
+      "type": "text",
+      "id": "pillar_1_title",
+      "label": "Pillar 1 title",
+      "default": "Pomegranate"
+    },
+    {
+      "type": "textarea",
+      "id": "pillar_1_desc",
+      "label": "Pillar 1 description",
+      "default": "Rich in punicalagins and ellagitannins \u2014 natural polyphenols studied for their antioxidant role in male reproductive health."
+    },
+    {
+      "type": "text",
+      "id": "pillar_2_title",
+      "label": "Pillar 2 title",
+      "default": "Galangal"
+    },
+    {
+      "type": "textarea",
+      "id": "pillar_2_desc",
+      "label": "Pillar 2 description",
+      "default": "Traditional rhizome processed using our patented method to preserve its full active compound profile within a stable tablet."
+    },
+    {
+      "type": "text",
+      "id": "pillar_3_title",
+      "label": "Pillar 3 title",
+      "default": "Aronia"
+    },
+    {
+      "type": "textarea",
+      "id": "pillar_3_desc",
+      "label": "Pillar 3 description",
+      "default": "Cultivated at our organic farm in Lejre, Denmark \u2014 these dark violet berries contain a unique anthocyanin profile from years of plant breeding."
+    },
+    {
+      "type": "header",
+      "content": "Ingredient breakdown"
+    },
+    {
+      "type": "text",
+      "id": "ing_eyebrow",
+      "label": "Eyebrow",
+      "default": "What's inside"
+    },
+    {
+      "type": "text",
+      "id": "ing_heading",
+      "label": "Heading",
+      "default": "Every ingredient, explained"
+    },
+    {
+      "type": "header",
+      "content": "Organic farm story"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_farm",
+      "label": "Show farm section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "farm_eyebrow",
+      "label": "Eyebrow",
+      "default": "Lejre, Denmark"
+    },
+    {
+      "type": "text",
+      "id": "farm_heading",
+      "label": "Heading",
+      "default": "Grown on our own organic farm"
+    },
+    {
+      "type": "richtext",
+      "id": "farm_body",
+      "label": "Farm story",
+      "default": "<p>The Aronia in Punalpin\u00ae PLUS is the result of a <strong>year-long plant breeding program</strong> at our own organic farm in Lejre, Denmark.</p><p>This breeding work includes crossings with North American wild types of Aronia, resulting in a unique anthocyanin composition not found in any other Aronia source.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "farm_image",
+      "label": "Farm image"
+    },
+    {
+      "type": "text",
+      "id": "farm_stat1_num",
+      "label": "Stat 1 number",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "farm_stat1_label",
+      "label": "Stat 1 label",
+      "default": "Organic"
+    },
+    {
+      "type": "text",
+      "id": "farm_stat2_num",
+      "label": "Stat 2 number",
+      "default": "10+"
+    },
+    {
+      "type": "text",
+      "id": "farm_stat2_label",
+      "label": "Stat 2 label",
+      "default": "Years of breeding"
+    },
+    {
+      "type": "text",
+      "id": "farm_stat3_num",
+      "label": "Stat 3 number",
+      "default": "1"
+    },
+    {
+      "type": "text",
+      "id": "farm_stat3_label",
+      "label": "Stat 3 label",
+      "default": "Patented process"
+    },
+    {
+      "type": "header",
+      "content": "Benefits grid"
+    },
+    {
+      "type": "text",
+      "id": "benefits_eyebrow",
+      "label": "Eyebrow",
+      "default": "Why Punalpin"
+    },
+    {
+      "type": "text",
+      "id": "benefits_heading",
+      "label": "Heading",
+      "default": "Botanical precision, in one tablet"
+    },
+    {
+      "type": "header",
+      "content": "Closing CTA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_closing",
+      "label": "Show closing CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "closing_heading",
+      "label": "Heading",
+      "default": "Ready to try Punalpin\u00ae PLUS?"
+    },
+    {
+      "type": "textarea",
+      "id": "closing_sub",
+      "label": "Sub-text",
+      "default": "A unique botanical formulation backed by years of organic plant breeding and patented processing."
+    },
+    {
+      "type": "text",
+      "id": "closing_btn1_text",
+      "label": "Primary button",
+      "default": "Shop now"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn1_link",
+      "label": "Primary link",
+      "default": "/pages/punalpin"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn2_text",
+      "label": "Secondary button",
+      "default": "Speak to a specialist"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn2_link",
+      "label": "Secondary link",
+      "default": "/pages/contact"
+    },
+    {
+      "type": "header",
+      "content": "Pack sizes"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_packs",
+      "label": "Show pack sizes",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "packs_eyebrow",
+      "label": "Eyebrow",
+      "default": "Choose your pack"
+    },
+    {
+      "type": "text",
+      "id": "packs_heading",
+      "label": "Heading",
+      "default": "Available in two pack sizes"
+    },
+    {
+      "type": "textarea",
+      "id": "packs_sub",
+      "label": "Sub-text",
+      "default": "Both packs contain the identical formulation. The 540-tablet pack covers a full 90-day spermatogenesis cycle. The 180-tablet pack is a 30-day starter for shorter trials."
+    },
+    {
+      "type": "header",
+      "content": "Ingredients table"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_table",
+      "label": "Show ingredients table",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "table_eyebrow",
+      "label": "Eyebrow",
+      "default": "Full transparency"
+    },
+    {
+      "type": "text",
+      "id": "table_heading",
+      "label": "Heading",
+      "default": "What's in every dose"
+    },
+    {
+      "type": "textarea",
+      "id": "table_sub",
+      "label": "Sub-text",
+      "default": "Per daily dose of 6 tablets. Every ingredient and active compound disclosed."
+    },
+    {
+      "type": "textarea",
+      "id": "table_footnote",
+      "label": "Footnote",
+      "default": "Aronia is a proprietary blend of Aronia melanocarpa (Michx.) Elliott, A. prunifolia (Marshall) Rehder, A. arbutifolia (L.) Pers., and A. mitschurinii Skvortsov et Maitulina. Other ingredients: microcrystalline cellulose, polyvinylpyrrolidone (bulking agents); silicon dioxide, magnesium salts of vegetable fatty acids (anti-caking); ethyl cellulose, hydroxypropyl methylcellulose, glycerol (glazing agents). RI: Reference Intake."
+    },
+    {
+      "type": "header",
+      "content": "Daily dose"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dose",
+      "label": "Show daily dose card",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "dose_eyebrow",
+      "label": "Eyebrow",
+      "default": "How to take it"
+    },
+    {
+      "type": "text",
+      "id": "dose_heading",
+      "label": "Heading",
+      "default": "6 tablets daily, with food"
+    },
+    {
+      "type": "textarea",
+      "id": "dose_body",
+      "label": "Body",
+      "default": "6 tablets per day \u00d7 90 days = 540 tablets \u2014 the exact length of one full spermatogenesis cycle (the time it takes to form new sperm cells)."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Pomegranate"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag (e.g. dosage or quality)",
+          "default": "Polyphenol-rich"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "text",
+          "id": "fact",
+          "label": "Fact note (optional)"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Placeholder icon",
+          "default": "ph ph-leaf"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Phosphor icon",
+          "default": "ph ph-leaf"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "pack",
+      "name": "Pack size",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "featured",
+          "label": "Featured (highlighted)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Featured badge text",
+          "default": "Best Value"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow",
+          "default": "Punalpin\u00ae PLUS"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "540 Tablets"
+        },
+        {
+          "type": "textarea",
+          "id": "tagline",
+          "label": "Tagline",
+          "default": "Full 90-day course"
+        },
+        {
+          "type": "text",
+          "id": "tablets",
+          "label": "Tablet count",
+          "default": "540 tablets"
+        },
+        {
+          "type": "text",
+          "id": "duration",
+          "label": "Duration",
+          "default": "90 days"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "\u00a3168.79"
+        },
+        {
+          "type": "text",
+          "id": "compare_price",
+          "label": "Compare-at price",
+          "default": "\u00a3293.79"
+        },
+        {
+          "type": "text",
+          "id": "savings",
+          "label": "Savings text",
+          "default": "Save \u00a3125"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button",
+          "default": "Shop now"
+        },
+        {
+          "type": "text",
+          "id": "cta_link",
+          "label": "Button link",
+          "default": "/pages/punalpin"
+        }
+      ]
+    },
+    {
+      "type": "table_row",
+      "name": "Ingredients table row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Ingredient name"
+        },
+        {
+          "type": "text",
+          "id": "dose",
+          "label": "Per daily dose"
+        },
+        {
+          "type": "text",
+          "id": "active",
+          "label": "Active compound"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Punalpin Page"
+    }
+  ]
+}
+{% endschema %}

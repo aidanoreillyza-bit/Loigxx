@@ -1,0 +1,213 @@
+{%- comment -%}
+  Lab Dynamics page — partner/3PL client showcase.
+  Lab Dynamics' own dark navy clinical palette.
+{%- endcomment -%}
+
+{%- capture icon_check -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{%- endcapture -%}
+{%- capture icon_arrow -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>{%- endcapture -%}
+
+<div class="ldx">
+
+  {%- comment -%} ===== HERO ===== {%- endcomment -%}
+  <section class="ldx-hero">
+    <div class="ldx-container">
+      <div class="ldx-hero-grid">
+        <div class="ldx-hero-text">
+          <span class="ldx-hero-pill">
+            <span class="ldx-hero-pill-dot"></span>
+            {{ section.settings.hero_eyebrow | default: '30+ Years of Excellence' }}
+          </span>
+          <h1 class="ldx-hero-title">
+            <a href="{{ section.settings.external_url | default: 'https://www.labdynamics.co.uk' }}" target="_blank" rel="noopener" class="ldx-hero-title-link">{{ section.settings.hero_heading | default: 'Clinical, Laboratory & Research Supplies for' }}</a>
+            <span class="ldx-hero-title-gold">{{ section.settings.hero_heading_accent | default: 'Hospitals, IVF Labs & Dental Practices' }}</span>
+          </h1>
+          <p class="ldx-hero-lead">{{ section.settings.hero_sub | default: 'Specialist suppliers of clinical disinfectants, laboratory consumables and equipment to IVF Laboratories, Hospitals, Dentists, and a cross section of industries. We support Scientists, Nurses, Embryologists and clinical teams across the UK with premium quality products.' }}</p>
+          <div class="ldx-hero-ctas">
+            <a href="#ldx-enquire" class="ldx-btn ldx-btn--primary">{{ section.settings.hero_cta | default: 'Enquire about products' }} <span class="ldx-btn-arrow">{{ icon_arrow }}</span></a>
+            <a href="{{ section.settings.external_url | default: 'https://www.labdynamics.co.uk' }}" target="_blank" rel="noopener" class="ldx-btn ldx-btn--ghost">Visit labdynamics.co.uk <span class="ldx-btn-arrow">{{ icon_arrow }}</span></a>
+          </div>
+        </div>
+
+        <div class="ldx-hero-visual">
+          <div class="ldx-hero-circle">
+            <div class="ldx-hero-plate">
+              <img src="{{ 'labdynamics-logo-v4.png' | asset_url }}" alt="Lab Dynamics — clinical, laboratory and research supplies" width="900" height="631" class="ldx-hero-logo">
+            </div>
+          </div>
+          <span class="ldx-hero-badge ldx-hero-badge--top">
+            <span class="ldx-hero-badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L20 5 V11 C20 16 16 20 12 22 C8 20 4 16 4 11 V5 Z"/><polyline points="9 12 11 14 15 10"/></svg>
+            </span>
+            CE Certified Products
+          </span>
+          <span class="ldx-hero-badge ldx-hero-badge--bottom">
+            <span class="ldx-hero-badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 L7 22 L12 19 L17 22 L15.5 14"/></svg>
+            </span>
+            Premium Quality Products &amp; Service
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== ABOUT ===== {%- endcomment -%}
+  <section class="ldx-about">
+    <div class="ldx-container">
+      <div class="ldx-head">
+        <span class="ldx-mini-eyebrow">{{ section.settings.about_eyebrow | default: 'Who they are' }}</span>
+        <h2>{{ section.settings.about_heading | default: 'Trusted by IVF labs for over 30 years' }}</h2>
+      </div>
+      <div class="ldx-about-grid">
+        <div class="ldx-about-text rte">
+          {{ section.settings.about_body | default: '<p>Lab Dynamics works directly with scientists and embryologists to identify and supply the key items that support IVF laboratories.</p><p>Their team has advised, directed and supported IVF and clinical teams for over 30 years — supplying IVF units across the UK and internationally, with a complete range of consumables, equipment and quality-management solutions that meet European and UK regulations.</p>' }}
+          <p><a href="{{ section.settings.external_url | default: 'https://www.labdynamics.co.uk' }}" target="_blank" rel="noopener" class="ldx-external-link">Visit labdynamics.co.uk <span>{{ icon_arrow }}</span></a></p>
+        </div>
+        <div class="ldx-about-stats">
+          <div class="ldx-stat"><strong>30+</strong><span>Years experience</span></div>
+          <div class="ldx-stat"><strong>UK & EU</strong><span>Regulatory compliance</span></div>
+          <div class="ldx-stat"><strong>IVF</strong><span>Specialists</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== PRODUCTS ===== {%- endcomment -%}
+  <section class="ldx-products">
+    <div class="ldx-container">
+      <div class="ldx-head">
+        <span class="ldx-mini-eyebrow">{{ section.settings.products_eyebrow | default: 'Product range' }}</span>
+        <h2>{{ section.settings.products_heading | default: 'What Lab Dynamics supplies' }}</h2>
+      </div>
+      <div class="ldx-products-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'product' %}
+            <div class="ldx-product" {{ block.shopify_attributes }}>
+              {% if block.settings.icon != blank %}<div class="ldx-product-icon"><i class="ph {{ block.settings.icon }}"></i></div>{% endif %}
+              <h3>{{ block.settings.title }}</h3>
+              {% if block.settings.tagline != blank %}<p class="ldx-product-tag">{{ block.settings.tagline }}</p>{% endif %}
+              {% if block.settings.description != blank %}<p>{{ block.settings.description }}</p>{% endif %}
+              {% if block.settings.features != blank %}
+                <ul class="ldx-product-features">
+                  {% assign feats = block.settings.features | newline_to_br | split: '<br />' %}
+                  {% for f in feats %}
+                    {% assign ff = f | strip %}
+                    {% if ff != blank %}<li><span class="ldx-tick">{{ icon_check }}</span>{{ ff }}</li>{% endif %}
+                  {% endfor %}
+                </ul>
+              {% endif %}
+              <a href="#ldx-enquire" class="ldx-product-cta">Enquire about this <span>{{ icon_arrow }}</span></a>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== WHY ===== {%- endcomment -%}
+  <section class="ldx-why">
+    <div class="ldx-container">
+      <div class="ldx-head">
+        <span class="ldx-mini-eyebrow">{{ section.settings.why_eyebrow | default: 'Why Lab Dynamics' }}</span>
+        <h2>{{ section.settings.why_heading | default: 'Specialist supply, scientific standards' }}</h2>
+      </div>
+      <div class="ldx-why-grid">
+        <div class="ldx-why-card"><div class="ldx-why-icon"><i class="ph ph-microscope"></i></div><strong>Built for IVF labs</strong><p>Every product is selected with embryologists and clinical teams in mind — not generic lab supply.</p></div>
+        <div class="ldx-why-card"><div class="ldx-why-icon"><i class="ph ph-shield-check"></i></div><strong>Compliant & certified</strong><p>Products meet UK and European regulations. Used in accredited clinical environments.</p></div>
+        <div class="ldx-why-card"><div class="ldx-why-icon"><i class="ph ph-globe-hemisphere-west"></i></div><strong>UK & international supply</strong><p>Serving IVF units across the UK and abroad, with reliable fulfilment supported by LogixX.</p></div>
+        <div class="ldx-why-card"><div class="ldx-why-icon"><i class="ph ph-users-three"></i></div><strong>30+ years of expertise</strong><p>A team that has advised, directed and supported clinical teams for three decades.</p></div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ===== ENQUIRE FORM ===== {%- endcomment -%}
+  <section class="ldx-enquire" id="ldx-enquire">
+    <div class="ldx-container">
+      <div class="ldx-enquire-card">
+        <div class="ldx-enquire-text">
+          <span class="ldx-mini-eyebrow">{{ section.settings.enquire_eyebrow | default: 'Get in touch' }}</span>
+          <h2>{{ section.settings.enquire_heading | default: 'Enquire about Lab Dynamics products' }}</h2>
+          <p>{{ section.settings.enquire_sub | default: 'Tell us what you need — disinfectants, instrumentation, wipes, air quality — and we will get the right person back to you.' }}</p>
+        </div>
+        {% form 'contact', class: 'ldx-enquire-form' %}
+          {% if form.posted_successfully? %}
+            <div class="ldx-form-success">Thanks — your enquiry has been sent. We will be in touch shortly.</div>
+          {% endif %}
+          {% if form.errors %}
+            <div class="ldx-form-error">There was a problem: {{ form.errors | default_errors }}</div>
+          {% endif %}
+          <div class="ldx-form-row">
+            <label>Name <input type="text" name="contact[name]" required></label>
+            <label>Email <input type="email" name="contact[email]" required></label>
+          </div>
+          <div class="ldx-form-row">
+            <label>Organisation <input type="text" name="contact[company]"></label>
+            <label>Phone <input type="tel" name="contact[phone]"></label>
+          </div>
+          <label>Product(s) of interest
+            <select name="contact[product]">
+              <option value="">Select a product range</option>
+              <option>Laboratory disinfectants (UMONIUM38)</option>
+              <option>NiloTech instrumentation</option>
+              <option>Detergent & disinfectant wipes</option>
+              <option>Air quality management</option>
+              <option>PCU Medical equipment</option>
+              <option>Ultrasound probe covers</option>
+              <option>Other / not sure</option>
+            </select>
+          </label>
+          <label>Your enquiry <textarea name="contact[body]" rows="5" required></textarea></label>
+          <input type="hidden" name="contact[subject]" value="Lab Dynamics enquiry from LogixX site">
+          <button type="submit" class="ldx-btn ldx-btn--primary">Send enquiry <span class="ldx-btn-arrow">{{ icon_arrow }}</span></button>
+          <p class="ldx-form-fine">We will respond within 1 working day.</p>
+        {% endform %}
+      </div>
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Lab Dynamics Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "url", "id": "external_url", "label": "Lab Dynamics website", "info": "Where 'Visit their site' and the brand name link to" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow pill", "default": "30+ Years of Excellence" },
+    { "type": "text", "id": "hero_heading", "label": "Heading (white part)", "default": "Clinical, Laboratory & Research Supplies for" },
+    { "type": "text", "id": "hero_heading_accent", "label": "Heading (gold part)", "default": "Hospitals, IVF Labs & Dental Practices" },
+    { "type": "textarea", "id": "hero_sub", "label": "Lead text", "default": "Specialist suppliers of clinical disinfectants, laboratory consumables and equipment to IVF Laboratories, Hospitals, Dentists, and a cross section of industries. We support Scientists, Nurses, Embryologists and clinical teams across the UK with premium quality products." },
+    { "type": "text", "id": "hero_cta", "label": "CTA label", "default": "Enquire about products" },
+    { "type": "header", "content": "About" },
+    { "type": "text", "id": "about_eyebrow", "label": "Eyebrow", "default": "Who they are" },
+    { "type": "text", "id": "about_heading", "label": "Heading", "default": "Trusted by IVF labs for over 30 years" },
+    { "type": "richtext", "id": "about_body", "label": "Body" },
+    { "type": "header", "content": "Products" },
+    { "type": "text", "id": "products_eyebrow", "label": "Eyebrow", "default": "Product range" },
+    { "type": "text", "id": "products_heading", "label": "Heading", "default": "What Lab Dynamics supplies" },
+    { "type": "header", "content": "Why" },
+    { "type": "text", "id": "why_eyebrow", "label": "Eyebrow", "default": "Why Lab Dynamics" },
+    { "type": "text", "id": "why_heading", "label": "Heading", "default": "Specialist supply, scientific standards" },
+    { "type": "header", "content": "Enquire" },
+    { "type": "text", "id": "enquire_eyebrow", "label": "Eyebrow", "default": "Get in touch" },
+    { "type": "text", "id": "enquire_heading", "label": "Heading", "default": "Enquire about Lab Dynamics products" },
+    { "type": "textarea", "id": "enquire_sub", "label": "Subtext", "default": "Tell us what you need and we will get the right person back to you." }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product range",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Phosphor icon", "default": "ph-drop" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "tagline", "label": "Tagline" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "textarea", "id": "features", "label": "Features (one per line)" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Lab Dynamics Page" }
+  ]
+}
+{% endschema %}

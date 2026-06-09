@@ -1,0 +1,135 @@
+<section class="lx-blog">
+
+  <!-- HERO -->
+  <div class="lx-blog-hero">
+    <div class="container">
+      <div class="lx-blog-hero-inner">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h1>{{ blog.title | default: section.settings.heading }}</h1>
+        <p class="lx-blog-lead">{{ section.settings.subheading }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLES GRID -->
+  <div class="lx-blog-list">
+    <div class="container">
+
+      {% if blog.articles.size > 0 %}
+
+        <!-- Featured first article (large) -->
+        {% assign featured = blog.articles.first %}
+        <a href="{{ featured.url }}" class="lx-blog-featured">
+          <div class="lx-blog-featured-media">
+            {% if featured.image %}
+              <img src="{{ featured.image | image_url: width: 1400 }}" alt="{{ featured.title }}">
+            {% else %}
+              <div class="lx-blog-placeholder lx-blog-placeholder--lg">
+                <i class="ph ph-newspaper"></i>
+              </div>
+            {% endif %}
+            <span class="lx-blog-featured-badge">Latest</span>
+          </div>
+          <div class="lx-blog-featured-body">
+            {% if featured.tags.size > 0 %}
+              <div class="lx-blog-tags">
+                {% for tag in featured.tags limit: 2 %}
+                  <span class="lx-blog-tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <h2>{{ featured.title }}</h2>
+            <p>{{ featured.excerpt_or_content | strip_html | truncatewords: 30 }}</p>
+            <div class="lx-blog-meta">
+              <span class="lx-blog-date"><i class="ph ph-calendar"></i> {{ featured.published_at | date: '%B %-d, %Y' }}</span>
+              {% if featured.author != blank %}
+                <span class="lx-blog-author"><i class="ph ph-user"></i> {{ featured.author }}</span>
+              {% endif %}
+              <span class="lx-blog-readmore">Read article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Grid of remaining articles -->
+        {% if blog.articles.size > 1 %}
+          <div class="lx-blog-grid">
+            {% for article in blog.articles offset: 1 %}
+              <a href="{{ article.url }}" class="lx-blog-card">
+                <div class="lx-blog-card-media">
+                  {% if article.image %}
+                    <img src="{{ article.image | image_url: width: 800 }}" alt="{{ article.title }}">
+                  {% else %}
+                    <div class="lx-blog-placeholder">
+                      <i class="ph ph-newspaper"></i>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="lx-blog-card-body">
+                  {% if article.tags.size > 0 %}
+                    <div class="lx-blog-tags">
+                      {% for tag in article.tags limit: 1 %}
+                        <span class="lx-blog-tag">{{ tag }}</span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <h3>{{ article.title }}</h3>
+                  <p>{{ article.excerpt_or_content | strip_html | truncatewords: 20 }}</p>
+                  <div class="lx-blog-card-meta">
+                    <span><i class="ph ph-calendar"></i> {{ article.published_at | date: '%b %-d, %Y' }}</span>
+                  </div>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      {% else %}
+        <!-- Empty state -->
+        <div class="lx-blog-empty">
+          <div class="lx-blog-empty-icon"><i class="ph ph-newspaper-clipping"></i></div>
+          <h2>No articles yet</h2>
+          <p>Check back soon for the latest news, partnerships, and company updates from LogixX Fertility.</p>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-blog-closing">
+      <div class="container">
+        <div class="lx-blog-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-blog-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="btn btn-primary">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="btn btn-ghost">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+{% schema %}
+{
+  "name": "Blog Main",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Company news" },
+    { "type": "text", "id": "heading", "label": "Fallback heading", "default": "Latest from LogixX" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Announcements, partnerships, awards, and the latest from our team." },
+
+    { "type": "header", "content": "Closing CTA" },
+    { "type": "checkbox", "id": "show_closing", "label": "Show closing CTA", "default": true },
+    { "type": "text", "id": "closing_heading", "label": "Heading", "default": "Stay in the loop" },
+    { "type": "textarea", "id": "closing_sub", "label": "Sub-text", "default": "Get the latest LogixX news and fertility science delivered to your inbox." },
+    { "type": "text", "id": "closing_btn1_text", "label": "Primary button", "default": "Speak to a specialist" },
+    { "type": "text", "id": "closing_btn1_link", "label": "Primary button link", "default": "/pages/contact" },
+    { "type": "text", "id": "closing_btn2_text", "label": "Secondary button", "default": "Browse products" },
+    { "type": "text", "id": "closing_btn2_link", "label": "Secondary button link", "default": "/pages/shop" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,168 @@
+{%- comment -%}
+  Announcement bar — continuous scrolling marquee.
+  All messages flow across in one seamless loop. No clicks needed.
+  Icons are inline SVG (Phosphor is unreliable site-wide).
+{%- endcomment -%}
+
+{%- assign m1 = section.settings.msg1_text | default: 'Free UK shipping on orders over £50' -%}
+{%- assign m1l = section.settings.msg1_link_text -%}
+{%- assign m2 = section.settings.msg2_text | default: 'Shipping worldwide — duties handled at checkout, no surprise fees' -%}
+{%- assign m2l = section.settings.msg2_link_text -%}
+{%- assign m3 = section.settings.msg3_text | default: 'Trusted by 311,733+ couples on their fertility journey' -%}
+{%- assign m4 = section.settings.msg4_text | default: 'UK formulated · Clinically backed · 30-day returns' -%}
+
+{%- comment -%} Build the run of items once, then print it twice for a seamless loop {%- endcomment -%}
+{%- capture items -%}
+  <span class="lx-mq-item">
+    {% render 'lx-promo-icon', icon: 'truck' %}
+    <span class="lx-mq-text">{{ m1 }}</span>
+    {% if section.settings.msg1_link != blank and m1l != blank %}<a href="{{ section.settings.msg1_link }}" class="lx-mq-link">{{ m1l }}</a>{% endif %}
+  </span>
+  <span class="lx-mq-sep" aria-hidden="true"></span>
+  <span class="lx-mq-item">
+    {% render 'lx-promo-icon', icon: 'globe' %}
+    <span class="lx-mq-text">{{ m2 }}</span>
+    {% if section.settings.msg2_link != blank and m2l != blank %}<a href="{{ section.settings.msg2_link }}" class="lx-mq-link">{{ m2l }}</a>{% endif %}
+  </span>
+  <span class="lx-mq-sep" aria-hidden="true"></span>
+  <span class="lx-mq-item">
+    {% render 'lx-promo-icon', icon: 'heart' %}
+    <span class="lx-mq-text">{{ m3 }}</span>
+    {% if section.settings.msg3_link != blank and section.settings.msg3_link_text != blank %}<a href="{{ section.settings.msg3_link }}" class="lx-mq-link">{{ section.settings.msg3_link_text }}</a>{% endif %}
+  </span>
+  <span class="lx-mq-sep" aria-hidden="true"></span>
+  <span class="lx-mq-item">
+    {% render 'lx-promo-icon', icon: 'shield' %}
+    <span class="lx-mq-text">{{ m4 }}</span>
+    {% if section.settings.msg4_link != blank and section.settings.msg4_link_text != blank %}<a href="{{ section.settings.msg4_link }}" class="lx-mq-link">{{ section.settings.msg4_link_text }}</a>{% endif %}
+  </span>
+  {% for block in section.blocks %}
+    {% if block.type == 'message' %}
+      <span class="lx-mq-sep" aria-hidden="true"></span>
+      <span class="lx-mq-item" {{ block.shopify_attributes }}>
+        {% if block.settings.icon != 'none' %}{% render 'lx-promo-icon', icon: block.settings.icon %}{% endif %}
+        <span class="lx-mq-text">{{ block.settings.text }}</span>
+        {% if block.settings.link != blank and block.settings.link_text != blank %}<a href="{{ block.settings.link }}" class="lx-mq-link">{{ block.settings.link_text }}</a>{% endif %}
+      </span>
+    {% endif %}
+  {% endfor %}
+  <span class="lx-mq-sep" aria-hidden="true"></span>
+{%- endcapture -%}
+
+<div class="lx-promo-banner lx-promo-banner--{{ section.settings.style | default: 'blue' }} lx-mq lx-mq--{{ section.settings.speed | default: 'normal' }}"
+     id="lx-promo-{{ section.id }}"
+     role="region" aria-label="Announcements">
+  <div class="lx-mq-viewport">
+    <div class="lx-mq-track">
+      <div class="lx-mq-run">{{ items }}</div>
+      <div class="lx-mq-run" aria-hidden="true">{{ items }}</div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+.lx-promo-banner{ overflow:hidden; font-family:var(--lx-body); font-size:.85rem; font-weight:500; }
+.lx-promo-banner--blue{ background:var(--lx-blue); color:#fff; }
+.lx-promo-banner--dark{ background:var(--lx-navy); color:#fff; }
+.lx-promo-banner--light{ background:var(--lx-bg-soft); color:var(--lx-navy); border-bottom:1px solid var(--lx-line); }
+.lx-mq-viewport{ overflow:hidden; }
+.lx-mq-track{ display:flex; width:max-content; animation:lx-marquee linear infinite; }
+.lx-mq--slow .lx-mq-track{ animation-duration:60s; }
+.lx-mq--normal .lx-mq-track{ animation-duration:40s; }
+.lx-mq--fast .lx-mq-track{ animation-duration:24s; }
+.lx-promo-banner:hover .lx-mq-track{ animation-play-state:paused; }
+.lx-mq-run{ display:flex; align-items:center; flex:none; padding-block:.6rem; }
+.lx-mq-item{ display:inline-flex; align-items:center; gap:.5rem; padding-inline:1.1rem; white-space:nowrap; }
+.lx-mq-item svg{ width:16px; height:16px; flex:none; opacity:.9; }
+.lx-mq-link{ color:inherit; text-decoration:underline; text-underline-offset:2px; font-weight:600; }
+.lx-mq-sep{ width:5px; height:5px; border-radius:50%; background:currentColor; opacity:.45; flex:none; }
+@keyframes lx-marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+@media (prefers-reduced-motion: reduce){
+  .lx-mq-track{ animation:none; flex-wrap:nowrap; }
+  .lx-mq-viewport{ overflow-x:auto; }
+  .lx-mq-run:nth-child(2){ display:none; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "blue", "label": "Blue" },
+        { "value": "light", "label": "Light" }
+      ],
+      "default": "blue"
+    },
+    {
+      "type": "select",
+      "id": "speed",
+      "label": "Scroll speed",
+      "options": [
+        { "value": "slow", "label": "Slow" },
+        { "value": "normal", "label": "Normal" },
+        { "value": "fast", "label": "Fast" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "paragraph",
+      "content": "All messages scroll across continuously in one flow. The 4 defaults always show; add Message blocks below to include more. It pauses when a visitor hovers over it."
+    },
+    { "type": "header", "content": "Message 1 — Shipping" },
+    { "type": "text", "id": "msg1_text", "label": "Message", "default": "Free UK shipping on orders over £50" },
+    { "type": "text", "id": "msg1_link_text", "label": "Link label", "info": "Leave blank for no link" },
+    { "type": "url", "id": "msg1_link", "label": "Link" },
+    { "type": "header", "content": "Message 2 — International" },
+    { "type": "text", "id": "msg2_text", "label": "Message", "default": "Shipping worldwide — duties handled at checkout, no surprise fees" },
+    { "type": "text", "id": "msg2_link_text", "label": "Link label", "info": "Leave blank for no link" },
+    { "type": "url", "id": "msg2_link", "label": "Link" },
+    { "type": "header", "content": "Message 3 — Trust" },
+    { "type": "text", "id": "msg3_text", "label": "Message", "default": "Trusted by 311,733+ couples on their fertility journey" },
+    { "type": "text", "id": "msg3_link_text", "label": "Link label", "info": "Leave blank for no link" },
+    { "type": "url", "id": "msg3_link", "label": "Link" },
+    { "type": "header", "content": "Message 4 — Quality" },
+    { "type": "text", "id": "msg4_text", "label": "Message", "default": "UK formulated · Clinically backed · 30-day returns" },
+    { "type": "text", "id": "msg4_link_text", "label": "Link label", "info": "Leave blank for no link" },
+    { "type": "url", "id": "msg4_link", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "No icon" },
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "globe", "label": "Globe" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "shield", "label": "Shield / guarantee" },
+            { "value": "star", "label": "Star / reviews" },
+            { "value": "leaf", "label": "Leaf / natural" },
+            { "value": "tag", "label": "Tag / offer" },
+            { "value": "clock", "label": "Clock / fast" },
+            { "value": "gift", "label": "Gift" }
+          ],
+          "default": "truck"
+        },
+        { "type": "text", "id": "text", "label": "Message", "default": "Your message here" },
+        { "type": "text", "id": "link_text", "label": "Link label" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Announcement bar" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,545 @@
+<section class="about-v2">
+
+  <!-- HERO -->
+  <div class="aboutv2-hero">
+    <div class="container">
+      <div class="aboutv2-hero-grid">
+        <div class="aboutv2-hero-text">
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="aboutv2-lead">{{ section.settings.subheading }}</p>
+          <div class="aboutv2-hero-actions">
+            {% if section.settings.cta1_link != blank %}
+              <a href="{{ section.settings.cta1_link }}" class="btn btn-primary">
+                {{ section.settings.cta1_text }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            {% endif %}
+            {% if section.settings.cta2_link != blank %}
+              <a href="{{ section.settings.cta2_link }}" class="btn btn-ghost">{{ section.settings.cta2_text }}</a>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="aboutv2-hero-visual">
+          <div class="aboutv2-hero-image">
+            {% if section.settings.hero_image != blank %}
+              <img src="{{ section.settings.hero_image | image_url: width: 1200 }}" alt="{{ section.settings.heading }}">
+            {% else %}
+              <div class="aboutv2-hero-placeholder"><i class="ph ph-image"></i><span>Add hero image</span></div>
+            {% endif %}
+          </div>
+          {% if section.settings.show_float %}
+            <div class="aboutv2-float-card">
+              <div class="aboutv2-float-card-icon"><i class="ph ph-shield-check"></i></div>
+              <div>
+                <strong>{{ section.settings.float_title }}</strong>
+                <span>{{ section.settings.float_sub }}</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  {% if section.settings.show_stats %}
+    <div class="aboutv2-stats">
+      <div class="container">
+        <div class="aboutv2-stats-grid">
+          <div class="aboutv2-stat"><strong>{{ section.settings.stat_1_num }}</strong><span>{{ section.settings.stat_1_label }}</span></div>
+          <div class="aboutv2-stat"><strong>{{ section.settings.stat_2_num }}</strong><span>{{ section.settings.stat_2_label }}</span></div>
+          <div class="aboutv2-stat"><strong>{{ section.settings.stat_3_num }}</strong><span>{{ section.settings.stat_3_label }}</span></div>
+          <div class="aboutv2-stat"><strong>{{ section.settings.stat_4_num }}</strong><span>{{ section.settings.stat_4_label }}</span></div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- STORY -->
+  {% if section.settings.story_body != blank %}
+    <div class="aboutv2-story">
+      <div class="container">
+        <div class="aboutv2-story-grid">
+          <div class="aboutv2-story-side">
+            <span class="eyebrow">{{ section.settings.story_eyebrow }}</span>
+            <h2>{{ section.settings.story_heading }}</h2>
+          </div>
+          <div class="aboutv2-story-body rte">{{ section.settings.story_body }}</div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- TIMELINE — editorial redesign -->
+  {% assign milestone_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'milestone' %}{% assign milestone_count = milestone_count | plus: 1 %}{% endif %}{% endfor %}
+
+  {% if milestone_count > 0 %}
+    <div class="aboutv2-timeline" id="aboutv2-tl-{{ section.id }}">
+      <div class="container">
+        <div class="aboutv2-timeline-head">
+          <span class="eyebrow">{{ section.settings.timeline_eyebrow }}</span>
+          <h2>{{ section.settings.timeline_heading }}</h2>
+          <p>{{ section.settings.timeline_sub }}</p>
+        </div>
+
+        <!-- Sticky year nav -->
+        <div class="aboutv2-tl-nav-wrap">
+          <div class="aboutv2-tl-nav">
+            {% for block in section.blocks %}
+              {% if block.type == 'milestone' %}
+                <button type="button" class="aboutv2-tl-pill{% if forloop.first %} is-active{% endif %}" data-target="{{ block.id }}">{{ block.settings.year }}</button>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Editorial timeline -->
+        <div class="aboutv2-tl">
+          <div class="aboutv2-tl-axis"></div>
+          <div class="aboutv2-tl-axis-fill" id="aboutv2-tl-progress-{{ section.id }}"></div>
+
+          {% assign idx = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'milestone' %}
+              <article class="aboutv2-tl-row{% if idx == 0 %} is-active{% endif %}{% if idx == 0 %} is-first{% endif %}" id="{{ block.id }}" data-index="{{ idx }}" {{ block.shopify_attributes }}>
+
+                <div class="aboutv2-tl-axis-marker">
+                  <span class="aboutv2-tl-tick"></span>
+                </div>
+
+                <!-- Year marker (oversized typography) -->
+                <div class="aboutv2-tl-year-block">
+                  <span class="aboutv2-tl-year-big">{{ block.settings.year }}</span>
+                </div>
+
+                <!-- Content side: text + adjacent image -->
+                <div class="aboutv2-tl-content">
+                  <div class="aboutv2-tl-text-card">
+                    <h3>{{ block.settings.title }}</h3>
+                    <p>{{ block.settings.description }}</p>
+                  </div>
+
+                  {% if block.settings.image != blank %}
+                    <div class="aboutv2-tl-image-frame">
+                      <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.title }}" loading="lazy">
+                    </div>
+                  {% endif %}
+                </div>
+
+              </article>
+              {% assign idx = idx | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="aboutv2-closing">
+      <div class="container">
+        <div class="aboutv2-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          {% if section.settings.closing_sub != blank %}<p>{{ section.settings.closing_sub }}</p>{% endif %}
+          <div class="aboutv2-closing-actions">
+            {% if section.settings.closing_btn1_link != blank %}
+              <a href="{{ section.settings.closing_btn1_link }}" class="btn btn-primary">{{ section.settings.closing_btn1_text }}</a>
+            {% endif %}
+            {% if section.settings.closing_btn2_link != blank %}
+              <a href="{{ section.settings.closing_btn2_link }}" class="btn btn-ghost">{{ section.settings.closing_btn2_text }}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('aboutv2-tl-{{ section.id }}');
+  if (!section) return;
+  var rows = section.querySelectorAll('.aboutv2-tl-row');
+  var pills = section.querySelectorAll('.aboutv2-tl-pill');
+  var progressBar = document.getElementById('aboutv2-tl-progress-{{ section.id }}');
+  if (!rows.length) return;
+
+  // Click year pill → smooth scroll
+  pills.forEach(function(pill){
+    pill.addEventListener('click', function(){
+      var target = document.getElementById(pill.dataset.target);
+      if (target) window.scrollTo({ top: window.pageYOffset + target.getBoundingClientRect().top - 140, behavior: 'smooth' });
+    });
+  });
+
+  // Reveal animations — only enable if IntersectionObserver supported
+  if ('IntersectionObserver' in window) {
+    section.classList.add('js-anim-ready');
+
+    var revealIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          e.target.classList.add('is-revealed');
+          revealIO.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+    rows.forEach(function(row){ revealIO.observe(row); });
+
+    // Failsafe: reveal anything still hidden after 2s
+    setTimeout(function(){
+      rows.forEach(function(row){ row.classList.add('is-revealed'); });
+    }, 2000);
+
+    // Active state — middle of viewport
+    var activeIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          var idx = parseInt(entry.target.dataset.index, 10);
+          rows.forEach(function(r){ r.classList.remove('is-active'); });
+          entry.target.classList.add('is-active');
+          pills.forEach(function(p, i){ p.classList.toggle('is-active', i === idx); });
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    rows.forEach(function(row){ activeIO.observe(row); });
+  }
+
+  // Smooth progress bar fill
+  var ticking = false;
+  function updateProgress(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      var first = rows[0].getBoundingClientRect();
+      var last = rows[rows.length - 1].getBoundingClientRect();
+      var totalHeight = last.bottom - first.top;
+      var scrolled = Math.max(0, (window.innerHeight / 2) - first.top);
+      var pct = Math.min(100, Math.max(0, (scrolled / totalHeight) * 100));
+      if (progressBar) progressBar.style.height = pct + '%';
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress, { passive: true });
+  updateProgress();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "About Page",
+  "max_blocks": 16,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "About LogixX"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Pioneering male fertility, one breakthrough at a time"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Founded in 2010 in Reading, UK, LogixX Pharma is on a mission to make evidence-based fertility care accessible to every couple."
+    },
+    {
+      "type": "text",
+      "id": "cta1_text",
+      "label": "Primary CTA text",
+      "default": "Meet the team"
+    },
+    {
+      "type": "text",
+      "id": "cta1_link",
+      "label": "Primary CTA link",
+      "default": "/pages/fertility-team"
+    },
+    {
+      "type": "text",
+      "id": "cta2_text",
+      "label": "Secondary CTA text",
+      "default": "Shop our range"
+    },
+    {
+      "type": "text",
+      "id": "cta2_link",
+      "label": "Secondary CTA link",
+      "default": "/pages/shop"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_float",
+      "label": "Show floating badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "float_title",
+      "label": "Badge title",
+      "default": "Doctor recommended"
+    },
+    {
+      "type": "text",
+      "id": "float_sub",
+      "label": "Badge subtitle",
+      "default": "Trusted in 40+ countries"
+    },
+    {
+      "type": "header",
+      "content": "Stats"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show stats",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stat_1_num",
+      "label": "Stat 1 number",
+      "default": "311k+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Couples helped"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_num",
+      "label": "Stat 2 number",
+      "default": "40+"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Countries"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_num",
+      "label": "Stat 3 number",
+      "default": "250+"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Peer-reviewed studies"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_num",
+      "label": "Stat 4 number",
+      "default": "15+ yrs"
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "Stat 4 label",
+      "default": "Clinical research"
+    },
+    {
+      "type": "header",
+      "content": "Story"
+    },
+    {
+      "type": "text",
+      "id": "story_eyebrow",
+      "label": "Eyebrow",
+      "default": "Our story"
+    },
+    {
+      "type": "text",
+      "id": "story_heading",
+      "label": "Heading",
+      "default": "Built on science. Driven by outcomes."
+    },
+    {
+      "type": "richtext",
+      "id": "story_body",
+      "label": "Body",
+      "default": "<p>What started as a small Reading-based commercial pharma operation in 2010 has grown into one of the UK's most trusted names in fertility.</p><p>Every product we develop is designed to give couples the highest possible chance of conception, supported by clinical evidence and recommended by leading fertility professionals.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Timeline"
+    },
+    {
+      "type": "text",
+      "id": "timeline_eyebrow",
+      "label": "Eyebrow",
+      "default": "Our journey"
+    },
+    {
+      "type": "text",
+      "id": "timeline_heading",
+      "label": "Heading",
+      "default": "From founding vision to global reach"
+    },
+    {
+      "type": "textarea",
+      "id": "timeline_sub",
+      "label": "Sub-text",
+      "default": "The milestones that shaped LogixX into a leader in fertility science."
+    },
+    {
+      "type": "header",
+      "content": "Closing CTA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_closing",
+      "label": "Show closing CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "closing_heading",
+      "label": "Heading",
+      "default": "Ready to start your journey?"
+    },
+    {
+      "type": "textarea",
+      "id": "closing_sub",
+      "label": "Sub-text",
+      "default": "Speak to one of our fertility specialists, or browse our science-backed range."
+    },
+    {
+      "type": "text",
+      "id": "closing_btn1_text",
+      "label": "Primary button",
+      "default": "Speak to a specialist"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn1_link",
+      "label": "Primary button link",
+      "default": "/pages/contact"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn2_text",
+      "label": "Secondary button",
+      "default": "Browse products"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn2_link",
+      "label": "Secondary button link",
+      "default": "/pages/shop"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "Timeline milestone",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year",
+          "default": "2010"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Milestone"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Description of this milestone."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Page",
+      "blocks": [
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2010",
+            "title": "LogixX Pharma founded",
+            "description": "Michael Close founds LogixX Pharma in Reading, UK."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2013",
+            "title": "Sigma-tau partnership",
+            "description": "Strategic partnership with sigma-tau's health-science business."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2016",
+            "title": "Proxeed range launches",
+            "description": "The Proxeed nutraceutical range becomes available across UK clinics."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2019",
+            "title": "MEDTECH division established",
+            "description": "Launch of clinic-grade diagnostics including LensHooke X1 PRO and MiOXSYS."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2021",
+            "title": "Prof Ralf Henkel joins as CSO",
+            "description": "Globally renowned fertility researcher joins LogixX."
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "year": "2024",
+            "title": "Reaching 311,000+ couples",
+            "description": "Milestone of helping over 311,000 couples worldwide on their fertility journey."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

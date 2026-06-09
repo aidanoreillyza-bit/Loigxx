@@ -1,0 +1,514 @@
+<section class="lx-product">
+  <div class="container">
+
+    <!-- Product header (mobile only — title on top) -->
+    <div class="lx-product-mobile-head">
+      <h1>{{ product.title }}</h1>
+      {% if product.description != blank %}
+        <p>{{ product.description | strip_html | truncatewords: 20 }}</p>
+      {% endif %}
+    </div>
+
+    <div class="lx-product-grid">
+
+      <!-- ============= IMAGE GALLERY ============= -->
+      <div class="lx-product-gallery">
+        <div class="lx-gallery-stage" id="lx-gallery-{{ section.id }}">
+          {% if product.images.size > 0 %}
+            {% for image in product.images %}
+              <div class="lx-gallery-slide{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}">
+                <img src="{{ image | image_url: width: 1400 }}" alt="{{ image.alt | default: product.title }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="lx-gallery-slide is-active">
+              <div class="lx-gallery-placeholder"><i class="ph ph-image"></i></div>
+            </div>
+          {% endif %}
+
+          {% if product.images.size > 1 %}
+            <button type="button" class="lx-gallery-arrow lx-gallery-arrow--prev" aria-label="Previous image">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button type="button" class="lx-gallery-arrow lx-gallery-arrow--next" aria-label="Next image">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+
+            <div class="lx-gallery-dots">
+              {% for image in product.images %}
+                <button type="button" class="lx-gallery-dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Image {{ forloop.index }}"></button>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- ============= FEATURE HEX TILES ============= -->
+      {% if section.blocks.size > 0 %}
+        {% assign feature_count = 0 %}
+        {% for block in section.blocks %}{% if block.type == 'feature' %}{% assign feature_count = feature_count | plus: 1 %}{% endif %}{% endfor %}
+        {% if feature_count > 0 %}
+          <div class="lx-product-features">
+            {% for block in section.blocks %}
+              {% if block.type == 'feature' %}
+                <div class="lx-feature-tile" {{ block.shopify_attributes }}>
+                  <div class="lx-feature-icon">
+                    <i class="{{ block.settings.icon | default: 'ph ph-shield-check' }}"></i>
+                  </div>
+                  <div class="lx-feature-text">
+                    <strong>{{ block.settings.title }}</strong>
+                    {% if block.settings.subtitle != blank %}<span>{{ block.settings.subtitle }}</span>{% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endif %}
+
+      <!-- ============= DETAILS PANEL ============= -->
+      <div class="lx-product-details">
+
+        <!-- Title (desktop) -->
+        <div class="lx-product-head">
+          {% if product.vendor != blank %}<span class="lx-product-vendor">{{ product.vendor }}</span>{% endif %}
+          <h1>{{ product.title }}</h1>
+          {% if product.description != blank %}
+            <p class="lx-product-tagline">{{ product.description | strip_html | truncatewords: 25 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Tag pills -->
+        {% assign tag_count = 0 %}
+        {% for block in section.blocks %}{% if block.type == 'tag' %}{% assign tag_count = tag_count | plus: 1 %}{% endif %}{% endfor %}
+        {% if tag_count > 0 %}
+          <div class="lx-product-tags">
+            {% for block in section.blocks %}
+              {% if block.type == 'tag' %}
+                <span class="lx-pill" {{ block.shopify_attributes }}>{{ block.settings.label }}</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- ADD TO CART FORM -->
+        {%- form 'product', product, id: 'lx-product-form', class: 'lx-product-form' -%}
+          <input type="hidden" name="return_to" value="/cart">
+
+          <!-- Variant selector (rich radios with images) -->
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="lx-variant-group" data-option="option{{ forloop.index }}">
+                <label class="lx-variant-label">{{ option.name }}</label>
+                <div class="lx-variant-options">
+                  {%- for value in option.values -%}
+                    {%- assign is_selected = false -%}
+                    {%- if option.selected_value == value -%}{%- assign is_selected = true -%}{%- endif -%}
+                    <label class="lx-variant-option{% if is_selected %} is-selected{% endif %}">
+                      <input type="radio" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" {% if is_selected %}checked{% endif %}>
+                      {%- if forloop.index <= 4 and product.images[forloop.index0] -%}
+                        <span class="lx-variant-thumb">
+                          <img src="{{ product.images[forloop.index0] | image_url: width: 80 }}" alt="{{ value }}">
+                        </span>
+                      {%- endif -%}
+                      <span class="lx-variant-text">{{ value }}</span>
+                      <span class="lx-variant-check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <!-- Variant ID hidden input -->
+          <select name="id" class="lx-variant-select" hidden>
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} data-price="{{ variant.price | money }}" data-compare="{{ variant.compare_at_price | money }}" data-available="{{ variant.available }}">{{ variant.title }}</option>
+            {%- endfor -%}
+          </select>
+
+          <!-- Price block -->
+          <div class="lx-product-price-block">
+            <div class="lx-product-price">
+              <span class="lx-price-current">{{ product.selected_or_first_available_variant.price | money }}</span>
+              {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+                <span class="lx-price-compare">{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+                {% assign discount = product.selected_or_first_available_variant.compare_at_price | minus: product.selected_or_first_available_variant.price | times: 100.0 | divided_by: product.selected_or_first_available_variant.compare_at_price | round %}
+                <span class="lx-price-save">Save {{ discount }}%</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Quantity -->
+          <div class="lx-quantity">
+            <label>Quantity</label>
+            <div class="lx-qty-control">
+              <button type="button" class="lx-qty-btn" data-action="decrement" aria-label="Decrease quantity"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+              <input type="number" name="quantity" value="1" min="1" class="lx-qty-input" aria-label="Quantity">
+              <button type="button" class="lx-qty-btn" data-action="increment" aria-label="Increase quantity"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+            </div>
+          </div>
+
+          <!-- Add to cart -->
+          <button type="submit" name="add" class="lx-add-btn" {% unless product.available %}disabled{% endunless %}>
+            <span class="lx-add-btn-text">{% if product.available %}Add to basket{% else %}Sold out{% endif %}</span>
+            {% if product.available %}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            {% endif %}
+          </button>
+
+          {% if section.settings.show_secondary_btn %}
+            <button type="button" class="lx-add-btn lx-add-btn--secondary" onclick="window.location.href='{{ section.settings.secondary_btn_link }}'">
+              {{ section.settings.secondary_btn_text }}
+            </button>
+            {% if section.settings.secondary_btn_sub != blank %}
+              <p class="lx-secondary-sub">{{ section.settings.secondary_btn_sub }}</p>
+            {% endif %}
+          {% endif %}
+
+        {%- endform -%}
+
+        {% if section.settings.show_trust %}
+          <div class="lx-product-trust">
+            <div class="lx-trust-sig"><i class="ph ph-lock-simple"></i><span>{{ section.settings.trust_1 | default: 'Secure checkout' }}</span></div>
+            <div class="lx-trust-sig"><i class="ph ph-truck"></i><span>{{ section.settings.trust_2 | default: 'Same-day dispatch before 2pm' }}</span></div>
+            <div class="lx-trust-sig"><i class="ph ph-shield-check"></i><span>{{ section.settings.trust_3 | default: '14-day returns on sealed items' }}</span></div>
+          </div>
+        {% endif %}
+
+        <!-- Delivery info rows -->
+        {% assign info_count = 0 %}
+        {% for block in section.blocks %}{% if block.type == 'info_row' %}{% assign info_count = info_count | plus: 1 %}{% endif %}{% endfor %}
+        {% if info_count > 0 %}
+          <div class="lx-product-info-rows">
+            {% for block in section.blocks %}
+              {% if block.type == 'info_row' %}
+                <div class="lx-info-row" {{ block.shopify_attributes }}>
+                  <div class="lx-info-icon"><i class="{{ block.settings.icon | default: 'ph ph-truck' }}"></i></div>
+                  <div class="lx-info-text">
+                    <strong>{{ block.settings.title }}</strong>
+                    {% if block.settings.subtitle != blank %}<span>{{ block.settings.subtitle }}</span>{% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{%- comment -%} ===== RELATED PRODUCTS (cross-sell) ===== {%- endcomment -%}
+{% if section.settings.show_related %}
+  <section class="lx-related" data-product-id="{{ product.id }}" data-limit="{{ section.settings.related_count | default: 4 }}">
+    <div class="container">
+      <div class="lx-related-head">
+        <span class="lx-related-eyebrow">{{ section.settings.related_eyebrow | default: 'You may also like' }}</span>
+        <h2>{{ section.settings.related_heading | default: 'Complete your routine' }}</h2>
+      </div>
+      <div class="lx-related-grid" id="lx-related-grid-{{ section.id }}">
+        {%- comment -%} Populated by Shopify product recommendations API {%- endcomment -%}
+      </div>
+    </div>
+  </section>
+{% endif %}
+<div class="lx-sticky-atc" id="lx-sticky-atc" aria-hidden="true">
+  <div class="lx-sticky-atc-info">
+    <span class="lx-sticky-atc-title">{{ product.title }}</span>
+    <span class="lx-sticky-atc-price">{{ product.price | money }}</span>
+  </div>
+  <button type="button" class="lx-sticky-atc-btn" id="lx-sticky-atc-btn" {% unless product.available %}disabled{% endunless %}>
+    {% if product.available %}Add to basket{% else %}Sold out{% endif %}
+  </button>
+</div>
+
+<script>
+(function(){
+  // Gallery
+  var gallery = document.getElementById('lx-gallery-{{ section.id }}');
+  if (gallery) {
+    var slides = gallery.querySelectorAll('.lx-gallery-slide');
+    var dots = gallery.querySelectorAll('.lx-gallery-dot');
+    var prev = gallery.querySelector('.lx-gallery-arrow--prev');
+    var next = gallery.querySelector('.lx-gallery-arrow--next');
+    var current = 0;
+    var autoTimer = null;
+    var autoMs = {{ section.settings.gallery_autoplay_seconds | default: 4 | times: 1000 }};
+    var autoplay = {{ section.settings.gallery_autoplay | default: true }};
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function show(idx){
+      current = (idx + slides.length) % slides.length;
+      slides.forEach(function(s, i){ s.classList.toggle('is-active', i === current); });
+      dots.forEach(function(d, i){ d.classList.toggle('is-active', i === current); });
+    }
+    function startAuto(){
+      if (!autoplay || reduce || slides.length < 2) return;
+      stopAuto();
+      autoTimer = setInterval(function(){ show(current + 1); }, autoMs);
+    }
+    function stopAuto(){ if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+    function userShow(idx){ show(idx); startAuto(); } // reset timer after manual nav
+
+    if (prev) prev.addEventListener('click', function(){ userShow(current - 1); });
+    if (next) next.addEventListener('click', function(){ userShow(current + 1); });
+    dots.forEach(function(d, i){ d.addEventListener('click', function(){ userShow(i); }); });
+
+    // Pause on hover (desktop)
+    gallery.addEventListener('mouseenter', stopAuto);
+    gallery.addEventListener('mouseleave', startAuto);
+
+    // Touch swipe
+    var startX = null;
+    gallery.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+    gallery.addEventListener('touchend', function(e){
+      if (startX === null) return;
+      var diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) show(current + (diff > 0 ? 1 : -1));
+      startX = null;
+      startAuto();
+    }, { passive: true });
+
+    startAuto();
+  }
+
+  // Variant radios — visual selection
+  document.querySelectorAll('.lx-variant-option input').forEach(function(input){
+    input.addEventListener('change', function(){
+      var group = input.closest('.lx-variant-options');
+      group.querySelectorAll('.lx-variant-option').forEach(function(o){ o.classList.remove('is-selected'); });
+      input.closest('.lx-variant-option').classList.add('is-selected');
+      updateVariant();
+    });
+  });
+
+  // Update selected variant from option radios
+  function updateVariant(){
+    var form = document.getElementById('lx-product-form');
+    if (!form) return;
+    var selectedOptions = [];
+    form.querySelectorAll('.lx-variant-group').forEach(function(group){
+      var checked = group.querySelector('input:checked');
+      if (checked) selectedOptions.push(checked.value);
+    });
+    var select = form.querySelector('.lx-variant-select');
+    var matched = null;
+    Array.from(select.options).forEach(function(opt){
+      var titleParts = opt.text.split(' / ');
+      var match = selectedOptions.every(function(v, i){ return titleParts[i] && titleParts[i].trim() === v.trim(); });
+      if (match) matched = opt;
+    });
+    if (matched) {
+      select.value = matched.value;
+      var priceEl = document.querySelector('.lx-price-current');
+      var compareEl = document.querySelector('.lx-price-compare');
+      if (priceEl) priceEl.textContent = matched.dataset.price;
+      if (compareEl) {
+        if (matched.dataset.compare && matched.dataset.compare !== matched.dataset.price && matched.dataset.compare !== '') {
+          compareEl.textContent = matched.dataset.compare;
+          compareEl.style.display = '';
+        } else {
+          compareEl.style.display = 'none';
+        }
+      }
+    }
+  }
+
+  // Quantity controls
+  document.querySelectorAll('.lx-qty-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var input = btn.parentElement.querySelector('input');
+      var v = parseInt(input.value, 10) || 1;
+      if (btn.dataset.action === 'increment') input.value = v + 1;
+      else input.value = Math.max(1, v - 1);
+    });
+  });
+
+  // ---- AJAX Add to Cart ----
+  function lxAddToCart(formEl, btnEl) {
+    if (!formEl || !btnEl) return;
+    var originalText = btnEl.textContent.trim();
+    btnEl.disabled = true;
+    btnEl.textContent = 'Adding…';
+
+    var data = new FormData(formEl);
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      body: data
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(item) {
+      btnEl.textContent = '✓ Added';
+      lxShowToast(item.product_title || 'Item added to basket');
+      // Update cart badge count
+      fetch('/cart.js')
+        .then(function(r) { return r.json(); })
+        .then(function(cart) {
+          var badge = document.querySelector('.cart-badge');
+          if (badge) {
+            badge.textContent = cart.item_count;
+            badge.style.display = cart.item_count > 0 ? '' : 'none';
+          }
+        });
+      setTimeout(function() {
+        btnEl.disabled = false;
+        btnEl.textContent = originalText;
+      }, 2000);
+    })
+    .catch(function() {
+      // Fallback to full page submit if AJAX fails
+      btnEl.disabled = false;
+      btnEl.textContent = originalText;
+      formEl.submit();
+    });
+  }
+
+  // Toast notification
+  function lxShowToast(msg) {
+    var existing = document.getElementById('lx-cart-toast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'lx-cart-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.innerHTML = '<i class="ph ph-shopping-bag"></i><span>' + msg + '</span>' +
+      '<a href="/cart" class="lx-toast-link">View basket →</a>';
+    document.body.appendChild(toast);
+    requestAnimationFrame(function() { toast.classList.add('is-visible'); });
+    setTimeout(function() {
+      toast.classList.remove('is-visible');
+      setTimeout(function() { toast.remove(); }, 400);
+    }, 3500);
+  }
+
+  // Wire up main ATC button
+  var mainForm = document.getElementById('lx-product-form');
+  var mainAddBtn = mainForm ? mainForm.querySelector('.lx-add-btn') : null;
+  if (mainForm && mainAddBtn) {
+    mainForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      lxAddToCart(mainForm, mainAddBtn);
+    });
+  }
+
+  // Sticky mobile add-to-cart
+  var stickyBar = document.getElementById('lx-sticky-atc');
+  var stickyBtn = document.getElementById('lx-sticky-atc-btn');
+  var mainBtn = mainAddBtn;
+  var form = mainForm;
+
+  if (stickyBtn && form) {
+    stickyBtn.addEventListener('click', function(){
+      lxAddToCart(form, stickyBtn);
+    });
+  }
+  if (stickyBar && mainBtn && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        // Show sticky bar only when the main button is scrolled out of view
+        if (e.isIntersecting) stickyBar.classList.remove('is-visible');
+        else stickyBar.classList.add('is-visible');
+      });
+    }, { threshold: 0 });
+    io.observe(mainBtn);
+  }
+
+  // Related products (Shopify recommendations API)
+  var relatedSection = document.querySelector('.lx-related');
+  if (relatedSection) {
+    var pid = relatedSection.dataset.productId;
+    var limit = relatedSection.dataset.limit || 4;
+    var grid = relatedSection.querySelector('.lx-related-grid');
+    fetch('/recommendations/products.json?product_id=' + pid + '&limit=' + limit + '&intent=related')
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (!data.products || !data.products.length) { relatedSection.style.display = 'none'; return; }
+        var html = '';
+        data.products.forEach(function(p){
+          var img = p.featured_image ? '<img src="' + p.featured_image + '" alt="' + p.title + '" loading="lazy">' : '<span class="lx-related-ph"><i class="ph ph-cube"></i></span>';
+          var price = '£' + (p.price / 100).toFixed(2);
+          html += '<a href="' + p.url + '" class="lx-related-card">' +
+                    '<div class="lx-related-img">' + img + '</div>' +
+                    '<div class="lx-related-info"><strong>' + p.title + '</strong><span>' + price + '</span></div>' +
+                  '</a>';
+        });
+        grid.innerHTML = html;
+      })
+      .catch(function(){ relatedSection.style.display = 'none'; });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product page",
+  "settings": [
+    { "type": "header", "content": "Image gallery" },
+    { "type": "checkbox", "id": "gallery_autoplay", "label": "Auto-advance images", "default": true },
+    { "type": "range", "id": "gallery_autoplay_seconds", "label": "Change image every", "min": 2, "max": 10, "step": 1, "unit": "s", "default": 4 },
+    { "type": "header", "content": "Secondary button" },
+    { "type": "checkbox", "id": "show_secondary_btn", "label": "Show secondary button", "default": false },
+    { "type": "text", "id": "secondary_btn_text", "label": "Button text", "default": "Subscribe & save" },
+    { "type": "text", "id": "secondary_btn_link", "label": "Button link", "default": "/pages/subscribe" },
+    { "type": "text", "id": "secondary_btn_sub", "label": "Subtext", "default": "Save 10% with auto-delivery" },
+    { "type": "header", "content": "Trust signals (under buy button)" },
+    { "type": "checkbox", "id": "show_trust", "label": "Show trust signals", "default": true },
+    { "type": "text", "id": "trust_1", "label": "Signal 1", "default": "Secure checkout" },
+    { "type": "text", "id": "trust_2", "label": "Signal 2", "default": "Same-day dispatch before 2pm" },
+    { "type": "text", "id": "trust_3", "label": "Signal 3", "default": "14-day returns on sealed items" },
+    { "type": "header", "content": "Related products" },
+    { "type": "checkbox", "id": "show_related", "label": "Show related products", "default": true },
+    { "type": "text", "id": "related_eyebrow", "label": "Eyebrow", "default": "You may also like" },
+    { "type": "text", "id": "related_heading", "label": "Heading", "default": "Complete your routine" },
+    { "type": "range", "id": "related_count", "label": "Number to show", "min": 2, "max": 8, "step": 1, "default": 4 }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature hex tile",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Phosphor icon class", "default": "ph ph-shield-check", "info": "e.g. ph ph-shield-check, ph ph-flask, ph ph-leaf" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Clinically proven" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle (optional)", "default": "Backed by science" }
+      ]
+    },
+    {
+      "type": "tag",
+      "name": "Tag pill",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tag label", "default": "Vitamins B3 & B6" }
+      ]
+    },
+    {
+      "type": "info_row",
+      "name": "Info row (delivery, etc.)",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Phosphor icon class", "default": "ph ph-truck" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free UK delivery" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "On orders over £50" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product page",
+      "blocks": [
+        { "type": "feature",  "settings": { "icon": "ph ph-flask",        "title": "Carb +", "subtitle": "Electrolytes" } },
+        { "type": "feature",  "settings": { "icon": "ph ph-vitamin",      "title": "Essential", "subtitle": "B Vitamins" } },
+        { "type": "feature",  "settings": { "icon": "ph ph-leaf",         "title": "Low", "subtitle": "Sugar" } },
+        { "type": "tag",      "settings": { "label": "Clinically proven" } },
+        { "type": "tag",      "settings": { "label": "Pharmaceutical grade" } },
+        { "type": "tag",      "settings": { "label": "Doctor recommended" } },
+        { "type": "tag",      "settings": { "label": "Made in UK" } },
+        { "type": "info_row", "settings": { "icon": "ph ph-truck",          "title": "Free UK delivery",      "subtitle": "On orders over £50" } },
+        { "type": "info_row", "settings": { "icon": "ph ph-shield-check",   "title": "30-day guarantee",      "subtitle": "Money back if not satisfied" } },
+        { "type": "info_row", "settings": { "icon": "ph ph-headset",        "title": "Expert support",        "subtitle": "Speak to our specialists" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

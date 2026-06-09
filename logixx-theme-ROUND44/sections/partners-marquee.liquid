@@ -1,0 +1,133 @@
+<section class="marquee-section">
+  <div class="container">
+    <p class="marquee-label">{{ section.settings.label }}</p>
+  </div>
+
+  <div class="marquee" aria-label="Trusted partners">
+    <div class="marquee-track">
+
+      <!-- First copy of items -->
+      <div class="marquee-row">
+        {% if section.settings.partner_1_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_1_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_1_name }}"></div>
+        {% elsif section.settings.partner_1_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_1_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_2_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_2_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_2_name }}"></div>
+        {% elsif section.settings.partner_2_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_2_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_3_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_3_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_3_name }}"></div>
+        {% elsif section.settings.partner_3_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_3_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_4_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_4_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_4_name }}"></div>
+        {% elsif section.settings.partner_4_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_4_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_5_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_5_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_5_name }}"></div>
+        {% elsif section.settings.partner_5_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_5_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_6_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_6_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_6_name }}"></div>
+        {% elsif section.settings.partner_6_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_6_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_7_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_7_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_7_name }}"></div>
+        {% elsif section.settings.partner_7_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_7_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_8_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_8_logo | image_url: width: 240 }}" alt="{{ section.settings.partner_8_name }}"></div>
+        {% elsif section.settings.partner_8_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_8_name }}</span></div>
+        {% endif %}
+      </div>
+
+      <!-- Duplicate copy for seamless loop -->
+      <div class="marquee-row" aria-hidden="true">
+        {% if section.settings.partner_1_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_1_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_1_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_1_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_2_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_2_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_2_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_2_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_3_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_3_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_3_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_3_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_4_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_4_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_4_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_4_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_5_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_5_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_5_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_5_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_6_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_6_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_6_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_6_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_7_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_7_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_7_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_7_name }}</span></div>
+        {% endif %}
+        {% if section.settings.partner_8_logo != blank %}
+          <div class="marquee-item"><img src="{{ section.settings.partner_8_logo | image_url: width: 240 }}" alt=""></div>
+        {% elsif section.settings.partner_8_name != blank %}
+          <div class="marquee-item"><span>{{ section.settings.partner_8_name }}</span></div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Partners marquee",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Heading", "default": "Trusted by leading clinics & specialists" },
+    { "type": "header", "content": "Partner 1" },
+    { "type": "image_picker", "id": "partner_1_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_1_name", "label": "Name (shown if no logo)", "default": "Bourn Hall" },
+    { "type": "header", "content": "Partner 2" },
+    { "type": "image_picker", "id": "partner_2_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_2_name", "label": "Name", "default": "IVI Fertility" },
+    { "type": "header", "content": "Partner 3" },
+    { "type": "image_picker", "id": "partner_3_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_3_name", "label": "Name", "default": "Fertility Network UK" },
+    { "type": "header", "content": "Partner 4" },
+    { "type": "image_picker", "id": "partner_4_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_4_name", "label": "Name", "default": "HFEA" },
+    { "type": "header", "content": "Partner 5" },
+    { "type": "image_picker", "id": "partner_5_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_5_name", "label": "Name", "default": "CARE Fertility" },
+    { "type": "header", "content": "Partner 6" },
+    { "type": "image_picker", "id": "partner_6_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_6_name", "label": "Name", "default": "London Andrology" },
+    { "type": "header", "content": "Partner 7" },
+    { "type": "image_picker", "id": "partner_7_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_7_name", "label": "Name", "default": "IVF Babble" },
+    { "type": "header", "content": "Partner 8" },
+    { "type": "image_picker", "id": "partner_8_logo", "label": "Logo (optional)" },
+    { "type": "text", "id": "partner_8_name", "label": "Name", "default": "Fertility Road" }
+  ],
+  "presets": [{ "name": "Partners marquee" }]
+}
+{% endschema %}

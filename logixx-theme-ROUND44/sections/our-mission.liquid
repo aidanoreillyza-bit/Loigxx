@@ -1,0 +1,179 @@
+<section class="mission-section" style="background: {{ section.settings.bg_color }};">
+  <div class="container">
+
+    <div class="mission-slider" id="mission-slider-{{ section.id }}">
+
+      {% for block in section.blocks %}
+        <div class="mission-slide{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <div class="mission-grid">
+
+            <!-- Image -->
+            <div class="mission-visual">
+              <div class="mission-image">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.heading }}">
+                {% else %}
+                  <div class="mission-image-placeholder">
+                    <i class="ph ph-image"></i>
+                    <span>Add image</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Text content -->
+            <div class="mission-content">
+              {% if block.settings.eyebrow != blank %}
+                <span class="eyebrow">{{ block.settings.eyebrow }}</span>
+              {% endif %}
+              <h2>{{ block.settings.heading }}</h2>
+              <div class="mission-body">{{ block.settings.body }}</div>
+
+              {% if block.settings.show_stats %}
+                <div class="mission-stats">
+                  <div class="mission-stat">
+                    <strong>{{ block.settings.stat_1_num }}</strong>
+                    <span>{{ block.settings.stat_1_label }}</span>
+                  </div>
+                  <div class="mission-stat">
+                    <strong>{{ block.settings.stat_2_num }}</strong>
+                    <span>{{ block.settings.stat_2_label }}</span>
+                  </div>
+                  <div class="mission-stat">
+                    <strong>{{ block.settings.stat_3_num }}</strong>
+                    <span>{{ block.settings.stat_3_label }}</span>
+                  </div>
+                </div>
+              {% endif %}
+
+              {% if block.settings.btn_link != blank %}
+                <a href="{{ block.settings.btn_link }}" class="btn btn-primary mission-btn">
+                  {{ block.settings.btn_text }}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+              {% endif %}
+            </div>
+
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+
+    {% if section.blocks.size > 1 %}
+      <div class="mission-dots">
+        {% for block in section.blocks %}
+          <button class="mission-dot{% if forloop.first %} is-active{% endif %}"
+                  data-target="{{ forloop.index0 }}"
+                  aria-label="{{ block.settings.eyebrow | default: block.settings.heading }}">
+            <span>{{ block.settings.eyebrow | default: forloop.index }}</span>
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+(function() {
+  var section = document.getElementById('mission-slider-{{ section.id }}').closest('.mission-section');
+  if (!section) return;
+  var slides = section.querySelectorAll('.mission-slide');
+  var dots = section.querySelectorAll('.mission-dot');
+
+  function activate(i) {
+    slides.forEach(function(s, idx) { s.classList.toggle('is-active', idx === i); });
+    dots.forEach(function(d, idx) { d.classList.toggle('is-active', idx === i); });
+  }
+  dots.forEach(function(d) {
+    d.addEventListener('click', function() { activate(parseInt(d.dataset.target, 10)); });
+  });
+})();
+</script>
+
+{% stylesheet %}
+.mission-section{ padding-block:clamp(3.5rem,7vw,6.5rem); }
+.mission-slider{ position:relative; }
+.mission-slide{ display:none; }
+.mission-slide.is-active{ display:block; animation:lx-rise .6s var(--lx-ease); }
+.mission-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,4rem); align-items:center; }
+.mission-image{ position:relative; border-radius:var(--lx-r-lg); overflow:hidden; aspect-ratio:4/3; box-shadow:var(--lx-sh-lg); background:linear-gradient(160deg,#E7F5FC,#D2ECF9); }
+.mission-image img{ width:100%; height:100%; object-fit:cover; }
+.mission-image-placeholder{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.5rem; color:var(--lx-faint); }
+.mission-image-placeholder i{ font-size:2.2rem; }
+.mission-content .eyebrow{ margin-bottom:1rem; }
+.mission-content h2{ margin:0 0 1.1rem; }
+.mission-body{ color:var(--lx-muted); font-size:1.05rem; line-height:1.7; }
+.mission-body p{ margin:0 0 1rem; }
+.mission-body p:last-child{ margin-bottom:0; }
+.mission-stats{ display:flex; gap:clamp(1.25rem,3vw,2.5rem); margin:1.75rem 0; flex-wrap:wrap; }
+.mission-stat strong{ display:block; font-family:var(--lx-display); font-size:1.8rem; color:var(--lx-blue-ink); line-height:1; }
+.mission-stat span{ display:block; font-size:.85rem; color:var(--lx-muted); margin-top:.35rem; }
+.mission-btn{ margin-top:.5rem; }
+.mission-dots{ display:flex; justify-content:center; gap:.6rem; margin-top:2.5rem; flex-wrap:wrap; }
+.mission-dot{ padding:.5rem 1.1rem; border:1.5px solid var(--lx-line-strong); background:#fff; border-radius:var(--lx-pill); cursor:pointer; font-family:var(--lx-body); font-weight:600; font-size:.82rem; letter-spacing:.04em; text-transform:uppercase; color:var(--lx-muted); transition:transform var(--lx-dur) var(--lx-ease), background var(--lx-dur), border-color var(--lx-dur), color var(--lx-dur); }
+.mission-dot:hover{ border-color:var(--lx-blue); color:var(--lx-blue-ink); }
+.mission-dot.is-active{ background:var(--lx-blue); border-color:var(--lx-blue); color:#fff; }
+@media (max-width:860px){ .mission-grid{ grid-template-columns:1fr; gap:2rem; } .mission-visual{ order:-1; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Our Mission",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background colour", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "header", "content": "Content" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow / tab label", "default": "Our mission" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Science at the heart of everything we do" },
+        { "type": "richtext", "id": "body", "label": "Body text", "default": "<p>At LogixX, we believe every couple deserves access to fertility care that is genuinely backed by evidence. We invest in clinical research, partner with leading specialists, and manufacture to pharmaceutical standards.</p><p>From our diagnostics platform to our supplements, every product we create is designed to give you the highest possible chance of conception.</p>" },
+
+        { "type": "header", "content": "Image" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+
+        { "type": "header", "content": "Stats (optional)" },
+        { "type": "checkbox", "id": "show_stats", "label": "Show stats row", "default": true },
+        { "type": "text", "id": "stat_1_num",   "label": "Stat 1 number", "default": "311k+" },
+        { "type": "text", "id": "stat_1_label", "label": "Stat 1 label",  "default": "Couples helped" },
+        { "type": "text", "id": "stat_2_num",   "label": "Stat 2 number", "default": "40+" },
+        { "type": "text", "id": "stat_2_label", "label": "Stat 2 label",  "default": "Countries" },
+        { "type": "text", "id": "stat_3_num",   "label": "Stat 3 number", "default": "10+ yrs" },
+        { "type": "text", "id": "stat_3_label", "label": "Stat 3 label",  "default": "Clinical research" },
+
+        { "type": "header", "content": "Button (optional)" },
+        { "type": "text", "id": "btn_text", "label": "Button text", "default": "Learn more" },
+        { "type": "url",  "id": "btn_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Our Mission",
+    "blocks": [
+      {
+        "type": "slide",
+        "settings": {
+          "eyebrow": "Our mission",
+          "heading": "Science at the heart of everything we do",
+          "show_stats": true
+        }
+      },
+      {
+        "type": "slide",
+        "settings": {
+          "eyebrow": "Our vision",
+          "heading": "The world's most advanced male fertility company",
+          "body": "<p>LogixX Fertility aims to be the best advanced (male-focused) fertility diagnostic and treatment company.</p><p>We're building the future of male reproductive health — where every couple has access to clinic-grade diagnostics, evidence-based supplements, and the specialist support they need to start a family.</p>",
+          "show_stats": false
+        }
+      }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,67 @@
+{%- comment -%}
+  Mission / Vision — reusable alternating split section.
+  Use "Image side" setting to flip layout. Drop in twice for an alternating pair.
+{%- endcomment -%}
+
+<section class="lx-mv lx-mv--img-{{ section.settings.image_side | default: 'right' }}"
+         style="background: {{ section.settings.bg_color | default: '#FFFFFF' }};">
+  <div class="lx-mv-inner">
+
+    <div class="lx-mv-text">
+      {% if section.settings.eyebrow != blank %}
+        <p class="lx-mv-eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      <h2 class="lx-mv-heading">{{ section.settings.heading | default: 'Our mission' }}</h2>
+      {% if section.settings.body != blank %}
+        <div class="lx-mv-body">{{ section.settings.body }}</div>
+      {% endif %}
+      {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+        <a href="{{ section.settings.cta_link }}" class="lx-mv-cta">
+          {{ section.settings.cta_text }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      {% endif %}
+    </div>
+
+    <div class="lx-mv-media">
+      {% if section.settings.image != blank %}
+        <img src="{{ section.settings.image | image_url: width: 1000 }}" alt="{{ section.settings.heading }}" loading="lazy">
+      {% else %}
+        <div class="lx-mv-placeholder"><i class="ph ph-image"></i></div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Mission / Vision",
+  "settings": [
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "image_side",
+      "label": "Image side",
+      "default": "right",
+      "options": [
+        { "value": "right", "label": "Image right, text left" },
+        { "value": "left", "label": "Image left, text right" }
+      ]
+    },
+    { "type": "color", "id": "bg_color", "label": "Background colour", "default": "#FFFFFF" },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our mission" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Science at the heart of every family" },
+    { "type": "richtext", "id": "body", "label": "Body text", "default": "<p>We exist to give every couple the best possible chance of a healthy pregnancy — through clinically backed supplements, clear guidance and genuine support at every step.</p>" },
+    { "type": "header", "content": "Button (optional)" },
+    { "type": "text", "id": "cta_text", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image" }
+  ],
+  "presets": [
+    { "name": "Mission / Vision" }
+  ]
+}
+{% endschema %}

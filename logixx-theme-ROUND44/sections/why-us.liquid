@@ -1,0 +1,142 @@
+<section class="why-us">
+  <div class="container">
+
+    <header class="why-us-head">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2>{{ section.settings.heading }}</h2>
+      <p>{{ section.settings.subheading }}</p>
+    </header>
+
+    <div class="why-us-grid">
+
+      {% for block in section.blocks %}
+        <div class="why-card" {{ block.shopify_attributes }}>
+          <div class="why-card-icon why-card-icon--{{ block.settings.icon_color }}">
+            <div class="why-card-hex">
+              {% case block.settings.icon %}
+                {% when 'flask' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6L4 16a4 4 0 003.4 6h9.2a4 4 0 003.4-6L15 8V2"/><line x1="9" y1="2" x2="15" y2="2"/><line x1="6.5" y1="14" x2="17.5" y2="14"/></svg>
+                {% when 'shield' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                {% when 'globe' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+                {% when 'leaf' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c8-4 9-13 9-19 0 0-7 1-12 6s-6 12 3 13z"/><path d="M3 22c4-2 8-9 9-13"/></svg>
+                {% when 'truck' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {% when 'users' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                {% when 'chart' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                {% when 'heart' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                {% when 'medal' %}
+                  <!-- Award rosette / certified badge -->
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="M9.5 13l-2 8 4.5-3 4.5 3-2-8"/><polyline points="9 9 11 11 15 7"/></svg>
+                {% when 'check' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                {% when 'microscope' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 100-14h-1"/><path d="M9 14h2"/><path d="M9 12V2h6v10"/><path d="M9 12h6"/></svg>
+                {% when 'sparkle' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+              {% endcase %}
+            </div>
+          </div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.description }}</p>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+.why-us{ padding-block:clamp(3.5rem,7vw,6.5rem); background:linear-gradient(180deg,var(--lx-bg-soft),#fff); }
+.why-us-head{ max-width:46rem; margin:0 auto clamp(2.5rem,5vw,3.5rem); text-align:center; }
+.why-us-head .eyebrow{ margin-bottom:1rem; }
+.why-us-head h2{ margin:0 0 .9rem; }
+.why-us-head p{ color:var(--lx-muted); font-size:1.08rem; margin:0 auto; max-width:42rem; }
+.why-us-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:clamp(1rem,2vw,1.5rem); }
+.why-card{ background:#fff; border:1px solid var(--lx-line); border-radius:var(--lx-r-lg); padding:clamp(1.5rem,2.5vw,2rem); transition:transform var(--lx-dur) var(--lx-ease), box-shadow var(--lx-dur) var(--lx-ease), border-color var(--lx-dur); }
+.why-card:hover{ transform:translateY(-4px); box-shadow:var(--lx-sh-lg); border-color:transparent; }
+.why-card-icon{ width:54px; height:54px; border-radius:15px; display:flex; align-items:center; justify-content:center; margin-bottom:1.1rem; transition:transform var(--lx-dur) var(--lx-ease); }
+.why-card:hover .why-card-icon{ transform:scale(1.06) rotate(-3deg); }
+.why-card-hex{ display:flex; }
+.why-card-icon svg{ width:26px; height:26px; }
+.why-card h3{ margin:0 0 .5rem; font-size:1.2rem; }
+.why-card p{ margin:0; color:var(--lx-muted); font-size:.97rem; line-height:1.6; }
+.why-card-icon--blue{ background:var(--lx-blue-050); color:var(--lx-blue); }
+.why-card-icon--navy{ background:#E7EDF1; color:var(--lx-navy); }
+.why-card-icon--orange{ background:#FCEEE2; color:var(--lx-orange); }
+.why-card-icon--pink{ background:#FBE9F2; color:var(--lx-pink); }
+.why-card-icon--green{ background:#E6F4EC; color:var(--lx-green); }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Why Us",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text",     "id": "eyebrow",    "label": "Eyebrow",    "default": "Why LogixX" },
+    { "type": "text",     "id": "heading",    "label": "Heading",    "default": "Why couples choose us" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Backed by science. Trusted by clinicians. Loved by families. Here's what sets us apart." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Reason",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "flask",
+          "options": [
+            { "value": "flask",      "label": "Flask (clinical)" },
+            { "value": "shield",     "label": "Shield (safety)" },
+            { "value": "globe",      "label": "Globe (worldwide)" },
+            { "value": "leaf",       "label": "Leaf (natural)" },
+            { "value": "truck",      "label": "Truck (delivery)" },
+            { "value": "users",      "label": "Couples (community)" },
+            { "value": "chart",      "label": "Chart (results)" },
+            { "value": "heart",      "label": "Heart (care)" },
+            { "value": "medal",      "label": "Medal (quality)" },
+            { "value": "check",      "label": "Check (proven)" },
+            { "value": "microscope", "label": "Microscope (research)" },
+            { "value": "sparkle",    "label": "Sparkle (premium)" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "icon_color",
+          "label": "Icon colour",
+          "default": "blue",
+          "options": [
+            { "value": "blue",   "label": "Blue (brand)" },
+            { "value": "navy",   "label": "Navy" },
+            { "value": "orange", "label": "Orange (male)" },
+            { "value": "pink",   "label": "Pink (female)" },
+            { "value": "green",  "label": "Green (natural)" }
+          ]
+        },
+        { "type": "text",     "id": "title",       "label": "Title",       "default": "Clinically proven" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Backed by peer-reviewed research and used in over 40 countries by leading fertility specialists." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Us",
+      "blocks": [
+        { "type": "card", "settings": { "icon": "flask",      "icon_color": "blue",   "title": "Clinically proven",       "description": "Peer-reviewed research backs every formula. Trusted by fertility specialists in 40+ countries." } },
+        { "type": "card", "settings": { "icon": "users",      "icon_color": "orange", "title": "311,000+ couples",        "description": "Over three hundred thousand families have used LogixX on their journey to parenthood." } },
+        { "type": "card", "settings": { "icon": "medal",      "icon_color": "navy",   "title": "Pharmaceutical grade",    "description": "GMP-certified manufacturing with full traceability. Halal certified across the entire range." } },
+        { "type": "card", "settings": { "icon": "microscope", "icon_color": "blue",   "title": "Diagnostics-led",         "description": "Test, treat, retest. Our supplements work alongside our clinic-grade diagnostic systems." } },
+        { "type": "card", "settings": { "icon": "truck",      "icon_color": "green",  "title": "Free UK delivery",        "description": "Free shipping on every order over £50. Discreet packaging, dispatched same day." } },
+        { "type": "card", "settings": { "icon": "heart",      "icon_color": "pink",   "title": "Real human support",      "description": "Speak directly to qualified fertility advisors — no chatbots, no scripts, just real people." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

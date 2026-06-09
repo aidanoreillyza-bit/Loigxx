@@ -1,0 +1,141 @@
+<article class="lx-article">
+
+  <!-- HERO -->
+  <div class="lx-article-hero">
+    <div class="container">
+      <a href="{{ blog.url }}" class="lx-article-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Back to news
+      </a>
+
+      <div class="lx-article-hero-inner">
+        {% if article.tags.size > 0 %}
+          <div class="lx-article-tags">
+            {% for tag in article.tags limit: 3 %}
+              <span class="lx-article-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <h1>{{ article.title }}</h1>
+
+        <div class="lx-article-meta">
+          <span><i class="ph ph-calendar"></i> {{ article.published_at | date: '%B %-d, %Y' }}</span>
+          {% if article.author != blank %}
+            <span><i class="ph ph-user"></i> {{ article.author }}</span>
+          {% endif %}
+          <span><i class="ph ph-clock"></i> {{ article.content | strip_html | split: ' ' | size | divided_by: 200 }} min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED IMAGE -->
+  {% if article.image %}
+    <div class="lx-article-image">
+      <div class="container">
+        <img src="{{ article.image | image_url: width: 1600 }}" alt="{{ article.title }}">
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CONTENT -->
+  <div class="lx-article-content">
+    <div class="container">
+      <div class="lx-article-body rte">
+        {{ article.content }}
+      </div>
+
+      <!-- Share row -->
+      <div class="lx-article-share">
+        <span class="lx-article-share-label">Share this article</span>
+        <div class="lx-article-share-buttons">
+          <a href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&url={{ shop.url }}{{ article.url }}" target="_blank" rel="noopener" aria-label="Share on Twitter"><i class="ph ph-x-logo"></i></a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ shop.url }}{{ article.url }}" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}" target="_blank" rel="noopener" aria-label="Share on Facebook"><i class="ph ph-facebook-logo"></i></a>
+          <a href="mailto:?subject={{ article.title | url_encode }}&body={{ shop.url }}{{ article.url }}" aria-label="Share via email"><i class="ph ph-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RELATED / OTHER ARTICLES -->
+  {% if blog.articles.size > 1 %}
+    <div class="lx-article-related">
+      <div class="container">
+        <div class="lx-article-related-head">
+          <span class="eyebrow">{{ section.settings.related_eyebrow }}</span>
+          <h2>{{ section.settings.related_heading }}</h2>
+        </div>
+        <div class="lx-article-related-grid">
+          {% assign count = 0 %}
+          {% for related in blog.articles %}
+            {% if related.id != article.id and count < 3 %}
+              <a href="{{ related.url }}" class="lx-blog-card">
+                <div class="lx-blog-card-media">
+                  {% if related.image %}
+                    <img src="{{ related.image | image_url: width: 800 }}" alt="{{ related.title }}">
+                  {% else %}
+                    <div class="lx-blog-placeholder"><i class="ph ph-newspaper"></i></div>
+                  {% endif %}
+                </div>
+                <div class="lx-blog-card-body">
+                  {% if related.tags.size > 0 %}
+                    <div class="lx-blog-tags">
+                      {% for tag in related.tags limit: 1 %}
+                        <span class="lx-blog-tag">{{ tag }}</span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                  <h3>{{ related.title }}</h3>
+                  <p>{{ related.excerpt_or_content | strip_html | truncatewords: 18 }}</p>
+                  <div class="lx-blog-card-meta">
+                    <span><i class="ph ph-calendar"></i> {{ related.published_at | date: '%b %-d, %Y' }}</span>
+                  </div>
+                </div>
+              </a>
+              {% assign count = count | plus: 1 %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-blog-closing">
+      <div class="container">
+        <div class="lx-blog-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-blog-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="btn btn-primary">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="btn btn-ghost">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</article>
+
+{% schema %}
+{
+  "name": "Article Main",
+  "settings": [
+    { "type": "header", "content": "Related articles" },
+    { "type": "text", "id": "related_eyebrow", "label": "Eyebrow", "default": "More news" },
+    { "type": "text", "id": "related_heading", "label": "Heading", "default": "Continue reading" },
+
+    { "type": "header", "content": "Closing CTA" },
+    { "type": "checkbox", "id": "show_closing", "label": "Show closing CTA", "default": true },
+    { "type": "text", "id": "closing_heading", "label": "Heading", "default": "Looking for support?" },
+    { "type": "textarea", "id": "closing_sub", "label": "Sub-text", "default": "Speak with one of our fertility specialists, or browse our range of clinically-proven products." },
+    { "type": "text", "id": "closing_btn1_text", "label": "Primary button", "default": "Speak to a specialist" },
+    { "type": "text", "id": "closing_btn1_link", "label": "Primary button link", "default": "/pages/contact" },
+    { "type": "text", "id": "closing_btn2_text", "label": "Secondary button", "default": "Browse products" },
+    { "type": "text", "id": "closing_btn2_link", "label": "Secondary button link", "default": "/pages/shop" }
+  ]
+}
+{% endschema %}

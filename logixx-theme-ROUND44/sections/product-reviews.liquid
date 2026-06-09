@@ -1,0 +1,160 @@
+<section class="lx-reviews lx-reviews--{{ section.settings.theme | default: 'blue' }}" id="lx-reviews-{{ section.id }}">
+  <div class="container">
+
+    <!-- HEAD -->
+    <div class="lx-reviews-head">
+      <div class="lx-reviews-summary">
+        <div class="lx-reviews-rating">
+          <div class="lx-reviews-stars" aria-label="{{ section.settings.avg_rating }} out of 5">
+            {% assign full = section.settings.avg_rating | floor %}
+            {% assign half = section.settings.avg_rating | minus: full %}
+            {% for i in (1..5) %}
+              {% if forloop.index <= full %}
+                <i class="ph-fill ph-star"></i>
+              {% elsif forloop.index == full | plus: 1 and half >= 0.5 %}
+                <i class="ph-fill ph-star-half"></i>
+              {% else %}
+                <i class="ph ph-star"></i>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <strong class="lx-reviews-avg">{{ section.settings.avg_rating }}</strong>
+          <span class="lx-reviews-count">based on {{ section.settings.review_count }} reviews</span>
+        </div>
+      </div>
+      <div class="lx-reviews-title">
+        <span class="lx-reviews-eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2>{{ section.settings.heading }}</h2>
+        <p>{{ section.settings.subheading }}</p>
+      </div>
+    </div>
+
+    <!-- RATING BREAKDOWN BAR -->
+    {% if section.settings.show_breakdown %}
+      <div class="lx-reviews-breakdown">
+        <div class="lx-reviews-bar"><span>5 ★</span><div class="lx-reviews-bar-track"><div class="lx-reviews-bar-fill" style="width: {{ section.settings.pct_5 }}%"></div></div><strong>{{ section.settings.pct_5 }}%</strong></div>
+        <div class="lx-reviews-bar"><span>4 ★</span><div class="lx-reviews-bar-track"><div class="lx-reviews-bar-fill" style="width: {{ section.settings.pct_4 }}%"></div></div><strong>{{ section.settings.pct_4 }}%</strong></div>
+        <div class="lx-reviews-bar"><span>3 ★</span><div class="lx-reviews-bar-track"><div class="lx-reviews-bar-fill" style="width: {{ section.settings.pct_3 }}%"></div></div><strong>{{ section.settings.pct_3 }}%</strong></div>
+        <div class="lx-reviews-bar"><span>2 ★</span><div class="lx-reviews-bar-track"><div class="lx-reviews-bar-fill" style="width: {{ section.settings.pct_2 }}%"></div></div><strong>{{ section.settings.pct_2 }}%</strong></div>
+        <div class="lx-reviews-bar"><span>1 ★</span><div class="lx-reviews-bar-track"><div class="lx-reviews-bar-fill" style="width: {{ section.settings.pct_1 }}%"></div></div><strong>{{ section.settings.pct_1 }}%</strong></div>
+      </div>
+    {% endif %}
+
+    <!-- REVIEWS GRID -->
+    {% assign review_count = 0 %}
+    {% for block in section.blocks %}{% if block.type == 'review' %}{% assign review_count = review_count | plus: 1 %}{% endif %}{% endfor %}
+
+    {% if review_count > 0 %}
+      <div class="lx-reviews-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <article class="lx-review{% if block.settings.featured %} lx-review--featured{% endif %}" {{ block.shopify_attributes }}>
+              <div class="lx-review-stars">
+                {% assign rating = block.settings.rating | default: 5 %}
+                {% for i in (1..5) %}
+                  {% if forloop.index <= rating %}
+                    <i class="ph-fill ph-star"></i>
+                  {% else %}
+                    <i class="ph ph-star"></i>
+                  {% endif %}
+                {% endfor %}
+                {% if block.settings.verified %}
+                  <span class="lx-review-verified"><i class="ph-fill ph-check-circle"></i> Verified</span>
+                {% endif %}
+              </div>
+
+              {% if block.settings.title != blank %}
+                <h3 class="lx-review-title">{{ block.settings.title }}</h3>
+              {% endif %}
+
+              <div class="lx-review-body rte">{{ block.settings.body }}</div>
+
+              <div class="lx-review-meta">
+                <div class="lx-review-author">
+                  <div class="lx-review-avatar">{{ block.settings.author | slice: 0, 1 | upcase }}</div>
+                  <div class="lx-review-author-info">
+                    <strong>{{ block.settings.author }}</strong>
+                    {% if block.settings.location != blank %}<span>{{ block.settings.location }}</span>{% endif %}
+                  </div>
+                </div>
+                {% if block.settings.date != blank %}
+                  <span class="lx-review-date">{{ block.settings.date }}</span>
+                {% endif %}
+              </div>
+
+              {% if block.settings.tag != blank %}
+                <span class="lx-review-tag">{{ block.settings.tag }}</span>
+              {% endif %}
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="lx-reviews-empty">
+        <i class="ph ph-chats-circle"></i>
+        <p>Add review blocks in the customizer to populate this section.</p>
+      </div>
+    {% endif %}
+
+    <!-- DISCLOSURE / FOOTNOTE -->
+    {% if section.settings.show_disclaimer %}
+      <p class="lx-reviews-disclaimer">{{ section.settings.disclaimer }}</p>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Reviews",
+  "settings": [
+    { "type": "header", "content": "Style" },
+    { "type": "select", "id": "theme", "label": "Colour theme", "default": "blue", "options": [
+      { "value": "blue",  "label": "LogixX brand blue (default)" },
+      { "value": "orange","label": "Proxeed Plus (orange)" },
+      { "value": "navy",  "label": "Proxeed Men (navy)" },
+      { "value": "pink",  "label": "Proxeed Women / Female (pink)" },
+      { "value": "teal",  "label": "Punalpin (teal)" }
+    ]},
+
+    { "type": "header", "content": "Header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Real experiences from couples on their fertility journey." },
+
+    { "type": "header", "content": "Rating summary" },
+    { "type": "text", "id": "avg_rating", "label": "Average rating (e.g. 4.8)", "default": "4.8" },
+    { "type": "text", "id": "review_count", "label": "Review count", "default": "247" },
+
+    { "type": "header", "content": "Rating breakdown bars" },
+    { "type": "checkbox", "id": "show_breakdown", "label": "Show breakdown bars", "default": true },
+    { "type": "range", "id": "pct_5", "label": "5 star %", "min": 0, "max": 100, "step": 1, "default": 84 },
+    { "type": "range", "id": "pct_4", "label": "4 star %", "min": 0, "max": 100, "step": 1, "default": 12 },
+    { "type": "range", "id": "pct_3", "label": "3 star %", "min": 0, "max": 100, "step": 1, "default": 3 },
+    { "type": "range", "id": "pct_2", "label": "2 star %", "min": 0, "max": 100, "step": 1, "default": 1 },
+    { "type": "range", "id": "pct_1", "label": "1 star %", "min": 0, "max": 100, "step": 1, "default": 0 },
+
+    { "type": "header", "content": "Disclaimer" },
+    { "type": "checkbox", "id": "show_disclaimer", "label": "Show disclaimer", "default": true },
+    { "type": "textarea", "id": "disclaimer", "label": "Text", "default": "Reviews reflect individual experience and are not a guarantee of outcomes. Results vary. Reviews are not medical advice — speak to your GP or specialist for personalised guidance." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "checkbox", "id": "featured", "label": "Featured (larger card)", "default": false },
+        { "type": "range", "id": "rating", "label": "Star rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "checkbox", "id": "verified", "label": "Verified buyer", "default": true },
+        { "type": "text", "id": "title", "label": "Title (optional)" },
+        { "type": "richtext", "id": "body", "label": "Review body" },
+        { "type": "text", "id": "author", "label": "Author name", "default": "James K." },
+        { "type": "text", "id": "location", "label": "Location (optional)", "default": "London, UK" },
+        { "type": "text", "id": "date", "label": "Date (free text)", "default": "October 2025" },
+        { "type": "text", "id": "tag", "label": "Tag (optional, e.g. 'After 3 months')" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Product Reviews" }]
+}
+{% endschema %}

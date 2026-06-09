@@ -1,0 +1,374 @@
+<section class="lx-opt" id="lx-opt-{{ section.id }}">
+
+  <!-- Sperm swimmers background -->
+  <div class="lx-opt-swimmers" aria-hidden="true">
+    {% for i in (1..35) %}
+      <svg class="lx-swimmer lx-swimmer--{{ forloop.index | modulo: 4 | plus: 1 }}" viewBox="0 0 60 12">
+        <ellipse cx="6" cy="6" rx="5" ry="4" fill="#00A2ED"/>
+        <line x1="11" y1="6" x2="58" y2="6" stroke="#00A2ED" stroke-width="0.8" opacity="0.6"/>
+      </svg>
+    {% endfor %}
+  </div>
+
+  <!-- HERO -->
+  <div class="lx-opt-hero">
+    <div class="container">
+      <div class="lx-opt-hero-inner">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h1>{{ section.settings.heading }}</h1>
+        <div class="lx-opt-hero-lead rte">{{ section.settings.lead }}</div>
+
+        {% if section.settings.show_keystat %}
+          <div class="lx-opt-keystat">
+            <div class="lx-opt-keystat-num">{{ section.settings.keystat_num }}</div>
+            <div class="lx-opt-keystat-text">
+              <strong>{{ section.settings.keystat_title }}</strong>
+              <span>{{ section.settings.keystat_sub }}</span>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT AFFECTS SPERM (intro content + lifestyle factors) -->
+  {% if section.settings.show_intro %}
+    <div class="lx-opt-intro">
+      <div class="container">
+        <div class="lx-opt-intro-grid">
+          <div class="lx-opt-intro-text">
+            <span class="lx-opt-mini-eyebrow">{{ section.settings.intro_eyebrow }}</span>
+            <h2>{{ section.settings.intro_heading }}</h2>
+            <div class="rte">{{ section.settings.intro_body }}</div>
+          </div>
+          <div class="lx-opt-factors">
+            <div class="lx-opt-factors-head">
+              <i class="ph ph-warning-circle"></i>
+              <strong>{{ section.settings.factors_title }}</strong>
+            </div>
+            <ul class="lx-opt-factors-list">
+              {% for block in section.blocks %}
+                {% if block.type == 'factor' %}
+                  <li {{ block.shopify_attributes }}>
+                    <i class="{{ block.settings.icon | default: 'ph ph-x' }}"></i>
+                    <span>{{ block.settings.label }}</span>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- 74-DAY CYCLE EDUCATIONAL BAND -->
+  {% if section.settings.show_cycle %}
+    <div class="lx-opt-cycle">
+      <div class="container">
+        <div class="lx-opt-cycle-head">
+          <span class="lx-opt-mini-eyebrow">{{ section.settings.cycle_eyebrow }}</span>
+          <h2>{{ section.settings.cycle_heading }}</h2>
+          <p>{{ section.settings.cycle_sub }}</p>
+        </div>
+        <div class="lx-opt-cycle-track">
+          <div class="lx-opt-cycle-line"></div>
+          <div class="lx-opt-cycle-line-fill" id="lx-opt-fill-{{ section.id }}"></div>
+          <div class="lx-opt-cycle-stops">
+            <div class="lx-opt-cycle-stop">
+              <div class="lx-opt-cycle-dot"><span>1</span></div>
+              <strong>Day 1</strong>
+              <span>Spermatogenesis begins</span>
+            </div>
+            <div class="lx-opt-cycle-stop">
+              <div class="lx-opt-cycle-dot"><span>30</span></div>
+              <strong>Day 30</strong>
+              <span>DNA &amp; structure forms</span>
+            </div>
+            <div class="lx-opt-cycle-stop">
+              <div class="lx-opt-cycle-dot"><span>74</span></div>
+              <strong>Day 74</strong>
+              <span>Sperm matures</span>
+            </div>
+            <div class="lx-opt-cycle-stop is-final">
+              <div class="lx-opt-cycle-dot"><span>94</span></div>
+              <strong>Day 94</strong>
+              <span>Capable of fertilisation</span>
+            </div>
+          </div>
+        </div>
+        <div class="lx-opt-cycle-callout">
+          <i class="ph ph-info"></i>
+          <p>{{ section.settings.cycle_note }}</p>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- 5 SEMEN PARAMETERS -->
+  {% if section.settings.show_parameters %}
+    <div class="lx-opt-parameters">
+      <div class="container">
+        <div class="lx-opt-section-head">
+          <span class="lx-opt-mini-eyebrow">{{ section.settings.params_eyebrow }}</span>
+          <h2>{{ section.settings.params_heading }}</h2>
+          <p>{{ section.settings.params_sub }}</p>
+        </div>
+        <div class="lx-opt-params-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'parameter' %}
+              <div class="lx-opt-param" {{ block.shopify_attributes }}>
+                <div class="lx-opt-param-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+                <div class="lx-opt-param-icon"><i class="{{ block.settings.icon | default: 'ph ph-circle' }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- DNA DAMAGE / OXIDATIVE STRESS -->
+  {% if section.settings.show_dna %}
+    <div class="lx-opt-dna">
+      <div class="container">
+        <div class="lx-opt-dna-grid">
+          <div class="lx-opt-dna-visual">
+            <div class="lx-opt-dna-stat-card">
+              <div class="lx-opt-dna-stat-num">30%</div>
+              <strong>decline in sperm count</strong>
+              <span>1989 → 2005</span>
+            </div>
+            <div class="lx-opt-dna-stat-card lx-opt-dna-stat-card--alt">
+              <div class="lx-opt-dna-stat-num">1 in 5</div>
+              <strong>young men</strong>
+              <span>have low sperm count</span>
+            </div>
+          </div>
+          <div class="lx-opt-dna-text">
+            <span class="lx-opt-mini-eyebrow">{{ section.settings.dna_eyebrow }}</span>
+            <h2>{{ section.settings.dna_heading }}</h2>
+            <div class="rte">{{ section.settings.dna_body }}</div>
+            <div class="lx-opt-dna-tip">
+              <i class="ph ph-lightbulb"></i>
+              <p><strong>MiOXSYS sORP test</strong> is a newer diagnostic that measures sperm oxidative stress — now considered a leading cause of male infertility.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- PROXEED PLUS HIGHLIGHT -->
+  {% if section.settings.show_product %}
+    <div class="lx-opt-product">
+      <div class="container">
+        <div class="lx-opt-product-card">
+          <div class="lx-opt-product-bg" aria-hidden="true"></div>
+          <div class="lx-opt-product-inner">
+            <div class="lx-opt-product-content">
+              <span class="lx-opt-product-pill">Recommended supplement</span>
+              <h2>{{ section.settings.product_heading }}</h2>
+              <p>{{ section.settings.product_lead }}</p>
+
+              <div class="lx-opt-product-pillars">
+                <div class="lx-opt-product-pillar">
+                  <div class="lx-opt-product-pillar-icon"><i class="ph ph-lightning"></i></div>
+                  <strong>Enhances energy</strong>
+                  <span>Fuel for sperm to develop &amp; swim</span>
+                </div>
+                <div class="lx-opt-product-pillar">
+                  <div class="lx-opt-product-pillar-icon"><i class="ph ph-trend-up"></i></div>
+                  <strong>Improves function</strong>
+                  <span>Count, motility, speed, morphology</span>
+                </div>
+                <div class="lx-opt-product-pillar">
+                  <div class="lx-opt-product-pillar-icon"><i class="ph ph-shield-check"></i></div>
+                  <strong>Protects from stress</strong>
+                  <span>Reduces oxidative damage to DNA</span>
+                </div>
+              </div>
+
+              <div class="lx-opt-product-actions">
+                <a href="{{ section.settings.product_cta_link }}" class="btn btn-primary">{{ section.settings.product_cta_text }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                <a href="{{ section.settings.product_cta2_link }}" class="btn btn-ghost">{{ section.settings.product_cta2_text }}</a>
+              </div>
+            </div>
+            {% if section.settings.product_image != blank %}
+              <div class="lx-opt-product-visual">
+                <img src="{{ section.settings.product_image | image_url: width: 800 }}" alt="Proxeed Plus">
+              </div>
+            {% else %}
+              <div class="lx-opt-product-visual">
+                <div class="lx-opt-product-placeholder">
+                  <i class="ph ph-package"></i>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- BEYOND SUPPLEMENTS (additional treatments) -->
+  {% if section.settings.show_beyond %}
+    <div class="lx-opt-beyond">
+      <div class="container">
+        <div class="lx-opt-section-head">
+          <span class="lx-opt-mini-eyebrow">{{ section.settings.beyond_eyebrow }}</span>
+          <h2>{{ section.settings.beyond_heading }}</h2>
+          <p>{{ section.settings.beyond_sub }}</p>
+        </div>
+        <div class="lx-opt-beyond-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'treatment' %}
+              <div class="lx-opt-treatment" {{ block.shopify_attributes }}>
+                <div class="lx-opt-treatment-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+                {% if block.settings.link_text != blank %}
+                  <a href="{{ block.settings.link_url }}" class="lx-opt-treatment-link">{{ block.settings.link_text }} →</a>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-opt-closing">
+      <div class="container">
+        <div class="lx-opt-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-opt-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="btn btn-primary">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="btn btn-ghost">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('lx-opt-{{ section.id }}');
+  if (!section) return;
+  var fill = document.getElementById('lx-opt-fill-{{ section.id }}');
+  var track = section.querySelector('.lx-opt-cycle-track');
+  if (fill && track && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) fill.style.width = '100%'; });
+    }, { threshold: 0.3 });
+    io.observe(track);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Optimise Page",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Sperm health"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Optimising sperm health"},
+    {"type": "richtext", "id": "lead", "label": "Lead paragraph", "default": "<p>Men produce sperm on a continuous basis. Your body needs a constant supply of nutrients and vitamins for healthy sperm development — and the lifestyle changes you make today take 3+ months to show up in a semen analysis.</p>"},
+    {"type": "checkbox", "id": "show_keystat", "label": "Show key stat", "default": true},
+    {"type": "text", "id": "keystat_num", "label": "Stat number", "default": "74"},
+    {"type": "text", "id": "keystat_title", "label": "Stat title", "default": "days to mature"},
+    {"type": "text", "id": "keystat_sub", "label": "Stat sub", "default": "+ 20 days to become fertilisation-capable"},
+
+    {"type": "header", "content": "What affects sperm (intro)"},
+    {"type": "checkbox", "id": "show_intro", "label": "Show section", "default": true},
+    {"type": "text", "id": "intro_eyebrow", "label": "Eyebrow", "default": "The fundamentals"},
+    {"type": "text", "id": "intro_heading", "label": "Heading", "default": "What affects sperm quality?"},
+    {"type": "richtext", "id": "intro_body", "label": "Body", "default": "<p>Age, diet, lack of certain nutrients and lifestyle factors can all have a negative impact on sperm quality.</p><p>Research has shown that specific nutrients, antioxidants, and vitamins can improve sperm quality and health — but the right combination matters.</p>"},
+    {"type": "text", "id": "factors_title", "label": "Factors list title", "default": "Negative lifestyle factors"},
+
+    {"type": "header", "content": "74-day cycle visual"},
+    {"type": "checkbox", "id": "show_cycle", "label": "Show cycle", "default": true},
+    {"type": "text", "id": "cycle_eyebrow", "label": "Eyebrow", "default": "The science"},
+    {"type": "text", "id": "cycle_heading", "label": "Heading", "default": "The sperm production timeline"},
+    {"type": "textarea", "id": "cycle_sub", "label": "Sub-text", "default": "On average, sperm requires 74 days to fully mature and up to 20 additional days to become capable of fertilisation."},
+    {"type": "textarea", "id": "cycle_note", "label": "Note", "default": "This is why any lifestyle changes or supplementation requires at least 3 months before improvements show up in a semen analysis."},
+
+    {"type": "header", "content": "5 semen parameters"},
+    {"type": "checkbox", "id": "show_parameters", "label": "Show parameters", "default": true},
+    {"type": "text", "id": "params_eyebrow", "label": "Eyebrow", "default": "Semen analysis"},
+    {"type": "text", "id": "params_heading", "label": "Heading", "default": "The 5 main parameters of sperm quality"},
+    {"type": "textarea", "id": "params_sub", "label": "Sub-text", "default": "A standard semen analysis evaluates sperm across these five measurable parameters."},
+
+    {"type": "header", "content": "DNA damage / oxidative stress"},
+    {"type": "checkbox", "id": "show_dna", "label": "Show DNA section", "default": true},
+    {"type": "text", "id": "dna_eyebrow", "label": "Eyebrow", "default": "Oxidative stress"},
+    {"type": "text", "id": "dna_heading", "label": "Heading", "default": "DNA damage and sperm decline"},
+    {"type": "richtext", "id": "dna_body", "label": "Body", "default": "<p>DNA damage (fragmentation) is usually caused by oxidative stress — free radicals attacking the DNA molecule and causing breaks in DNA strands.</p><p>Sperm DNA damage is often linked to underlying conditions (varicocele, infection, fever) or lifestyle choices (drinking, smoking, heat exposure).</p><p><strong>Recent studies show sperm counts in men declined by 30% between 1989 and 2005 — with 1 in 5 young men now having a sperm count low enough to cause conception problems.</strong></p>"},
+
+    {"type": "header", "content": "Proxeed Plus highlight"},
+    {"type": "checkbox", "id": "show_product", "label": "Show product card", "default": true},
+    {"type": "text", "id": "product_heading", "label": "Heading", "default": "Proxeed® Plus — the male fertility supplement you can trust"},
+    {"type": "textarea", "id": "product_lead", "label": "Lead", "default": "A simple, safe and effective way to support male reproductive health — recommended by doctors and fertility specialists worldwide."},
+    {"type": "image_picker", "id": "product_image", "label": "Product image"},
+    {"type": "text", "id": "product_cta_text", "label": "Primary CTA", "default": "Shop Proxeed Plus"},
+    {"type": "text", "id": "product_cta_link", "label": "Primary CTA link", "default": "/pages/proxeed-plus"},
+    {"type": "text", "id": "product_cta2_text", "label": "Secondary CTA", "default": "Read more"},
+    {"type": "text", "id": "product_cta2_link", "label": "Secondary CTA link", "default": "/pages/proxeed-plus"},
+
+    {"type": "header", "content": "Beyond supplements"},
+    {"type": "checkbox", "id": "show_beyond", "label": "Show treatments section", "default": true},
+    {"type": "text", "id": "beyond_eyebrow", "label": "Eyebrow", "default": "Comprehensive approach"},
+    {"type": "text", "id": "beyond_heading", "label": "Heading", "default": "Beyond supplements"},
+    {"type": "textarea", "id": "beyond_sub", "label": "Sub-text", "default": "Sperm health optimisation is multi-factorial. If lifestyle and nutrition aren't enough, additional interventions may help."},
+
+    {"type": "header", "content": "Closing CTA"},
+    {"type": "checkbox", "id": "show_closing", "label": "Show closing CTA", "default": true},
+    {"type": "text", "id": "closing_heading", "label": "Heading", "default": "Start optimising today"},
+    {"type": "textarea", "id": "closing_sub", "label": "Sub-text", "default": "Get tested, get supported, and start a science-backed daily routine for healthy sperm development."},
+    {"type": "text", "id": "closing_btn1_text", "label": "Primary button", "default": "Speak to a specialist"},
+    {"type": "text", "id": "closing_btn1_link", "label": "Primary button link", "default": "/pages/contact"},
+    {"type": "text", "id": "closing_btn2_text", "label": "Secondary button", "default": "Browse all products"},
+    {"type": "text", "id": "closing_btn2_link", "label": "Secondary button link", "default": "/pages/shop"}
+  ],
+  "blocks": [
+    {
+      "type": "factor",
+      "name": "Lifestyle factor",
+      "settings": [
+        {"type": "text", "id": "icon", "label": "Icon", "default": "ph ph-x"},
+        {"type": "text", "id": "label", "label": "Label"}
+      ]
+    },
+    {
+      "type": "parameter",
+      "name": "Semen parameter",
+      "settings": [
+        {"type": "text", "id": "icon", "label": "Icon", "default": "ph ph-circle"},
+        {"type": "text", "id": "title", "label": "Title"},
+        {"type": "textarea", "id": "description", "label": "Description"}
+      ]
+    },
+    {
+      "type": "treatment",
+      "name": "Treatment / option",
+      "settings": [
+        {"type": "text", "id": "icon", "label": "Icon", "default": "ph ph-shield-check"},
+        {"type": "text", "id": "title", "label": "Title"},
+        {"type": "textarea", "id": "description", "label": "Description"},
+        {"type": "text", "id": "link_text", "label": "Link text"},
+        {"type": "text", "id": "link_url", "label": "Link URL"}
+      ]
+    }
+  ],
+  "presets": [
+    {"name": "Optimise Page"}
+  ]
+}
+{% endschema %}

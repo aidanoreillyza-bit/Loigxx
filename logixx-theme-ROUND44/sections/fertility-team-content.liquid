@@ -1,0 +1,207 @@
+<section class="team-page">
+  <div class="container">
+
+    <header class="team-head">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1>{{ section.settings.heading }}</h1>
+      <p>{{ section.settings.subheading }}</p>
+    </header>
+
+    {% comment %} Leadership grid {% endcomment %}
+    {% assign has_leaders = false %}
+    {% for block in section.blocks %}{% if block.type == 'leader' %}{% assign has_leaders = true %}{% endif %}{% endfor %}
+
+    {% if has_leaders %}
+      <div class="team-section-label">
+        <h2>{{ section.settings.leadership_heading }}</h2>
+        <p>{{ section.settings.leadership_sub }}</p>
+      </div>
+
+      <div class="leader-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'leader' %}
+            <article class="leader-card" {{ block.shopify_attributes }}>
+              <div class="leader-photo">
+                {% if block.settings.photo != blank %}
+                  <img src="{{ block.settings.photo | image_url: width: 800 }}" alt="{{ block.settings.name }}">
+                {% else %}
+                  <div class="leader-photo-placeholder"><i class="ph ph-user-circle"></i><span>Add photo</span></div>
+                {% endif %}
+              </div>
+              <div class="leader-body">
+                <span class="leader-role">{{ block.settings.role }}</span>
+                <h3 class="leader-name">{{ block.settings.name }}</h3>
+                {% if block.settings.qualifications != blank %}
+                  <p class="leader-quals">{{ block.settings.qualifications }}</p>
+                {% endif %}
+                <div class="leader-bio">{{ block.settings.bio }}</div>
+                <div class="leader-contact">
+                  {% if block.settings.email != blank %}
+                    <button type="button" class="leader-contact-row" data-copy="{{ block.settings.email }}" title="Click to copy">
+                      <span class="leader-contact-icon"><i class="ph ph-envelope-simple"></i></span>
+                      <span class="leader-contact-text">{{ block.settings.email }}</span>
+                      <span class="leader-contact-action">
+                        <i class="ph ph-copy copy-default"></i>
+                        <i class="ph ph-check copy-done"></i>
+                      </span>
+                    </button>
+                  {% endif %}
+                  {% if block.settings.phone != blank %}
+                    <button type="button" class="leader-contact-row" data-copy="{{ block.settings.phone }}" title="Click to copy">
+                      <span class="leader-contact-icon"><i class="ph ph-phone"></i></span>
+                      <span class="leader-contact-text">{{ block.settings.phone }}</span>
+                      <span class="leader-contact-action">
+                        <i class="ph ph-copy copy-default"></i>
+                        <i class="ph ph-check copy-done"></i>
+                      </span>
+                    </button>
+                  {% endif %}
+                  {% if block.settings.linkedin != blank %}
+                    <a href="{{ block.settings.linkedin }}" target="_blank" rel="noopener" class="leader-contact-row leader-contact-row--link">
+                      <span class="leader-contact-icon"><i class="ph ph-linkedin-logo"></i></span>
+                      <span class="leader-contact-text">View LinkedIn profile</span>
+                      <span class="leader-contact-action"><i class="ph ph-arrow-up-right"></i></span>
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% comment %} Operations grid {% endcomment %}
+    {% assign has_members = false %}
+    {% for block in section.blocks %}{% if block.type == 'member' %}{% assign has_members = true %}{% endif %}{% endfor %}
+
+    {% if has_members %}
+      <div class="team-section-label team-section-label--mt">
+        <h2>{{ section.settings.team_heading }}</h2>
+        <p>{{ section.settings.team_sub }}</p>
+      </div>
+
+      <div class="member-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'member' %}
+            <div class="member-card" {{ block.shopify_attributes }}>
+              {% if block.settings.photo != blank %}
+                <div class="member-photo"><img src="{{ block.settings.photo | image_url: width: 600 }}" alt="{{ block.settings.name }}"></div>
+              {% else %}
+                <div class="member-avatar">{{ block.settings.initials }}</div>
+              {% endif %}
+              <h4 class="member-name">{{ block.settings.name }}</h4>
+              <span class="member-role">{{ block.settings.role }}</span>
+              <div class="member-contact">
+                {% if block.settings.email != blank %}
+                  <button type="button" class="member-contact-link" data-copy="{{ block.settings.email }}" title="Click to copy">
+                    <i class="ph ph-envelope-simple"></i>
+                    <span>{{ block.settings.email }}</span>
+                    <i class="ph ph-copy copy-default member-copy-icon"></i>
+                    <i class="ph ph-check copy-done member-copy-icon"></i>
+                  </button>
+                {% endif %}
+                {% if block.settings.phone != blank %}
+                  <button type="button" class="member-contact-link" data-copy="{{ block.settings.phone }}" title="Click to copy">
+                    <i class="ph ph-phone"></i>
+                    <span>{{ block.settings.phone }}</span>
+                    <i class="ph ph-copy copy-default member-copy-icon"></i>
+                    <i class="ph ph-check copy-done member-copy-icon"></i>
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+(function(){
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var text = btn.dataset.copy;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(function(){
+        btn.classList.add('is-copied');
+        setTimeout(function(){ btn.classList.remove('is-copied'); }, 1800);
+      }).catch(function(){
+        // Fallback for old browsers
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch(e){}
+        document.body.removeChild(ta);
+        btn.classList.add('is-copied');
+        setTimeout(function(){ btn.classList.remove('is-copied'); }, 1800);
+      });
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Fertility Team",
+  "max_blocks": 24,
+  "settings": [
+    { "type": "header", "content": "Page header" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our team" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Meet the people behind LogixX" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Decades of combined experience in fertility science, pharmaceutical manufacturing and clinical research." },
+    { "type": "header", "content": "Leadership section" },
+    { "type": "text", "id": "leadership_heading", "label": "Heading", "default": "Leadership" },
+    { "type": "text", "id": "leadership_sub", "label": "Sub-text", "default": "The strategic and scientific minds steering the company." },
+    { "type": "header", "content": "Operations section" },
+    { "type": "text", "id": "team_heading", "label": "Heading", "default": "Operations & Support" },
+    { "type": "text", "id": "team_sub", "label": "Sub-text", "default": "Day-to-day operations, fulfilment and customer care." }
+  ],
+  "blocks": [
+    {
+      "type": "leader",
+      "name": "Leadership card",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Full name" },
+        { "type": "text", "id": "role", "label": "Role" },
+        { "type": "text", "id": "qualifications", "label": "Qualifications" },
+        { "type": "richtext", "id": "bio", "label": "Biography" },
+        { "type": "text", "id": "email", "label": "Email" },
+        { "type": "text", "id": "phone", "label": "Phone" },
+        { "type": "url", "id": "linkedin", "label": "LinkedIn URL" }
+      ]
+    },
+    {
+      "type": "member",
+      "name": "Operations card",
+      "settings": [
+        { "type": "image_picker", "id": "photo", "label": "Photo" },
+        { "type": "text", "id": "name", "label": "Full name" },
+        { "type": "text", "id": "initials", "label": "Initials (if no photo)", "default": "XX" },
+        { "type": "text", "id": "role", "label": "Role" },
+        { "type": "text", "id": "email", "label": "Email" },
+        { "type": "text", "id": "phone", "label": "Phone" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fertility Team",
+      "blocks": [
+        { "type": "leader", "settings": { "name": "Michael Close", "role": "CEO & Founder", "qualifications": "BSc Biomedical Science", "bio": "<p>Since founding LogixX Pharma and becoming CEO in 2010, Michael has focused on leveraging the company's uniqueness in serving clients with strong execution and the highest ethical and regulatory standards.</p>", "email": "michael.close@logixxpharma.com" } },
+        { "type": "leader", "settings": { "name": "Prof Ralf Henkel", "role": "Chief Scientific Officer", "qualifications": "B.Ed., PhD, Habil.", "bio": "<p>Globally recognised expert in male fertility and oxidative stress research with over 250 peer-reviewed publications.</p>", "email": "ralf.henkel@logixxpharma.com" } },
+        { "type": "leader", "settings": { "name": "Mark Osmundson", "role": "MEDTECH Fertility Specialist", "qualifications": "LensHooke X1 PRO, MiOXSYS, Proxeed lines", "bio": "<p>Mark leads our MEDTECH portfolio, working directly with fertility clinics across the UK and Europe.</p>", "email": "mark@logixxpharma.com", "phone": "+44 (0) 798 692 6433" } },
+        { "type": "leader", "settings": { "name": "Sharan Lota", "role": "Fertility Specialist", "qualifications": "Nutraceuticals", "bio": "<p>Sharan supports clinicians and patients across our nutraceutical range.</p>", "email": "sharan@logixxpharma.com", "phone": "+44 (0) 794 745 4954" } },
+        { "type": "leader", "settings": { "name": "Sean OReilly", "role": "Commercial Operations Manager", "qualifications": "All product enquiries", "bio": "<p>Sean oversees commercial operations across the LogixX portfolio.</p>", "email": "sean@logixxpharma.com", "phone": "+44 (0) 7523 219766" } },
+        { "type": "member", "settings": { "name": "Aidan OReilly", "initials": "AO", "role": "Warehouse Manager", "email": "aidan@logixxpharma.com", "phone": "+44 (0) 1189 011747" } },
+        { "type": "member", "settings": { "name": "Patricia Roland-Jones", "initials": "PR", "role": "Customer Service", "email": "patricia@logixxpharma.com", "phone": "+44 (0) 1189 011747" } },
+        { "type": "member", "settings": { "name": "Millie Balban", "initials": "MB", "role": "Customer Service", "email": "millie@logixxpharma.com", "phone": "+44 (0) 1189 011747" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

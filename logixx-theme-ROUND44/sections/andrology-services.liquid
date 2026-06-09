@@ -1,0 +1,161 @@
+{%- comment -%}
+  Andrology Clinical Services — faithful rebuild of the testhim PDF,
+  using LogixX blue instead of gold. Self-contained section.
+{%- endcomment -%}
+
+<div class="acs">
+
+  {%- comment -%} ============ HERO ============ {%- endcomment -%}
+  <section class="acs-hero">
+    <p class="acs-hero-intro">Introducing</p>
+    <div class="acs-hero-lockup">
+      <div class="acs-hero-logo-card">
+        {% if section.settings.hero_logo_left != blank %}
+          <img class="acs-hero-logo" src="{{ section.settings.hero_logo_left | image_url: width: 700 }}" alt="testhim Andrology Clinical Services">
+        {% else %}
+          <img class="acs-hero-logo" src="{{ 'testhim-andrology-logo.png' | asset_url }}" alt="testhim Andrology Clinical Services">
+        {% endif %}
+      </div>
+
+      <div class="acs-hero-divider"></div>
+
+      <div class="acs-hero-logo-card">
+        {% if section.settings.hero_logo_right != blank %}
+          <img class="acs-hero-logo acs-hero-logo--right" src="{{ section.settings.hero_logo_right | image_url: width: 500 }}" alt="Powered by LogixX Fertility">
+        {% else %}
+          <img class="acs-hero-logo acs-hero-logo--right" src="{{ 'powered-by-logixx-logo.png' | asset_url }}" alt="Powered by LogixX Fertility">
+        {% endif %}
+      </div>
+    </div>
+    <div class="acs-hero-rule"></div>
+    <p class="acs-hero-url">{{ section.settings.hero_url | default: 'www.testhim.com' }}</p>
+  </section>
+
+  {%- comment -%} ============ MISSION (photo left) ============ {%- endcomment -%}
+  <section class="acs-split acs-split--img-left">
+    <div class="acs-split-media acs-split-media--framed">
+      {% if section.settings.mission_image != blank %}
+        <img src="{{ section.settings.mission_image | image_url: width: 900 }}" alt="Our mission" loading="lazy">
+      {% else %}
+        <div class="acs-ph"><i class="ph ph-flask"></i></div>
+      {% endif %}
+    </div>
+    <div class="acs-split-text">
+      <h2 class="acs-h2">Our mission</h2>
+      <p>Welcome to <strong>test</strong>him Andrology Clinical Services — a trusted extension of the <strong>test</strong>him brand.</p>
+      <p>Our mission is to provide a streamlined, reliable, and high-quality diagnostic pathway for male fertility. Grounded in academic research, with validated methodologies and accredited processes, we offer a one-stop solution for clinicians seeking accurate and timely male reproductive health investigations.</p>
+      <p class="acs-quote">"Specialist male fertility diagnostics, backed by research and delivered with care."</p>
+    </div>
+  </section>
+
+  {%- comment -%} ============ SERVICES (photo right) ============ {%- endcomment -%}
+  <section class="acs-split acs-split--img-right">
+    <div class="acs-split-text">
+      <h2 class="acs-h2">Our services</h2>
+      <p><strong>test</strong>him Andrology Clinical Services provides a comprehensive diagnostic pathway for male reproductive health, designed to integrate seamlessly into clinical practice.</p>
+      <p>Our offering spans essential, baseline, and advanced andrology investigations, alongside pathology testing, to support accurate and timely diagnosis. Through our network of expert partners, we deliver a coordinated, evidence-based service that reduces administrative burden and enables clinicians to focus on treatment planning and patient outcomes.</p>
+      <p class="acs-quote">"Consider our specialist service as a partner in supporting your complex advanced diagnostics."</p>
+    </div>
+    <div class="acs-split-media acs-split-media--framed">
+      {% if section.settings.services_image != blank %}
+        <img src="{{ section.settings.services_image | image_url: width: 900 }}" alt="Our services" loading="lazy">
+      {% else %}
+        <div class="acs-ph"><i class="ph ph-microscope"></i></div>
+      {% endif %}
+    </div>
+  </section>
+
+  {%- comment -%} ============ RESULTS (photo left + icon rows) ============ {%- endcomment -%}
+  <section class="acs-split acs-split--img-left">
+    <div class="acs-split-media acs-split-media--framed">
+      {% if section.settings.results_image != blank %}
+        <img src="{{ section.settings.results_image | image_url: width: 900 }}" alt="Results" loading="lazy">
+      {% else %}
+        <div class="acs-ph"><i class="ph ph-chart-bar"></i></div>
+      {% endif %}
+    </div>
+    <div class="acs-split-text">
+      <h2 class="acs-h2">Results</h2>
+      <p class="acs-subhead">Swift accurate results from our in-house lab</p>
+      <p>Thanks to our dedicated on-site andrology lab in London, we aim to have results to you within 4–5 working days.*</p>
+      <ul class="acs-feature-list">
+        <li><span class="acs-feature-icon"><i class="ph ph-lock-simple"></i></span> Secure</li>
+        <li><span class="acs-feature-icon"><i class="ph ph-magnifying-glass"></i></span> Clear</li>
+        <li><span class="acs-feature-icon"><i class="ph ph-check"></i></span> Actionable</li>
+      </ul>
+      <p class="acs-quote">"Easy to interpret, clear reference values, clinically relevant."</p>
+      <p class="acs-footnote">*additional services from our external partners may take longer</p>
+    </div>
+  </section>
+
+  {%- comment -%} ============ PROMISE (text right + checklist) ============ {%- endcomment -%}
+  <section class="acs-split acs-split--img-right">
+    <div class="acs-promise-photos">
+      {% if section.settings.promise_image1 != blank %}
+        <div class="acs-split-media acs-split-media--framed"><img src="{{ section.settings.promise_image1 | image_url: width: 700 }}" alt="" loading="lazy"></div>
+      {% else %}
+        <div class="acs-split-media acs-split-media--framed"><div class="acs-ph"><i class="ph ph-clipboard-text"></i></div></div>
+      {% endif %}
+      {% if section.settings.promise_image2 != blank %}
+        <div class="acs-split-media acs-split-media--framed"><img src="{{ section.settings.promise_image2 | image_url: width: 700 }}" alt="" loading="lazy"></div>
+      {% else %}
+        <div class="acs-split-media acs-split-media--framed"><div class="acs-ph"><i class="ph ph-microscope"></i></div></div>
+      {% endif %}
+    </div>
+    <div class="acs-split-text">
+      <h2 class="acs-h2">Our promise</h2>
+      <p class="acs-subhead"><strong>test</strong>him Andrology Clinical Services is more than a lab. We're a clinical partner you can rely on.</p>
+      <p>We're here to support both clinicians and patients beyond just the tests themselves. Our team is available to:</p>
+      <ul class="acs-check-list">
+        <li><span class="acs-check"><i class="ph ph-check"></i></span> Advise on test selection</li>
+        <li><span class="acs-check"><i class="ph ph-check"></i></span> Clarify testing methodologies or report findings</li>
+        <li><span class="acs-check"><i class="ph ph-check"></i></span> Discuss complex or unusual results</li>
+        <li><span class="acs-check"><i class="ph ph-check"></i></span> Suggest next steps where further investigations may be needed</li>
+      </ul>
+    </div>
+  </section>
+
+  {%- comment -%} ============ REGISTER ============ {%- endcomment -%}
+  <section class="acs-split acs-split--img-right">
+    <div class="acs-split-text">
+      <h2 class="acs-h2">Register with us</h2>
+      <p>In order for us to process your referrals we request that you register with us. To do this please complete the registration form on our website.</p>
+      <a href="{{ section.settings.register_url | default: 'https://www.testhim.com/tacs' }}" class="acs-register-link" target="_blank" rel="noopener">
+        {{ section.settings.register_label | default: 'www.testhim.com' }}
+      </a>
+    </div>
+    <div class="acs-split-media acs-split-media--framed">
+      {% if section.settings.register_image != blank %}
+        <img src="{{ section.settings.register_image | image_url: width: 900 }}" alt="Register with us" loading="lazy">
+      {% else %}
+        <div class="acs-ph"><i class="ph ph-user-plus"></i></div>
+      {% endif %}
+    </div>
+  </section>
+
+</div>
+
+{% schema %}
+{
+  "name": "Andrology Services",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_logo_left", "label": "Hero logo (testhim)", "info": "Use the DARK/colour logo version (background is white)." },
+    { "type": "image_picker", "id": "hero_logo_right", "label": "Hero logo (Powered by LogixX)", "info": "Use the DARK/colour logo version (background is white)." },
+    { "type": "text", "id": "hero_url", "label": "Hero URL text", "default": "www.testhim.com" },
+    { "type": "header", "content": "Section images" },
+    { "type": "image_picker", "id": "mission_image", "label": "Mission image" },
+    { "type": "image_picker", "id": "services_image", "label": "Services image" },
+    { "type": "image_picker", "id": "results_image", "label": "Results image" },
+    { "type": "image_picker", "id": "promise_image1", "label": "Promise image 1" },
+    { "type": "image_picker", "id": "promise_image2", "label": "Promise image 2" },
+    { "type": "image_picker", "id": "register_image", "label": "Register image" },
+    { "type": "header", "content": "Register CTA" },
+    { "type": "text", "id": "register_label", "label": "Link text", "default": "www.testhim.com" },
+    { "type": "url", "id": "register_url", "label": "Link URL", "info": "Defaults to testhim.com/tacs" }
+  ],
+  "presets": [
+    { "name": "Andrology Services" }
+  ]
+}
+{% endschema %}

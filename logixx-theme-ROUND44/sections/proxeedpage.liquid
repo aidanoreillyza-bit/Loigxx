@@ -1,0 +1,974 @@
+<section class="lx-pxd lx-pxd--{{ section.settings.theme }}" id="lx-pxd-{{ section.id }}">
+
+  <!-- Background swimmers -->
+  <div class="lx-pxd-swimmers" aria-hidden="true">
+    {% for i in (1..30) %}
+      <svg class="lx-swimmer" viewBox="0 0 60 12">
+        <ellipse cx="6" cy="6" rx="5" ry="4"/>
+        <line x1="11" y1="6" x2="58" y2="6" stroke-width="0.8" opacity="0.6"/>
+      </svg>
+    {% endfor %}
+  </div>
+
+  <!-- HERO -->
+  <div class="lx-pxd-hero">
+    <div class="container">
+      <div class="lx-pxd-hero-grid">
+        <div class="lx-pxd-hero-text">
+          <div class="lx-pxd-eyebrow-row">
+            <span class="lx-pxd-eyebrow">{{ section.settings.eyebrow }}</span>
+            {% if section.settings.badge != blank %}
+              <span class="lx-pxd-badge">{{ section.settings.badge }}</span>
+            {% endif %}
+          </div>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lx-pxd-lead">{{ section.settings.subheading }}</p>
+
+          {% if section.settings.show_tags %}
+            <div class="lx-pxd-tags">
+              {% if section.settings.tag_1 != blank %}<span class="lx-pxd-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_1 }}</span>{% endif %}
+              {% if section.settings.tag_2 != blank %}<span class="lx-pxd-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_2 }}</span>{% endif %}
+              {% if section.settings.tag_3 != blank %}<span class="lx-pxd-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_3 }}</span>{% endif %}
+              {% if section.settings.tag_4 != blank %}<span class="lx-pxd-tag"><i class="ph ph-check-circle"></i>{{ section.settings.tag_4 }}</span>{% endif %}
+            </div>
+          {% endif %}
+
+          <div class="lx-pxd-actions">
+            <a href="{{ section.settings.cta_link }}" class="lx-pxd-btn lx-pxd-btn--primary">
+              {{ section.settings.cta_text }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="{{ section.settings.cta2_link }}" class="lx-pxd-btn lx-pxd-btn--ghost">{{ section.settings.cta2_text }}</a>
+          </div>
+        </div>
+        <div class="lx-pxd-hero-visual">
+          {% if section.settings.hero_image != blank %}
+            <img src="{{ section.settings.hero_image | image_url: width: 1200 }}" alt="{{ section.settings.heading }}">
+          {% else %}
+            <div class="lx-pxd-hero-placeholder">
+              <i class="ph ph-package"></i>
+              <span>Add product image</span>
+            </div>
+          {% endif %}
+
+          {% if section.settings.show_float %}
+            <div class="lx-pxd-float-card">
+              <div class="lx-pxd-float-icon"><i class="{{ section.settings.float_icon }}"></i></div>
+              <div>
+                <strong>{{ section.settings.float_title }}</strong>
+                <span>{{ section.settings.float_sub }}</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if section.settings.show_stats %}
+        <div class="lx-pxd-stats">
+          <div class="lx-pxd-stat"><strong>{{ section.settings.stat_1_num }}</strong><span>{{ section.settings.stat_1_label }}</span></div>
+          <div class="lx-pxd-stat"><strong>{{ section.settings.stat_2_num }}</strong><span>{{ section.settings.stat_2_label }}</span></div>
+          <div class="lx-pxd-stat"><strong>{{ section.settings.stat_3_num }}</strong><span>{{ section.settings.stat_3_label }}</span></div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- SAFE SIMPLE PROVEN — animated brand band -->
+  {% if section.settings.show_ssp %}
+    {%- assign ssp1 = section.settings.ssp_word1 | default: 'Safe.' -%}
+    {%- assign ssp2 = section.settings.ssp_word2 | default: 'Simple.' -%}
+    {%- assign ssp3 = section.settings.ssp_word3 | default: 'Proven.' -%}
+    <div class="lx-ssp" aria-label="{{ ssp1 }} {{ ssp2 }} {{ ssp3 }}">
+      <svg class="lx-ssp-swirl" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <radialGradient id="ssp-core-{{ section.id }}" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+            <stop offset="42%" stop-color="#ffffff" stop-opacity="0.6"/>
+            <stop offset="72%" stop-color="#eef1f8" stop-opacity="0.14"/>
+            <stop offset="100%" stop-color="#eef1f8" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="ssp-ribA-{{ section.id }}" x1="0%" y1="0%" x2="100%" y2="10%"><stop offset="0%" stop-color="#c7d0e3" stop-opacity="0"/><stop offset="22%" stop-color="#c7d0e3" stop-opacity="0.9"/><stop offset="60%" stop-color="#aab8d6" stop-opacity="0.95"/><stop offset="100%" stop-color="#aab8d6" stop-opacity="0"/></linearGradient>
+          <linearGradient id="ssp-ribB-{{ section.id }}" x1="0%" y1="0%" x2="100%" y2="20%"><stop offset="0%" stop-color="#d6dded" stop-opacity="0"/><stop offset="30%" stop-color="#cfd7ea" stop-opacity="0.85"/><stop offset="70%" stop-color="#b6c1dc" stop-opacity="0.9"/><stop offset="100%" stop-color="#b6c1dc" stop-opacity="0"/></linearGradient>
+          <linearGradient id="ssp-ribC-{{ section.id }}" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#9aa9cd" stop-opacity="0"/><stop offset="35%" stop-color="#94a4ca" stop-opacity="0.85"/><stop offset="65%" stop-color="#8294c0" stop-opacity="0.9"/><stop offset="100%" stop-color="#8294c0" stop-opacity="0"/></linearGradient>
+          <linearGradient id="ssp-ribO-{{ section.id }}" x1="0%" y1="0%" x2="100%" y2="15%"><stop offset="0%" stop-color="#f6cd9c" stop-opacity="0"/><stop offset="28%" stop-color="#f4c089" stop-opacity="0.8"/><stop offset="66%" stop-color="#efa863" stop-opacity="0.85"/><stop offset="100%" stop-color="#efa863" stop-opacity="0"/></linearGradient>
+          <linearGradient id="ssp-ribO2-{{ section.id }}" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f3b878" stop-opacity="0"/><stop offset="35%" stop-color="#f0a85a" stop-opacity="0.78"/><stop offset="65%" stop-color="#ec9842" stop-opacity="0.82"/><stop offset="100%" stop-color="#ec9842" stop-opacity="0"/></linearGradient>
+          <filter id="ssp-s6-{{ section.id }}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+          <filter id="ssp-s10-{{ section.id }}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+          <filter id="ssp-s16-{{ section.id }}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="15"/></filter>
+        </defs>
+        <g class="lx-ssp-vortex"><g class="lx-ssp-rings"></g></g>
+        <ellipse class="lx-ssp-core" cx="960" cy="540" rx="230" ry="210" fill="url(#ssp-core-{{ section.id }})"></ellipse>
+      </svg>
+      <div class="lx-ssp-particles" aria-hidden="true"></div>
+      <div class="lx-ssp-lockup">
+        <span class="lx-ssp-word">{{ ssp1 }}</span>
+        <span class="lx-ssp-word">{{ ssp2 }}</span>
+        <span class="lx-ssp-word">{{ ssp3 }}</span>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- KEY INGREDIENTS PILLARS -->
+  {% if section.settings.show_pillars %}
+    <div class="lx-pxd-pillars">
+      <div class="container">
+        <div class="lx-pxd-section-head">
+          <span class="lx-pxd-mini-eyebrow">{{ section.settings.pillars_eyebrow }}</span>
+          <h2>{{ section.settings.pillars_heading }}</h2>
+          <p>{{ section.settings.pillars_sub }}</p>
+        </div>
+        <div class="lx-pxd-pillars-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'pillar' %}
+              <div class="lx-pxd-pillar" {{ block.shopify_attributes }}>
+                <div class="lx-pxd-pillar-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- INGREDIENT BREAKDOWN (alternating) -->
+  {% assign ing_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'ingredient' %}{% assign ing_count = ing_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if ing_count > 0 %}
+    <div class="lx-pxd-ingredients">
+      <div class="container">
+        <div class="lx-pxd-section-head">
+          <span class="lx-pxd-mini-eyebrow">{{ section.settings.ing_eyebrow }}</span>
+          <h2>{{ section.settings.ing_heading }}</h2>
+        </div>
+        {% for block in section.blocks %}
+          {% if block.type == 'ingredient' %}
+            <article class="lx-pxd-ing{% cycle '', ' lx-pxd-ing--alt' %}" {{ block.shopify_attributes }}>
+              <div class="lx-pxd-ing-text">
+                <div class="lx-pxd-ing-name-row">
+                  <span class="lx-pxd-ing-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                  <h3>{{ block.settings.name }}</h3>
+                </div>
+                {% if block.settings.tag != blank %}<span class="lx-pxd-ing-tag">{{ block.settings.tag }}</span>{% endif %}
+                <div class="lx-pxd-ing-body rte">{{ block.settings.body }}</div>
+                {% if block.settings.fact != blank %}
+                  <div class="lx-pxd-ing-fact">
+                    <i class="ph ph-info"></i>
+                    <span>{{ block.settings.fact }}</span>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="lx-pxd-ing-visual">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | image_url: width: 900 }}" alt="{{ block.settings.name }}">
+                {% else %}
+                  <div class="lx-pxd-ing-placeholder">
+                    <i class="{{ block.settings.icon | default: 'ph ph-flask' }}"></i>
+                  </div>
+                {% endif %}
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- HOW TO TAKE — editorial 3-step -->
+  {% if section.settings.show_howto %}
+    <div class="lx-pxd-howto">
+      <div class="container">
+        <div class="lx-pxd-section-head">
+          <span class="lx-pxd-mini-eyebrow">{{ section.settings.howto_eyebrow }}</span>
+          <h2>{{ section.settings.howto_heading }}</h2>
+          <p>{{ section.settings.howto_sub }}</p>
+        </div>
+
+        <div class="lx-pxd-howto-flow">
+          <div class="lx-pxd-howto-step">
+            <div class="lx-pxd-howto-step-icon"><i class="ph-fill ph-package"></i></div>
+            <span class="lx-pxd-howto-step-num">01</span>
+            <strong class="lx-pxd-howto-step-title">{{ section.settings.step1_title }}</strong>
+            <span class="lx-pxd-howto-step-sub">{{ section.settings.step1_sub }}</span>
+          </div>
+
+          <div class="lx-pxd-howto-arrow">
+            <svg width="32" height="16" viewBox="0 0 32 16" fill="none"><path d="M1 8h28m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div class="lx-pxd-howto-step">
+            <div class="lx-pxd-howto-step-icon"><i class="ph-fill ph-drop"></i></div>
+            <span class="lx-pxd-howto-step-num">02</span>
+            <strong class="lx-pxd-howto-step-title">{{ section.settings.step2_title }}</strong>
+            <span class="lx-pxd-howto-step-sub">{{ section.settings.step2_sub }}</span>
+          </div>
+
+          <div class="lx-pxd-howto-arrow">
+            <svg width="32" height="16" viewBox="0 0 32 16" fill="none"><path d="M1 8h28m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <div class="lx-pxd-howto-step lx-pxd-howto-step--final">
+            <div class="lx-pxd-howto-step-icon lx-pxd-howto-step-icon--accent"><i class="ph-fill ph-fork-knife"></i></div>
+            <span class="lx-pxd-howto-step-num">03</span>
+            <strong class="lx-pxd-howto-step-title">{{ section.settings.step3_title }}</strong>
+            <span class="lx-pxd-howto-step-sub">{{ section.settings.step3_sub }}</span>
+          </div>
+        </div>
+
+        <div class="lx-pxd-cycle-band">
+          <div class="lx-pxd-cycle-text">
+            <span class="lx-pxd-cycle-label">{{ section.settings.cycle_label }}</span>
+            <strong class="lx-pxd-cycle-formula">{{ section.settings.cycle_formula }}</strong>
+          </div>
+          <div class="lx-pxd-cycle-arrow">
+            <svg width="32" height="16" viewBox="0 0 32 16" fill="none"><path d="M1 8h28m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="lx-pxd-cycle-result">
+            <strong>{{ section.settings.cycle_result }}</strong>
+            <span>{{ section.settings.cycle_result_label }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- BENEFITS GRID -->
+  {% assign benefit_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'benefit' %}{% assign benefit_count = benefit_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if benefit_count > 0 %}
+    <div class="lx-pxd-benefits">
+      <div class="container">
+        <div class="lx-pxd-section-head">
+          <span class="lx-pxd-mini-eyebrow">{{ section.settings.benefits_eyebrow }}</span>
+          <h2>{{ section.settings.benefits_heading }}</h2>
+        </div>
+        <div class="lx-pxd-benefits-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'benefit' %}
+              <div class="lx-pxd-benefit-card" {{ block.shopify_attributes }}>
+                <div class="lx-pxd-benefit-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- COMPARE-TO callout (small, links to range page) -->
+  {% if section.settings.show_compare_callout %}
+    <div class="lx-pxd-compare-callout">
+      <div class="container">
+        <div class="lx-pxd-callout-card">
+          <div class="lx-pxd-callout-icon"><i class="ph ph-arrows-left-right"></i></div>
+          <div class="lx-pxd-callout-text">
+            <strong>{{ section.settings.callout_title }}</strong>
+            <span>{{ section.settings.callout_sub }}</span>
+          </div>
+          <a href="{{ section.settings.callout_link }}" class="lx-pxd-btn lx-pxd-btn--primary lx-pxd-callout-btn">
+            {{ section.settings.callout_btn }}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- FAQ -->
+  {% assign faq_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'faq' %}{% assign faq_count = faq_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if faq_count > 0 %}
+    <div class="lx-pxd-faq">
+      <div class="container">
+        <div class="lx-pxd-section-head">
+          <span class="lx-pxd-mini-eyebrow">{{ section.settings.faq_eyebrow }}</span>
+          <h2>{{ section.settings.faq_heading }}</h2>
+        </div>
+        <div class="lx-pxd-faq-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'faq' %}
+              <details class="lx-pxd-faq-item" {{ block.shopify_attributes }}>
+                <summary class="lx-pxd-faq-q">
+                  <span>{{ block.settings.question }}</span>
+                  <i class="ph ph-plus lx-pxd-faq-icon"></i>
+                </summary>
+                <div class="lx-pxd-faq-a rte">{{ block.settings.answer }}</div>
+              </details>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-pxd-closing">
+      <div class="container">
+        <div class="lx-pxd-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-pxd-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="lx-pxd-btn lx-pxd-btn--white">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="lx-pxd-btn lx-pxd-btn--outline-white">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('lx-pxd-{{ section.id }}');
+  if (!section) return;
+  var faqs = section.querySelectorAll('.lx-pxd-faq-item');
+  faqs.forEach(function(faq){
+    faq.addEventListener('toggle', function(){
+      if (faq.open) faqs.forEach(function(o){ if (o !== faq) o.open = false; });
+    });
+  });
+
+  // ---- Safe Simple Proven swirl + particles ----
+  var ssp = section.querySelector('.lx-ssp');
+  if (ssp && ssp.dataset.built !== '1') {
+    ssp.dataset.built = '1';
+    var SVGNS = "http://www.w3.org/2000/svg", CX = 960, CY = 540;
+    var sid = "{{ section.id }}";
+    function rnd(a,b){ return a + Math.random()*(b-a); }
+    var ringsG = ssp.querySelector('.lx-ssp-rings');
+    var pField = ssp.querySelector('.lx-ssp-particles');
+    if (ringsG) {
+      var rings = [
+        [442,0.86,8,0.70,58,"ssp-ribB","ssp-s16",0.20,34,false],
+        [410,0.90,74,0.62,64,"ssp-ribO","ssp-s16",0.24,28,true],
+        [388,0.83,142,0.74,46,"ssp-ribB","ssp-s10",0.22,38,false],
+        [352,0.92,210,0.58,70,"ssp-ribA","ssp-s10",0.30,24,true],
+        [330,0.80,28,0.66,40,"ssp-ribO2","ssp-s10",0.26,42,false],
+        [300,0.95,118,0.60,56,"ssp-ribB","ssp-s6",0.32,20,true],
+        [274,0.84,196,0.72,34,"ssp-ribA","ssp-s6",0.30,36,false],
+        [246,0.90,52,0.55,44,"ssp-ribO","ssp-s6",0.28,18,true],
+        [214,0.88,150,0.64,28,"ssp-ribC","ssp-s6",0.26,30,false],
+        [184,0.93,244,0.58,34,"ssp-ribA","ssp-s6",0.30,22,true],
+        [150,0.86,96,0.62,22,"ssp-ribO2","ssp-s6",0.26,26,false]
+      ];
+      rings.forEach(function(r){
+        var radius=r[0],ry=r[1],rot=r[2],onFrac=r[3],sw=r[4],grad=r[5]+"-"+sid,blur=r[6]+"-"+sid,op=r[7],dur=r[8],rev=r[9];
+        var g=document.createElementNS(SVGNS,"g");
+        g.setAttribute("class","lx-ssp-ring"+(rev?" rev":""));
+        g.style.animationDuration=dur+"s";
+        g.style.animationDelay=(-Math.random()*dur).toFixed(1)+"s";
+        var c=document.createElementNS(SVGNS,"circle");
+        c.setAttribute("cx",CX); c.setAttribute("cy",CY); c.setAttribute("r",radius);
+        c.setAttribute("fill","none"); c.setAttribute("stroke","url(#"+grad+")");
+        c.setAttribute("stroke-width",sw); c.setAttribute("stroke-linecap","round");
+        var circ=2*Math.PI*radius, on=circ*onFrac;
+        c.setAttribute("stroke-dasharray",on.toFixed(1)+" "+(circ-on).toFixed(1));
+        c.setAttribute("transform","rotate("+rot+" "+CX+" "+CY+") translate("+CX+" "+CY+") scale(1 "+ry+") translate("+(-CX)+" "+(-CY)+")");
+        c.setAttribute("filter","url(#"+blur+")"); c.setAttribute("opacity",op);
+        g.appendChild(c); ringsG.appendChild(g);
+      });
+    }
+    if (pField) {
+      var palette=["#27408a","#5566a3","#5566a3","#8a97bf","#8a97bf","#8a97bf","#9cc3e6","#9cc3e6","#9cc3e6","#c3d8f0","#c3d8f0","#ef8a2a","#ef8a2a","#ef8a2a","#f4b063","#f4b063"];
+      var frag=document.createDocumentFragment();
+      for(var i=0;i<120;i++){
+        var d=document.createElement("div"); d.className="lx-ssp-dot";
+        var x,y,ang=rnd(0,Math.PI*2),rr=rnd(0,1);
+        if(rr<0.62){var rad=rnd(170,540); x=960+Math.cos(ang)*rad*1.02; y=540+Math.sin(ang)*rad*0.92;}
+        else{x=rnd(40,1880); y=rnd(40,1040);}
+        x+=rnd(-26,26); y+=rnd(-26,26);
+        if(x<6||x>1914||y<6||y>1074){i--;continue;}
+        var size=rnd(1.6,4.4),dim=Math.min(1,Math.hypot(x-960,y-540)/360);
+        d.style.left=(x/1920*100).toFixed(2)+"%"; d.style.top=(y/1080*100).toFixed(2)+"%";
+        d.style.width=size.toFixed(1)+"px"; d.style.height=size.toFixed(1)+"px";
+        d.style.background=palette[(Math.random()*palette.length)|0];
+        var oHi=rnd(0.45,0.95)*(0.4+0.6*dim);
+        d.style.setProperty("--o-hi",oHi.toFixed(2));
+        d.style.setProperty("--o-lo",(oHi*rnd(0.18,0.4)).toFixed(2));
+        d.style.setProperty("--tw",rnd(2.6,6.5).toFixed(2)+"s");
+        d.style.setProperty("--twd",(-rnd(0,6)).toFixed(2)+"s");
+        d.style.setProperty("--dx",rnd(-50,50).toFixed(1)+"px");
+        d.style.setProperty("--dy",rnd(-55,45).toFixed(1)+"px");
+        d.style.setProperty("--dr",rnd(8,17).toFixed(1)+"s");
+        d.style.setProperty("--drd",(-rnd(0,16)).toFixed(2)+"s");
+        frag.appendChild(d);
+      }
+      pField.appendChild(frag);
+    }
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Proxeed Product Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Theme"
+    },
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "Colour theme",
+      "default": "plus",
+      "options": [
+        {
+          "value": "plus",
+          "label": "Proxeed Plus (Orange)"
+        },
+        {
+          "value": "men",
+          "label": "Proxeed Men (Green)"
+        },
+        {
+          "value": "women",
+          "label": "Proxeed Women (Pink)"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Comprehensive male fertility"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge (e.g. Best Seller)",
+      "default": "Best Seller"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Proxeed Plus"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our flagship comprehensive nutraceutical with 9 active ingredients including L-Carnitine, CoQ10, Zinc, Selenium and Folic Acid."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero product image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show feature tags",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tag_1",
+      "label": "Tag 1",
+      "default": "L-Carnitine 1465mg"
+    },
+    {
+      "type": "text",
+      "id": "tag_2",
+      "label": "Tag 2",
+      "default": "Coenzyme Q10"
+    },
+    {
+      "type": "text",
+      "id": "tag_3",
+      "label": "Tag 3",
+      "default": "9 active ingredients"
+    },
+    {
+      "type": "text",
+      "id": "tag_4",
+      "label": "Tag 4",
+      "default": "311k+ couples helped"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Primary CTA",
+      "default": "Shop now"
+    },
+    {
+      "type": "text",
+      "id": "cta_link",
+      "label": "Primary CTA link",
+      "default": "/pages/proxeed-plus"
+    },
+    {
+      "type": "text",
+      "id": "cta2_text",
+      "label": "Secondary CTA",
+      "default": "Read the science"
+    },
+    {
+      "type": "text",
+      "id": "cta2_link",
+      "label": "Secondary CTA link",
+      "default": "/pages/male-infertility-facts"
+    },
+    {
+      "type": "header",
+      "content": "Floating badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_float",
+      "label": "Show floating badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "float_icon",
+      "label": "Icon",
+      "default": "ph ph-shield-check"
+    },
+    {
+      "type": "text",
+      "id": "float_title",
+      "label": "Title",
+      "default": "Doctor recommended"
+    },
+    {
+      "type": "text",
+      "id": "float_sub",
+      "label": "Subtitle",
+      "default": "In 40+ countries"
+    },
+    {
+      "type": "header",
+      "content": "Stats"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show stats",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stat_1_num",
+      "label": "Stat 1 number",
+      "default": "311k+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Couples helped"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_num",
+      "label": "Stat 2 number",
+      "default": "250+"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Studies"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_num",
+      "label": "Stat 3 number",
+      "default": "9"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Active ingredients"
+    },
+    {
+      "type": "header",
+      "content": "Safe Simple Proven band"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ssp",
+      "label": "Show animated band",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "ssp_word1",
+      "label": "Word 1",
+      "default": "Safe."
+    },
+    {
+      "type": "text",
+      "id": "ssp_word2",
+      "label": "Word 2",
+      "default": "Simple."
+    },
+    {
+      "type": "text",
+      "id": "ssp_word3",
+      "label": "Word 3",
+      "default": "Proven."
+    },
+    {
+      "type": "header",
+      "content": "Key pillars"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pillars",
+      "label": "Show pillars",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pillars_eyebrow",
+      "label": "Eyebrow",
+      "default": "How it works"
+    },
+    {
+      "type": "text",
+      "id": "pillars_heading",
+      "label": "Heading",
+      "default": "Three pillars of male fertility support"
+    },
+    {
+      "type": "textarea",
+      "id": "pillars_sub",
+      "label": "Sub-text",
+      "default": "Each ingredient targets a specific role in spermatogenesis \u2014 energy, defense, and integrity."
+    },
+    {
+      "type": "header",
+      "content": "Ingredient breakdown"
+    },
+    {
+      "type": "text",
+      "id": "ing_eyebrow",
+      "label": "Eyebrow",
+      "default": "What's inside"
+    },
+    {
+      "type": "text",
+      "id": "ing_heading",
+      "label": "Heading",
+      "default": "Every ingredient, explained"
+    },
+    {
+      "type": "header",
+      "content": "How to take"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_howto",
+      "label": "Show how-to section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "howto_eyebrow",
+      "label": "Eyebrow",
+      "default": "Simple daily routine"
+    },
+    {
+      "type": "text",
+      "id": "howto_heading",
+      "label": "Heading",
+      "default": "How to take it"
+    },
+    {
+      "type": "textarea",
+      "id": "howto_sub",
+      "label": "Sub-text",
+      "default": "A clinically-backed protocol designed to fit easily into your daily routine."
+    },
+    {
+      "type": "text",
+      "id": "step1_title",
+      "label": "Step 1 title",
+      "default": "Open the sachet"
+    },
+    {
+      "type": "text",
+      "id": "step1_sub",
+      "label": "Step 1 sub",
+      "default": "Tear along the dotted line"
+    },
+    {
+      "type": "text",
+      "id": "step2_title",
+      "label": "Step 2 title",
+      "default": "Mix with 200 ml"
+    },
+    {
+      "type": "text",
+      "id": "step2_sub",
+      "label": "Step 2 sub",
+      "default": "Water or fruit juice"
+    },
+    {
+      "type": "text",
+      "id": "step3_title",
+      "label": "Step 3 title",
+      "default": "Drink with food"
+    },
+    {
+      "type": "text",
+      "id": "step3_sub",
+      "label": "Step 3 sub",
+      "default": "Morning & evening"
+    },
+    {
+      "type": "text",
+      "id": "cycle_label",
+      "label": "Cycle label",
+      "default": "For best results"
+    },
+    {
+      "type": "text",
+      "id": "cycle_formula",
+      "label": "Cycle formula",
+      "default": "2 sachets / day \u00d7 90 days"
+    },
+    {
+      "type": "text",
+      "id": "cycle_result",
+      "label": "Cycle result number",
+      "default": "180"
+    },
+    {
+      "type": "text",
+      "id": "cycle_result_label",
+      "label": "Cycle result label",
+      "default": "sachets \u00b7 one full sperm cycle"
+    },
+    {
+      "type": "header",
+      "content": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefits_eyebrow",
+      "label": "Eyebrow",
+      "default": "Why choose this"
+    },
+    {
+      "type": "text",
+      "id": "benefits_heading",
+      "label": "Heading",
+      "default": "What it delivers"
+    },
+    {
+      "type": "header",
+      "content": "Compare-to callout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_compare_callout",
+      "label": "Show compare callout",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "callout_title",
+      "label": "Title",
+      "default": "Considering Proxeed Men instead?"
+    },
+    {
+      "type": "text",
+      "id": "callout_sub",
+      "label": "Sub-text",
+      "default": "See a side-by-side comparison of the two formulas to find which fits your needs."
+    },
+    {
+      "type": "text",
+      "id": "callout_btn",
+      "label": "Button text",
+      "default": "Compare both formulas"
+    },
+    {
+      "type": "text",
+      "id": "callout_link",
+      "label": "Button link",
+      "default": "/pages/male-supplements"
+    },
+    {
+      "type": "header",
+      "content": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_eyebrow",
+      "label": "Eyebrow",
+      "default": "FAQs"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "Heading",
+      "default": "Common questions"
+    },
+    {
+      "type": "header",
+      "content": "Closing CTA"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_closing",
+      "label": "Show closing CTA",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "closing_heading",
+      "label": "Heading",
+      "default": "Ready to start your protocol?"
+    },
+    {
+      "type": "textarea",
+      "id": "closing_sub",
+      "label": "Sub-text",
+      "default": "Take the next step in your fertility journey with a clinically-proven daily routine."
+    },
+    {
+      "type": "text",
+      "id": "closing_btn1_text",
+      "label": "Primary button",
+      "default": "Shop now"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn1_link",
+      "label": "Primary link",
+      "default": "/pages/proxeed-plus"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn2_text",
+      "label": "Secondary button",
+      "default": "Speak to a specialist"
+    },
+    {
+      "type": "text",
+      "id": "closing_btn2_link",
+      "label": "Secondary link",
+      "default": "/pages/contact"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Phosphor icon",
+          "default": "ph ph-lightning"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag (dosage)"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body"
+        },
+        {
+          "type": "text",
+          "id": "fact",
+          "label": "Fact note (optional)"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Placeholder icon",
+          "default": "ph ph-flask"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Phosphor icon",
+          "default": "ph ph-check-circle"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Proxeed Product Page"
+    }
+  ]
+}
+{% endschema %}

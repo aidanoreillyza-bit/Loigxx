@@ -1,0 +1,225 @@
+<section class="lx-tips" id="lx-tips-{{ section.id }}">
+
+  <!-- Reading progress bar -->
+  <div class="lx-tips-progress" id="lx-tips-progress-{{ section.id }}"></div>
+
+  <!-- HERO -->
+  <div class="lx-tips-hero">
+    <div class="container">
+      <div class="lx-tips-hero-inner">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h1>{{ section.settings.heading }}</h1>
+        <p class="lx-tips-lead">{{ section.settings.subheading }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPS LIST (numbered, alternating) -->
+  {% assign tip_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'tip' %}{% assign tip_count = tip_count | plus: 1 %}{% endif %}{% endfor %}
+
+  {% if tip_count > 0 %}
+    <div class="lx-tips-list">
+      <div class="container">
+        {% for block in section.blocks %}
+          {% if block.type == 'tip' %}
+            <article class="lx-tip{% cycle '', ' lx-tip--alt' %}" {{ block.shopify_attributes }}>
+              <div class="lx-tip-text">
+                <div class="lx-tip-num-row">
+                  <span class="lx-tip-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                  <span class="lx-tip-pill">{{ block.settings.eyebrow }}</span>
+                </div>
+                <h2>{{ block.settings.title }}</h2>
+                <div class="lx-tip-body rte">{{ block.settings.body }}</div>
+
+                {% if block.settings.show_link %}
+                  <a href="{{ block.settings.link_url }}" class="lx-tip-link">
+                    {{ block.settings.link_text | default: 'Learn more' }}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </a>
+                {% endif %}
+              </div>
+              <div class="lx-tip-visual">
+                <div class="lx-tip-icon-card">
+                  <div class="lx-tip-icon"><i class="{{ block.settings.icon }}"></i></div>
+                  {% if block.settings.stat_num != blank %}
+                    <div class="lx-tip-stat">
+                      <strong>{{ block.settings.stat_num }}</strong>
+                      <span>{{ block.settings.stat_label }}</span>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- QUICK WINS (compact grid of mini-tips) -->
+  {% assign mini_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'mini' %}{% assign mini_count = mini_count | plus: 1 %}{% endif %}{% endfor %}
+
+  {% if mini_count > 0 %}
+    <div class="lx-tips-quick">
+      <div class="container">
+        <div class="lx-tips-section-head">
+          <span class="lx-tips-mini-eyebrow">{{ section.settings.quick_eyebrow }}</span>
+          <h2>{{ section.settings.quick_heading }}</h2>
+          <p>{{ section.settings.quick_sub }}</p>
+        </div>
+        <div class="lx-tips-quick-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'mini' %}
+              <div class="lx-tip-mini" {{ block.shopify_attributes }}>
+                <div class="lx-tip-mini-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <strong>{{ block.settings.title }}</strong>
+                <span>{{ block.settings.description }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- RECOMMENDED PRODUCTS -->
+  {% assign prod_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'product_card' %}{% assign prod_count = prod_count | plus: 1 %}{% endif %}{% endfor %}
+
+  {% if prod_count > 0 %}
+    <div class="lx-tips-products">
+      <div class="container">
+        <div class="lx-tips-section-head">
+          <span class="lx-tips-mini-eyebrow">{{ section.settings.prod_eyebrow }}</span>
+          <h2>{{ section.settings.prod_heading }}</h2>
+          <p>{{ section.settings.prod_sub }}</p>
+        </div>
+        <div class="lx-tips-products-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'product_card' %}
+              <a href="{{ block.settings.link }}" class="lx-tip-product" {{ block.shopify_attributes }}>
+                <div class="lx-tip-product-icon">
+                  <i class="{{ block.settings.icon }}"></i>
+                </div>
+                <div class="lx-tip-product-body">
+                  <span class="lx-tip-product-tag">{{ block.settings.tag }}</span>
+                  <strong>{{ block.settings.title }}</strong>
+                  <span class="lx-tip-product-desc">{{ block.settings.description }}</span>
+                </div>
+                <div class="lx-tip-product-arrow">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-tips-closing">
+      <div class="container">
+        <div class="lx-tips-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-tips-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="btn btn-primary">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="btn btn-ghost">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('lx-tips-{{ section.id }}');
+  if (!section) return;
+  var bar = document.getElementById('lx-tips-progress-{{ section.id }}');
+  if (bar) {
+    window.addEventListener('scroll', function(){
+      var rect = section.getBoundingClientRect();
+      var winH = window.innerHeight;
+      var total = section.offsetHeight - winH;
+      var scrolled = Math.max(0, -rect.top);
+      var pct = Math.min(100, Math.max(0, (scrolled / total) * 100));
+      bar.style.width = pct + '%';
+    }, { passive: true });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Tips Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Fertility tips" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Simple changes that make a difference" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Evidence-based lifestyle tips that can measurably improve fertility outcomes for couples trying to conceive." },
+
+    { "type": "header", "content": "Quick wins grid" },
+    { "type": "text", "id": "quick_eyebrow", "label": "Eyebrow", "default": "Quick wins" },
+    { "type": "text", "id": "quick_heading", "label": "Heading", "default": "Daily habits that help" },
+    { "type": "textarea", "id": "quick_sub", "label": "Sub-text", "default": "Small, consistent changes add up. Here's what to focus on every day." },
+
+    { "type": "header", "content": "Recommended products" },
+    { "type": "text", "id": "prod_eyebrow", "label": "Eyebrow", "default": "Science-backed support" },
+    { "type": "text", "id": "prod_heading", "label": "Heading", "default": "If you need more than lifestyle changes" },
+    { "type": "textarea", "id": "prod_sub", "label": "Sub-text", "default": "Where the science supports it, our clinically-validated products can complement lifestyle changes." },
+
+    { "type": "header", "content": "Closing CTA" },
+    { "type": "checkbox", "id": "show_closing", "label": "Show closing CTA", "default": true },
+    { "type": "text", "id": "closing_heading", "label": "Heading", "default": "Ready for the next step?" },
+    { "type": "textarea", "id": "closing_sub", "label": "Sub-text", "default": "Our specialists can guide you through your options, whether that's lifestyle, testing, or treatment." },
+    { "type": "text", "id": "closing_btn1_text", "label": "Primary button", "default": "Speak to a specialist" },
+    { "type": "text", "id": "closing_btn1_link", "label": "Primary button link", "default": "/pages/contact" },
+    { "type": "text", "id": "closing_btn2_text", "label": "Secondary button", "default": "Browse products" },
+    { "type": "text", "id": "closing_btn2_link", "label": "Secondary button link", "default": "/pages/shop" }
+  ],
+  "blocks": [
+    {
+      "type": "tip",
+      "name": "Main tip",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Pill text", "default": "Lifestyle" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "richtext", "id": "body", "label": "Body" },
+        { "type": "text", "id": "icon", "label": "Icon (Phosphor)", "default": "ph ph-heart" },
+        { "type": "text", "id": "stat_num", "label": "Stat number (optional)" },
+        { "type": "text", "id": "stat_label", "label": "Stat label (optional)" },
+        { "type": "checkbox", "id": "show_link", "label": "Show link", "default": false },
+        { "type": "text", "id": "link_text", "label": "Link text", "default": "Learn more" },
+        { "type": "text", "id": "link_url", "label": "Link URL" }
+      ]
+    },
+    {
+      "type": "mini",
+      "name": "Quick win (mini)",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon", "default": "ph ph-check-circle" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    },
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon", "default": "ph ph-package" },
+        { "type": "text", "id": "tag", "label": "Tag" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "text", "id": "link", "label": "Link URL" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Tips Page" }]
+}
+{% endschema %}

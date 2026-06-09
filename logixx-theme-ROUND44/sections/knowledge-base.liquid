@@ -1,0 +1,81 @@
+{%- comment -%}
+  Knowledge base — 3-4 dark cards with topic + arrow. Hover lifts.
+{%- endcomment -%}
+
+<section class="lx-kb" id="lx-kb-{{ section.id }}">
+  <div class="lx-kb-inner">
+
+    <div class="lx-kb-head">
+      {% if section.settings.eyebrow != blank %}
+        <p class="lx-kb-eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      <h2 class="lx-kb-heading">{{ section.settings.heading | default: 'Knowledge base' }}</h2>
+      {% if section.settings.sub != blank %}
+        <p class="lx-kb-sub">{{ section.settings.sub }}</p>
+      {% endif %}
+    </div>
+
+    <div class="lx-kb-grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'card' %}
+            <a href="{{ block.settings.link | default: '#' }}" class="lx-kb-card" {{ block.shopify_attributes }}>
+              {% if block.settings.icon != blank %}
+                <div class="lx-kb-card-icon">
+                  <i class="{{ block.settings.icon }}"></i>
+                </div>
+              {% endif %}
+              {% if block.settings.eyebrow != blank %}
+                <span class="lx-kb-card-eyebrow">{{ block.settings.eyebrow }}</span>
+              {% endif %}
+              <h3 class="lx-kb-card-title">{{ block.settings.heading | default: 'Topic name' }}</h3>
+              {% if block.settings.description != blank %}
+                <p class="lx-kb-card-desc">{{ block.settings.description }}</p>
+              {% endif %}
+              <span class="lx-kb-card-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </a>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Knowledge base",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)", "default": "Learn more" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Knowledge base" },
+    { "type": "text", "id": "sub", "label": "Subtitle (optional)", "default": "Science-backed guides to the topics that matter most." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Phosphor icon class", "info": "e.g. ph ph-flask, ph ph-brain. Leave blank to hide.", "default": "ph ph-flask" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)", "default": "Guide" },
+        { "type": "text", "id": "heading", "label": "Title", "default": "Sperm health" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Short, plain-language guidance." },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Knowledge base",
+      "blocks": [
+        { "type": "card", "settings": { "icon": "ph ph-flask", "eyebrow": "Guide", "heading": "Sperm DNA fragmentation", "description": "Why it matters and how to measure it.", "link": "/pages/optimising-sperm-health" } },
+        { "type": "card", "settings": { "icon": "ph ph-heartbeat", "eyebrow": "Guide", "heading": "Oxidative stress", "description": "The silent factor behind fertility decline.", "link": "/pages/punalpin" } },
+        { "type": "card", "settings": { "icon": "ph ph-leaf", "eyebrow": "Guide", "heading": "Lifestyle &amp; nutrition", "description": "Daily changes with the biggest impact.", "link": "/pages/fertility-tips" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

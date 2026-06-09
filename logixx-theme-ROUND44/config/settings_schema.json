@@ -1,0 +1,20 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "LogixX Fertility Custom",
+    "theme_author": "Antigravity",
+    "theme_version": "1.0.0",
+    "theme_support_url": "https://shopify.com"
+  },
+  {
+    "name": "SEO & Social",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Default social share image",
+        "info": "Used when a page is shared on Facebook/Twitter and has no image of its own. Recommended 1200×630px."
+      }
+    ]
+  }
+]

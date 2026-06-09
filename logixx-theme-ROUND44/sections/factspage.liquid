@@ -1,0 +1,368 @@
+<section class="lx-facts" id="lx-facts-{{ section.id }}">
+
+  <!-- Reading progress bar -->
+  <div class="lx-reading-progress" id="lx-reading-{{ section.id }}"></div>
+
+  <!-- Animated sperm swimmers (background, low opacity) -->
+  <div class="lx-facts-swimmers" aria-hidden="true">
+    {% for i in (1..40) %}
+      <svg class="lx-swimmer lx-swimmer--{{ forloop.index | modulo: 4 | plus: 1 }}" viewBox="0 0 60 12">
+        <ellipse cx="6" cy="6" rx="5" ry="4" fill="#2b5a8a"/>
+        <line x1="11" y1="6" x2="58" y2="6" stroke="#2b5a8a" stroke-width="0.8" opacity="0.6"/>
+      </svg>
+    {% endfor %}
+  </div>
+
+  <!-- HERO -->
+  <div class="lx-facts-hero">
+    <div class="container">
+      <div class="lx-facts-hero-grid">
+        <div class="lx-facts-hero-text">
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p class="lx-facts-lead">{{ section.settings.subheading }}</p>
+        </div>
+        <div class="lx-facts-hero-visual">
+          <div class="lx-facts-hero-image">
+            {% if section.settings.hero_image != blank %}
+              <img src="{{ section.settings.hero_image | image_url: width: 1200 }}" alt="{{ section.settings.heading }}">
+            {% else %}
+              <div class="lx-facts-hero-placeholder">
+                <i class="ph ph-image"></i>
+                <span>Add hero image</span>
+              </div>
+            {% endif %}
+          </div>
+          {% if section.settings.show_float %}
+            <div class="lx-facts-float-card">
+              <div class="lx-facts-float-icon"><i class="ph ph-shield-check"></i></div>
+              <div>
+                <strong>{{ section.settings.float_title }}</strong>
+                <span>{{ section.settings.float_sub }}</span>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANIMATED STATS -->
+  {% if section.settings.show_stats %}
+    <div class="lx-facts-stats">
+      <div class="container">
+        <div class="lx-facts-stats-grid">
+          <div class="lx-facts-stat" data-target="{{ section.settings.stat_1_num | strip }}">
+            <strong>{{ section.settings.stat_1_num }}</strong>
+            <span>{{ section.settings.stat_1_label }}</span>
+          </div>
+          <div class="lx-facts-stat" data-target="{{ section.settings.stat_2_num | strip }}">
+            <strong>{{ section.settings.stat_2_num }}</strong>
+            <span>{{ section.settings.stat_2_label }}</span>
+          </div>
+          <div class="lx-facts-stat" data-target="{{ section.settings.stat_3_num | strip }}">
+            <strong>{{ section.settings.stat_3_num }}</strong>
+            <span>{{ section.settings.stat_3_label }}</span>
+          </div>
+          <div class="lx-facts-stat" data-target="{{ section.settings.stat_4_num | strip }}">
+            <strong>{{ section.settings.stat_4_num }}</strong>
+            <span>{{ section.settings.stat_4_label }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- FACT BLOCKS -->
+  <div class="lx-facts-list">
+    <div class="container">
+      {% assign idx = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'fact' %}
+          <article class="lx-fact{% cycle '', ' lx-fact--alt' %}" {{ block.shopify_attributes }}>
+            <div class="lx-fact-text">
+              {% if block.settings.eyebrow != blank %}<span class="lx-fact-eyebrow">{{ block.settings.eyebrow }}</span>{% endif %}
+              <h2>{{ block.settings.heading }}</h2>
+              <div class="lx-fact-body rte">{{ block.settings.body }}</div>
+              {% if block.settings.link_text != blank %}
+                <a href="{{ block.settings.link_url }}" class="lx-fact-link">{{ block.settings.link_text }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+              {% endif %}
+            </div>
+            <div class="lx-fact-visual">
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 1000 }}" alt="{{ block.settings.heading }}">
+              {% else %}
+                <div class="lx-fact-placeholder"><i class="ph ph-image"></i><span>Add image</span></div>
+              {% endif %}
+              {% if block.settings.stat_value != blank %}
+                <div class="lx-fact-badge"><strong>{{ block.settings.stat_value }}</strong><span>{{ block.settings.stat_caption }}</span></div>
+              {% endif %}
+            </div>
+          </article>
+          {% assign idx = idx | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- 74-DAY SPERMATOGENESIS TIMELINE -->
+  {% if section.settings.show_cycle %}
+    <div class="lx-cycle">
+      <div class="container">
+        <div class="lx-cycle-head">
+          <span class="eyebrow">{{ section.settings.cycle_eyebrow }}</span>
+          <h2>{{ section.settings.cycle_heading }}</h2>
+          <p>{{ section.settings.cycle_sub }}</p>
+        </div>
+
+        <div class="lx-cycle-track">
+          <div class="lx-cycle-line"></div>
+          <div class="lx-cycle-line-fill" id="lx-cycle-fill-{{ section.id }}"></div>
+
+          <div class="lx-cycle-stops">
+            <div class="lx-cycle-stop">
+              <div class="lx-cycle-dot"><span>1</span></div>
+              <div class="lx-cycle-stop-text">
+                <strong>Day 1</strong>
+                <span>Spermatogonia divide</span>
+              </div>
+            </div>
+            <div class="lx-cycle-stop">
+              <div class="lx-cycle-dot"><span>16</span></div>
+              <div class="lx-cycle-stop-text">
+                <strong>Day 16</strong>
+                <span>Primary spermatocytes form</span>
+              </div>
+            </div>
+            <div class="lx-cycle-stop">
+              <div class="lx-cycle-dot"><span>30</span></div>
+              <div class="lx-cycle-stop-text">
+                <strong>Day 30</strong>
+                <span>Meiosis &amp; DNA finalised</span>
+              </div>
+            </div>
+            <div class="lx-cycle-stop">
+              <div class="lx-cycle-dot"><span>50</span></div>
+              <div class="lx-cycle-stop-text">
+                <strong>Day 50</strong>
+                <span>Tail formation &amp; maturation</span>
+              </div>
+            </div>
+            <div class="lx-cycle-stop is-final">
+              <div class="lx-cycle-dot"><span>74</span></div>
+              <div class="lx-cycle-stop-text">
+                <strong>Day 74</strong>
+                <span>Mature sperm released</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lx-cycle-note">
+          <i class="ph ph-info"></i>
+          <p>{{ section.settings.cycle_note }}</p>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CAUSES GRID -->
+  {% assign cause_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'cause' %}{% assign cause_count = cause_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if cause_count > 0 %}
+    <div class="lx-facts-causes">
+      <div class="container">
+        <div class="lx-facts-causes-head">
+          <span class="eyebrow">{{ section.settings.causes_eyebrow }}</span>
+          <h2>{{ section.settings.causes_heading }}</h2>
+          <p>{{ section.settings.causes_sub }}</p>
+        </div>
+        <div class="lx-facts-causes-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'cause' %}
+              <div class="lx-cause-card" {{ block.shopify_attributes }}>
+                <div class="lx-cause-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- TWO-CARD CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-facts-closing">
+      <div class="container">
+        <div class="lx-facts-closing-grid">
+          <div class="lx-closing-card lx-closing-card--diagnostic">
+            <div class="lx-closing-icon"><i class="ph ph-microscope"></i></div>
+            <h3>{{ section.settings.close1_title }}</h3>
+            <p>{{ section.settings.close1_sub }}</p>
+            <a href="{{ section.settings.close1_link }}" class="btn btn-primary">{{ section.settings.close1_btn }} →</a>
+          </div>
+          <div class="lx-closing-card lx-closing-card--protocol">
+            <div class="lx-closing-icon"><i class="ph ph-pill"></i></div>
+            <h3>{{ section.settings.close2_title }}</h3>
+            <p>{{ section.settings.close2_sub }}</p>
+            <a href="{{ section.settings.close2_link }}" class="btn btn-ghost">{{ section.settings.close2_btn }} →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('lx-facts-{{ section.id }}');
+  if (!section) return;
+
+  // Reading progress bar
+  var progressBar = document.getElementById('lx-reading-{{ section.id }}');
+  function updateProgress(){
+    var rect = section.getBoundingClientRect();
+    var height = rect.height - window.innerHeight;
+    var scrolled = -rect.top;
+    var pct = Math.max(0, Math.min(100, (scrolled / height) * 100));
+    if (progressBar) progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // Animated counters for stats
+  var stats = section.querySelectorAll('.lx-facts-stat');
+  if ('IntersectionObserver' in window && stats.length) {
+    var seen = new WeakSet();
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting && !seen.has(e.target)) {
+          seen.add(e.target);
+          animateStat(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    stats.forEach(function(s){ io.observe(s); });
+  }
+
+  function animateStat(el){
+    var strong = el.querySelector('strong');
+    if (!strong) return;
+    var raw = strong.textContent.trim();
+
+    // Extract numeric portion (handles "1 in 6", "50%", "12+ months", "6-12")
+    var match = raw.match(/(\d+)/);
+    if (!match) return;
+    var target = parseInt(match[1], 10);
+    var prefix = raw.substring(0, raw.indexOf(match[0]));
+    var suffix = raw.substring(raw.indexOf(match[0]) + match[0].length);
+
+    var duration = 1400;
+    var start = performance.now();
+    function tick(now){
+      var t = Math.min(1, (now - start) / duration);
+      var eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      var current = Math.floor(eased * target);
+      strong.textContent = prefix + current + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+      else strong.textContent = raw;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Cycle line fill animation
+  var cycleFill = document.getElementById('lx-cycle-fill-{{ section.id }}');
+  var cycleTrack = section.querySelector('.lx-cycle-track');
+  if (cycleFill && cycleTrack) {
+    var cycleIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          cycleFill.style.width = '100%';
+        }
+      });
+    }, { threshold: 0.3 });
+    cycleIO.observe(cycleTrack);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Facts Page",
+  "settings": [
+    {"type": "header", "content": "Hero"},
+    {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Male Infertility"},
+    {"type": "text", "id": "heading", "label": "Heading", "default": "Male infertility facts you need to know"},
+    {"type": "textarea", "id": "subheading", "label": "Subheading", "default": "Infertility affects 1 in 6 couples. Understanding the facts is the first step toward finding the right path forward."},
+    {"type": "image_picker", "id": "hero_image", "label": "Hero image"},
+    {"type": "checkbox", "id": "show_float", "label": "Show floating badge", "default": true},
+    {"type": "text", "id": "float_title", "label": "Badge title", "default": "Backed by science"},
+    {"type": "text", "id": "float_sub", "label": "Badge subtitle", "default": "Trusted by 311k+ couples"},
+
+    {"type": "header", "content": "Stats"},
+    {"type": "checkbox", "id": "show_stats", "label": "Show stats", "default": true},
+    {"type": "text", "id": "stat_1_num", "label": "Stat 1 number", "default": "1 in 6"},
+    {"type": "text", "id": "stat_1_label", "label": "Stat 1 label", "default": "Couples"},
+    {"type": "text", "id": "stat_2_num", "label": "Stat 2 number", "default": "50%"},
+    {"type": "text", "id": "stat_2_label", "label": "Stat 2 label", "default": "Male factor"},
+    {"type": "text", "id": "stat_3_num", "label": "Stat 3 number", "default": "30%"},
+    {"type": "text", "id": "stat_3_label", "label": "Stat 3 label", "default": "Solely male"},
+    {"type": "text", "id": "stat_4_num", "label": "Stat 4 number", "default": "74 days"},
+    {"type": "text", "id": "stat_4_label", "label": "Stat 4 label", "default": "Sperm cycle"},
+
+    {"type": "header", "content": "Sperm production cycle"},
+    {"type": "checkbox", "id": "show_cycle", "label": "Show 74-day cycle", "default": true},
+    {"type": "text", "id": "cycle_eyebrow", "label": "Eyebrow", "default": "The science"},
+    {"type": "text", "id": "cycle_heading", "label": "Heading", "default": "The 74-day sperm production cycle"},
+    {"type": "textarea", "id": "cycle_sub", "label": "Sub-text", "default": "Sperm takes approximately 74 days to fully develop. This is why fertility supplements need at least 3 months to show measurable improvement."},
+    {"type": "textarea", "id": "cycle_note", "label": "Note", "default": "This is why we recommend taking Proxeed Plus consistently for at least 3 months — you are improving the next generation of sperm being produced today."},
+
+    {"type": "header", "content": "Causes"},
+    {"type": "text", "id": "causes_eyebrow", "label": "Eyebrow", "default": "Common causes"},
+    {"type": "text", "id": "causes_heading", "label": "Heading", "default": "What can affect male fertility?"},
+    {"type": "textarea", "id": "causes_sub", "label": "Sub-text", "default": "Many factors can impact sperm health and fertility. Most are treatable or modifiable."},
+
+    {"type": "header", "content": "Closing CTAs"},
+    {"type": "checkbox", "id": "show_closing", "label": "Show closing CTAs", "default": true},
+    {"type": "text", "id": "close1_title", "label": "Card 1 title", "default": "Get tested"},
+    {"type": "textarea", "id": "close1_sub", "label": "Card 1 sub", "default": "Use clinic-grade diagnostics to assess sperm count, motility and oxidative stress."},
+    {"type": "text", "id": "close1_btn", "label": "Card 1 button", "default": "Explore diagnostics"},
+    {"type": "text", "id": "close1_link", "label": "Card 1 link", "default": "/pages/shop"},
+    {"type": "text", "id": "close2_title", "label": "Card 2 title", "default": "Start a protocol"},
+    {"type": "textarea", "id": "close2_sub", "label": "Card 2 sub", "default": "Begin an evidence-based supplement protocol designed for male fertility."},
+    {"type": "text", "id": "close2_btn", "label": "Card 2 button", "default": "Discover Proxeed Plus"},
+    {"type": "text", "id": "close2_link", "label": "Card 2 link", "default": "/pages/proxeed-plus"}
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        {"type": "text", "id": "eyebrow", "label": "Eyebrow"},
+        {"type": "text", "id": "heading", "label": "Heading"},
+        {"type": "richtext", "id": "body", "label": "Body"},
+        {"type": "image_picker", "id": "image", "label": "Image"},
+        {"type": "text", "id": "link_text", "label": "Link text"},
+        {"type": "text", "id": "link_url", "label": "Link URL"},
+        {"type": "text", "id": "stat_value", "label": "Stat value"},
+        {"type": "text", "id": "stat_caption", "label": "Stat caption"}
+      ]
+    },
+    {
+      "type": "cause",
+      "name": "Cause",
+      "settings": [
+        {"type": "text", "id": "icon", "label": "Icon", "default": "ph ph-warning"},
+        {"type": "text", "id": "title", "label": "Title"},
+        {"type": "textarea", "id": "description", "label": "Description"}
+      ]
+    }
+  ],
+  "presets": [
+    {"name": "Facts Page"}
+  ]
+}
+{% endschema %}

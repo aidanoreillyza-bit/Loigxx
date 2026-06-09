@@ -1,0 +1,235 @@
+{%- comment -%}
+  Product Spotlight — modern multi-card carousel.
+  3 cards visible on desktop, 2 on tablet, 1 on mobile. Native scroll-snap + arrows.
+  Each card: image, badge, eyebrow, title, description, price, CTA.
+{%- endcomment -%}
+
+<section class="lx-spot" id="lx-spot-{{ section.id }}" style="background: {{ section.settings.bg_color | default: '#F0FAFF' }};">
+  <div class="lx-spot-inner">
+
+    <div class="lx-spot-head">
+      <div class="lx-spot-head-text">
+        {% if section.settings.eyebrow != blank %}
+          <p class="lx-spot-eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+        <h2 class="lx-spot-heading">{{ section.settings.heading | default: 'Our range' }}</h2>
+        {% if section.settings.sub != blank %}
+          <p class="lx-spot-sub">{{ section.settings.sub }}</p>
+        {% endif %}
+      </div>
+      <div class="lx-spot-arrows">
+        <button class="lx-spot-arrow lx-spot-arrow--prev" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="lx-spot-arrow lx-spot-arrow--next" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="lx-spot-rail">
+      <div class="lx-spot-track" id="lx-spot-track-{{ section.id }}">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'product' %}
+              <a href="{{ block.settings.link | default: '#' }}" class="lx-spot-card lx-spot-card--{{ block.settings.theme | default: 'blue' }}" {{ block.shopify_attributes }}>
+                <div class="lx-spot-card-media">
+                  {% if block.settings.badge != blank %}
+                    <span class="lx-spot-badge">{{ block.settings.badge }}</span>
+                  {% endif %}
+                  {% if block.settings.image != blank %}
+                    <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.heading }}" loading="lazy">
+                  {% else %}
+                    <div class="lx-spot-placeholder">
+                      <i class="ph ph-image"></i>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="lx-spot-card-body">
+                  {% if block.settings.eyebrow != blank %}
+                    <p class="lx-spot-card-eyebrow">{{ block.settings.eyebrow }}</p>
+                  {% endif %}
+                  <h3 class="lx-spot-card-title">{{ block.settings.heading | default: 'Product name' }}</h3>
+                  {% if block.settings.description != blank %}
+                    <p class="lx-spot-card-desc">{{ block.settings.description }}</p>
+                  {% endif %}
+                  <div class="lx-spot-card-foot">
+                    {% if block.settings.price != blank %}
+                      <span class="lx-spot-price">
+                        {{ block.settings.price }}
+                        {% if block.settings.price_old != blank %}
+                          <span class="lx-spot-price-old">{{ block.settings.price_old }}</span>
+                        {% endif %}
+                      </span>
+                    {% endif %}
+                    <span class="lx-spot-cta">
+                      {{ block.settings.cta_text | default: 'View' }}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </span>
+                  </div>
+                </div>
+              </a>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+
+    {% if section.settings.cta_text != blank and section.settings.cta_link != blank %}
+      <div class="lx-spot-footcta">
+        <a href="{{ section.settings.cta_link }}" class="lx-spot-footcta-btn">
+          {{ section.settings.cta_text }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+(function(){
+  function initSpot(){
+    var root = document.getElementById('lx-spot-{{ section.id }}');
+    if (!root || root.dataset.lxInit === '1') return;
+    root.dataset.lxInit = '1';
+
+    var track = document.getElementById('lx-spot-track-{{ section.id }}');
+    var prev = root.querySelector('.lx-spot-arrow--prev');
+    var next = root.querySelector('.lx-spot-arrow--next');
+    if (!track) return;
+
+    function scrollAmount(){
+      var first = track.querySelector('.lx-spot-card');
+      if (!first) return 320;
+      // scroll by 1 card width + the gap
+      var gap = parseInt(getComputedStyle(track).gap, 10) || 24;
+      return first.getBoundingClientRect().width + gap;
+    }
+    function updateArrows(){
+      if (!prev || !next) return;
+      var maxScroll = track.scrollWidth - track.clientWidth - 4;
+      prev.classList.toggle('is-disabled', track.scrollLeft <= 4);
+      next.classList.toggle('is-disabled', track.scrollLeft >= maxScroll);
+    }
+    if (prev) prev.addEventListener('click', function(){ track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }); });
+    if (next) next.addEventListener('click', function(){ track.scrollBy({ left:  scrollAmount(), behavior: 'smooth' }); });
+    track.addEventListener('scroll', updateArrows, { passive: true });
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSpot);
+  } else {
+    initSpot();
+  }
+})();
+</script>
+
+{% stylesheet %}
+.lx-spot{ padding-block:clamp(3.5rem,7vw,6.5rem); }
+.lx-spot-inner{ max-width:var(--lx-container); margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem); }
+.lx-spot-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:1.5rem; margin-bottom:2.5rem; }
+.lx-spot-eyebrow{ font-weight:600; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--lx-blue-ink); margin:0 0 .5rem; }
+.lx-spot-heading{ margin:0; }
+.lx-spot-sub{ color:var(--lx-muted); margin:.7rem 0 0; max-width:50ch; }
+.lx-spot-arrows{ display:flex; gap:.5rem; flex:none; }
+.lx-spot-arrow{ width:46px; height:46px; border-radius:50%; border:1.5px solid var(--lx-line-strong); background:#fff; color:var(--lx-navy); display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:transform var(--lx-dur) var(--lx-ease), border-color var(--lx-dur), color var(--lx-dur), box-shadow var(--lx-dur), opacity var(--lx-dur); }
+.lx-spot-arrow svg{ width:21px; height:21px; }
+.lx-spot-arrow:hover{ border-color:var(--lx-blue); color:var(--lx-blue-ink); box-shadow:var(--lx-sh); transform:translateY(-2px); }
+.lx-spot-arrow.is-disabled{ opacity:.35; pointer-events:none; }
+.lx-spot-rail{ overflow:hidden; }
+.lx-spot-track{ display:grid; grid-auto-flow:column; grid-auto-columns:calc((100% - 2 * clamp(1rem,2vw,1.5rem)) / 3); gap:clamp(1rem,2vw,1.5rem); overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:.5rem; scrollbar-width:none; }
+.lx-spot-track::-webkit-scrollbar{ display:none; }
+.lx-spot-card{ scroll-snap-align:start; display:flex; flex-direction:column; background:#fff; border:1px solid var(--lx-line); border-radius:var(--lx-r-lg); overflow:hidden; text-decoration:none; transition:transform var(--lx-dur) var(--lx-ease), box-shadow var(--lx-dur) var(--lx-ease), border-color var(--lx-dur); }
+.lx-spot-card:hover{ transform:translateY(-5px); box-shadow:var(--lx-sh-lg); border-color:transparent; }
+.lx-spot-card-media{ position:relative; aspect-ratio:4/3; background:var(--lx-blue-050); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.lx-spot-card-media img{ width:100%; height:100%; object-fit:cover; transition:transform .4s var(--lx-ease); }
+.lx-spot-card:hover .lx-spot-card-media img{ transform:scale(1.05); }
+.lx-spot-placeholder{ color:var(--lx-faint); font-size:2rem; display:flex; }
+.lx-spot-badge{ position:absolute; top:.85rem; left:.85rem; z-index:1; background:var(--lx-navy); color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:.34rem .6rem; border-radius:7px; }
+.lx-spot-card-body{ display:flex; flex-direction:column; flex:1; padding:1.3rem 1.4rem 1.5rem; }
+.lx-spot-card-eyebrow{ font-size:.76rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--lx-blue-ink); margin:0 0 .4rem; }
+.lx-spot-card-title{ font-family:var(--lx-display); font-size:1.25rem; color:var(--lx-navy); margin:0 0 .5rem; }
+.lx-spot-card-desc{ color:var(--lx-muted); font-size:.95rem; line-height:1.6; margin:0 0 1.1rem; }
+.lx-spot-card-foot{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:auto; }
+.lx-spot-price{ font-family:var(--lx-display); font-weight:700; font-size:1.2rem; color:var(--lx-navy); }
+.lx-spot-price-old{ font-family:var(--lx-body); font-weight:500; font-size:.85rem; color:var(--lx-faint); text-decoration:line-through; margin-left:.35rem; }
+.lx-spot-cta{ display:inline-flex; align-items:center; gap:.35rem; font-weight:600; color:var(--lx-blue-ink); font-size:.92rem; }
+.lx-spot-cta svg{ width:16px; height:16px; transition:transform var(--lx-dur) var(--lx-ease); }
+.lx-spot-card:hover .lx-spot-cta svg{ transform:translateX(3px); }
+.lx-spot-footcta{ text-align:center; margin-top:2.5rem; }
+.lx-spot-footcta-btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:600; color:var(--lx-blue-ink); }
+.lx-spot-footcta-btn svg{ transition:transform var(--lx-dur) var(--lx-ease); }
+.lx-spot-footcta-btn:hover svg{ transform:translateX(4px); }
+/* Accent tints per card theme */
+.lx-spot-card--orange .lx-spot-card-media{ background:#FCEEE2; }
+.lx-spot-card--navy .lx-spot-card-media{ background:#E7EDF1; }
+.lx-spot-card--pink .lx-spot-card-media{ background:#FBE9F2; }
+.lx-spot-card--teal .lx-spot-card-media{ background:#E2F4F4; }
+@media (max-width:900px){ .lx-spot-track{ grid-auto-columns:calc((100% - clamp(1rem,2vw,1.5rem)) / 2); } }
+@media (max-width:560px){ .lx-spot-track{ grid-auto-columns:85%; } .lx-spot-head{ flex-direction:column; align-items:flex-start; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product Spotlight",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)", "default": "Shop" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Our science-backed range" },
+    { "type": "text", "id": "sub", "label": "Subtitle (optional)", "default": "Supplements and diagnostics, formulated for couples on their fertility journey." },
+    { "type": "header", "content": "Style" },
+    { "type": "color", "id": "bg_color", "label": "Background colour", "default": "#F0FAFF" },
+    { "type": "header", "content": "Bottom CTA (optional)" },
+    { "type": "text", "id": "cta_text", "label": "Button label", "default": "Shop the full range" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product card",
+      "settings": [
+        { "type": "header", "content": "Card content" },
+        { "type": "text", "id": "badge", "label": "Badge (e.g. Best seller, New)", "info": "Leave blank to hide." },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow (e.g. category)" },
+        { "type": "text", "id": "heading", "label": "Product name", "default": "Proxeed Plus" },
+        { "type": "textarea", "id": "description", "label": "Short description", "default": "Vitamins, minerals and nutrients for sperm health and oxidative-stress support." },
+        { "type": "text", "id": "price", "label": "Price", "default": "£34.99" },
+        { "type": "text", "id": "price_old", "label": "Strikethrough price (optional)" },
+        { "type": "text", "id": "cta_text", "label": "Button label", "default": "Find out more" },
+        { "type": "url", "id": "link", "label": "Card link", "info": "Where the whole card links to." },
+        { "type": "header", "content": "Image" },
+        { "type": "image_picker", "id": "image", "label": "Product image" },
+        { "type": "header", "content": "Theme" },
+        {
+          "type": "select",
+          "id": "theme",
+          "label": "Accent colour",
+          "default": "blue",
+          "options": [
+            { "value": "blue", "label": "Blue (default)" },
+            { "value": "orange", "label": "Orange (Proxeed Plus)" },
+            { "value": "navy", "label": "Navy (Proxeed Men)" },
+            { "value": "pink", "label": "Pink (Proxeed Women)" },
+            { "value": "teal", "label": "Teal (Punalpin)" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Spotlight",
+      "blocks": [
+        { "type": "product", "settings": { "badge": "Best seller", "eyebrow": "Male fertility", "heading": "Proxeed Plus", "description": "Vitamins, minerals and nutrients for sperm health and oxidative-stress support.", "price": "£34.99", "cta_text": "View", "theme": "orange" } },
+        { "type": "product", "settings": { "eyebrow": "Male fertility", "heading": "Proxeed Men", "description": "Daily nutrient support to maintain healthy sperm production.", "price": "£39.99", "cta_text": "View", "theme": "navy" } },
+        { "type": "product", "settings": { "eyebrow": "Female fertility", "heading": "Proxeed Women", "description": "Folic acid plus key micronutrients to support fertility and early pregnancy.", "price": "£32.99", "cta_text": "View", "theme": "pink" } },
+        { "type": "product", "settings": { "eyebrow": "Male fertility", "heading": "Punalpin", "description": "Targeted plant-based support for varicocele-related issues.", "price": "£29.99", "cta_text": "View", "theme": "teal" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

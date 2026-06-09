@@ -1,0 +1,402 @@
+<section class="lx-fem" id="lx-fem-{{ section.id }}">
+
+  <!-- Floating female symbol decorations -->
+  <div class="lx-fem-symbols" aria-hidden="true">
+    {% for i in (1..12) %}
+      <span class="lx-fem-symbol lx-fem-symbol--{{ forloop.index | modulo: 4 | plus: 1 }}">♀</span>
+    {% endfor %}
+  </div>
+
+  <!-- Reading progress bar -->
+  <div class="lx-fem-progress" id="lx-fem-progress-{{ section.id }}"></div>
+
+  <!-- HERO -->
+  <div class="lx-fem-hero">
+    <div class="container">
+      <div class="lx-fem-hero-inner">
+        <div class="lx-fem-hero-eyebrow">
+          <i class="ph ph-gender-female"></i>
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+          <i class="ph ph-gender-female"></i>
+        </div>
+        <h1>{{ section.settings.heading }}</h1>
+        <div class="lx-fem-hero-lead rte">{{ section.settings.lead }}</div>
+
+        {% if section.settings.show_keystat %}
+          <div class="lx-fem-keystat">
+            <div class="lx-fem-keystat-num">{{ section.settings.keystat_num }}</div>
+            <div class="lx-fem-keystat-text">
+              <strong>{{ section.settings.keystat_title }}</strong>
+              <span>{{ section.settings.keystat_sub }}</span>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ANIMATED COUNTERS -->
+  {% if section.settings.show_counters %}
+    <div class="lx-fem-counters">
+      <div class="container">
+        <div class="lx-fem-counters-grid">
+          <div class="lx-fem-counter lx-fem-counter--accent" data-target="30000000">
+            <strong class="lx-fem-counter-num" data-target="30000000">0</strong>
+            <span class="lx-fem-counter-unit">+</span>
+            <p>women globally affected</p>
+          </div>
+          <div class="lx-fem-counter" data-target="84">
+            <strong class="lx-fem-counter-num" data-target="84">0</strong>
+            <span class="lx-fem-counter-unit">%</span>
+            <p>conceive within 1 year of trying</p>
+          </div>
+          <div class="lx-fem-counter lx-fem-counter--accent" data-target="1">
+            <strong class="lx-fem-counter-num" data-target="1">0</strong>
+            <span class="lx-fem-counter-unit">in 7</span>
+            <p>couples have trouble conceiving</p>
+          </div>
+          <div class="lx-fem-counter" data-target="20">
+            <strong class="lx-fem-counter-num" data-target="20">0</strong>
+            <span class="lx-fem-counter-unit">–70%</span>
+            <p>of cases linked to female factor</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- TWO TYPES OF INFERTILITY -->
+  {% if section.settings.show_types %}
+    <div class="lx-fem-types">
+      <div class="container">
+        <div class="lx-fem-section-head">
+          <span class="lx-fem-mini-eyebrow">{{ section.settings.types_eyebrow }}</span>
+          <h2>{{ section.settings.types_heading }}</h2>
+          <p>{{ section.settings.types_sub }}</p>
+        </div>
+        <div class="lx-fem-types-grid">
+          <div class="lx-fem-type">
+            <div class="lx-fem-type-icon"><i class="ph ph-number-circle-one"></i></div>
+            <h3>{{ section.settings.type_1_title }}</h3>
+            <p>{{ section.settings.type_1_desc }}</p>
+          </div>
+          <div class="lx-fem-type">
+            <div class="lx-fem-type-icon lx-fem-type-icon--accent"><i class="ph ph-number-circle-two"></i></div>
+            <h3>{{ section.settings.type_2_title }}</h3>
+            <p>{{ section.settings.type_2_desc }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CAUSES (fact blocks) -->
+  {% assign fact_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'fact' %}{% assign fact_count = fact_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if fact_count > 0 %}
+    <div class="lx-fem-facts">
+      <div class="container">
+        <div class="lx-fem-section-head">
+          <span class="lx-fem-mini-eyebrow">{{ section.settings.facts_eyebrow }}</span>
+          <h2>{{ section.settings.facts_heading }}</h2>
+        </div>
+        {% for block in section.blocks %}
+          {% if block.type == 'fact' %}
+            <article class="lx-fem-fact{% cycle '', ' lx-fem-fact--alt' %}" {{ block.shopify_attributes }}>
+              <div class="lx-fem-fact-text">
+                <span class="lx-fem-fact-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                <h3>{{ block.settings.title }}</h3>
+                <div class="lx-fem-fact-body rte">{{ block.settings.body }}</div>
+              </div>
+              <div class="lx-fem-fact-visual">
+                <div class="lx-fem-fact-stat">
+                  <strong>{{ block.settings.stat_num }}</strong>
+                  <span>{{ block.settings.stat_label }}</span>
+                </div>
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- COMMON CAUSES GRID -->
+  {% assign cause_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'cause' %}{% assign cause_count = cause_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if cause_count > 0 %}
+    <div class="lx-fem-causes">
+      <div class="container">
+        <div class="lx-fem-section-head">
+          <span class="lx-fem-mini-eyebrow">{{ section.settings.causes_eyebrow }}</span>
+          <h2>{{ section.settings.causes_heading }}</h2>
+          <p>{{ section.settings.causes_sub }}</p>
+        </div>
+        <div class="lx-fem-causes-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'cause' %}
+              <div class="lx-fem-cause" {{ block.shopify_attributes }}>
+                <div class="lx-fem-cause-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- RISK FACTORS -->
+  {% if section.settings.show_risks %}
+    <div class="lx-fem-risks">
+      <div class="container">
+        <div class="lx-fem-section-head">
+          <span class="lx-fem-mini-eyebrow">{{ section.settings.risks_eyebrow }}</span>
+          <h2>{{ section.settings.risks_heading }}</h2>
+          <p>{{ section.settings.risks_sub }}</p>
+        </div>
+        <div class="lx-fem-risks-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'risk' %}
+              <div class="lx-fem-risk" {{ block.shopify_attributes }}>
+                <div class="lx-fem-risk-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <strong>{{ block.settings.title }}</strong>
+                <span>{{ block.settings.description }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- TREATMENT OPTIONS -->
+  {% if section.settings.show_treatments %}
+    <div class="lx-fem-treatments">
+      <div class="container">
+        <div class="lx-fem-section-head">
+          <span class="lx-fem-mini-eyebrow">{{ section.settings.treatments_eyebrow }}</span>
+          <h2>{{ section.settings.treatments_heading }}</h2>
+          <p>{{ section.settings.treatments_sub }}</p>
+        </div>
+        <div class="lx-fem-treatments-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'treatment' %}
+              <div class="lx-fem-treatment" {{ block.shopify_attributes }}>
+                <div class="lx-fem-treatment-icon"><i class="{{ block.settings.icon }}"></i></div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- WHEN TO GET HELP CALLOUT -->
+  {% if section.settings.show_help %}
+    <div class="lx-fem-help">
+      <div class="container">
+        <div class="lx-fem-help-card">
+          <div class="lx-fem-help-icon"><i class="ph ph-heart-straight"></i></div>
+          <div class="lx-fem-help-content">
+            <span class="lx-fem-mini-eyebrow">{{ section.settings.help_eyebrow }}</span>
+            <h2>{{ section.settings.help_heading }}</h2>
+            <div class="rte">{{ section.settings.help_body }}</div>
+            <div class="lx-fem-help-points">
+              <div class="lx-fem-help-point">
+                <i class="ph ph-clock"></i>
+                <strong>After 12 months</strong>
+                <span>of trying without success</span>
+              </div>
+              <div class="lx-fem-help-point">
+                <i class="ph ph-calendar-blank"></i>
+                <strong>Age 36+</strong>
+                <span>see your GP sooner</span>
+              </div>
+              <div class="lx-fem-help-point">
+                <i class="ph ph-warning-circle"></i>
+                <strong>Known issues</strong>
+                <span>don't wait — speak to a specialist</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-fem-closing">
+      <div class="container">
+        <div class="lx-fem-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-fem-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="btn btn-primary">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="btn btn-ghost">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('lx-fem-{{ section.id }}');
+  if (!section) return;
+
+  // Reading progress bar
+  var bar = document.getElementById('lx-fem-progress-{{ section.id }}');
+  if (bar) {
+    window.addEventListener('scroll', function(){
+      var rect = section.getBoundingClientRect();
+      var winH = window.innerHeight;
+      var total = section.offsetHeight - winH;
+      var scrolled = Math.max(0, -rect.top);
+      var pct = Math.min(100, Math.max(0, (scrolled / total) * 100));
+      bar.style.width = pct + '%';
+    }, { passive: true });
+  }
+
+  // Counter animation
+  function animateCount(el, target, duration) {
+    var start = 0;
+    var startTime = null;
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var val = Math.floor(progress * target);
+      el.textContent = target >= 1000000 ? (val / 1000000).toFixed(0) + 'M' :
+                       target >= 1000 ? (val / 1000).toFixed(0) + 'k' : val;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target >= 1000000 ? (target / 1000000) + 'M' :
+                            target >= 1000 ? (target / 1000) + 'k' : target;
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window) {
+    var counters = section.querySelectorAll('.lx-fem-counter-num');
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          var target = parseInt(e.target.dataset.target, 10);
+          animateCount(e.target, target, 1500);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function(c){ io.observe(c); });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Female Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Female fertility facts" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Female fertility: what you need to know" },
+    { "type": "richtext", "id": "lead", "label": "Lead", "default": "<p>Female fertility is complex — affected by age, health, lifestyle, and a range of medical factors. Understanding the science is the first step in finding the right path forward.</p>" },
+    { "type": "checkbox", "id": "show_keystat", "label": "Show key stat", "default": true },
+    { "type": "text", "id": "keystat_num", "label": "Stat number", "default": "1 in 7" },
+    { "type": "text", "id": "keystat_title", "label": "Stat title", "default": "couples have difficulty conceiving" },
+    { "type": "text", "id": "keystat_sub", "label": "Stat sub", "default": "Most resolve within 12 months of trying" },
+
+    { "type": "header", "content": "Counters" },
+    { "type": "checkbox", "id": "show_counters", "label": "Show counters", "default": true },
+
+    { "type": "header", "content": "Types of infertility" },
+    { "type": "checkbox", "id": "show_types", "label": "Show types", "default": true },
+    { "type": "text", "id": "types_eyebrow", "label": "Eyebrow", "default": "The basics" },
+    { "type": "text", "id": "types_heading", "label": "Heading", "default": "Two types of infertility" },
+    { "type": "textarea", "id": "types_sub", "label": "Sub-text", "default": "Infertility is diagnosed when a couple can't conceive after 12 months of trying. It comes in two forms." },
+    { "type": "text", "id": "type_1_title", "label": "Type 1 title", "default": "Primary infertility" },
+    { "type": "textarea", "id": "type_1_desc", "label": "Type 1 description", "default": "When someone who has never conceived a child has difficulty conceiving." },
+    { "type": "text", "id": "type_2_title", "label": "Type 2 title", "default": "Secondary infertility" },
+    { "type": "textarea", "id": "type_2_desc", "label": "Type 2 description", "default": "When someone has had one or more pregnancies in the past but is having difficulty conceiving again." },
+
+    { "type": "header", "content": "Fact blocks (alternating)" },
+    { "type": "text", "id": "facts_eyebrow", "label": "Eyebrow", "default": "What the numbers say" },
+    { "type": "text", "id": "facts_heading", "label": "Heading", "default": "The science of female fertility" },
+
+    { "type": "header", "content": "Common causes grid" },
+    { "type": "text", "id": "causes_eyebrow", "label": "Eyebrow", "default": "Causes" },
+    { "type": "text", "id": "causes_heading", "label": "Heading", "default": "Common causes in women" },
+    { "type": "textarea", "id": "causes_sub", "label": "Sub-text", "default": "Many possible causes — about a quarter of cases have no identifiable cause." },
+
+    { "type": "header", "content": "Risk factors" },
+    { "type": "checkbox", "id": "show_risks", "label": "Show risk factors", "default": true },
+    { "type": "text", "id": "risks_eyebrow", "label": "Eyebrow", "default": "Risk factors" },
+    { "type": "text", "id": "risks_heading", "label": "Heading", "default": "Factors affecting fertility" },
+    { "type": "textarea", "id": "risks_sub", "label": "Sub-text", "default": "Several lifestyle and environmental factors can affect fertility — many of them modifiable." },
+
+    { "type": "header", "content": "Treatment options" },
+    { "type": "checkbox", "id": "show_treatments", "label": "Show treatments", "default": true },
+    { "type": "text", "id": "treatments_eyebrow", "label": "Eyebrow", "default": "Your options" },
+    { "type": "text", "id": "treatments_heading", "label": "Heading", "default": "Treatment options" },
+    { "type": "textarea", "id": "treatments_sub", "label": "Sub-text", "default": "Treatment depends on the underlying cause. Speak to your GP or a specialist to find what's right for you." },
+
+    { "type": "header", "content": "When to get help callout" },
+    { "type": "checkbox", "id": "show_help", "label": "Show help callout", "default": true },
+    { "type": "text", "id": "help_eyebrow", "label": "Eyebrow", "default": "Getting help" },
+    { "type": "text", "id": "help_heading", "label": "Heading", "default": "When to speak to a specialist" },
+    { "type": "richtext", "id": "help_body", "label": "Body", "default": "<p>Some women get pregnant quickly, but for others it can take longer. If you've been trying for over a year, it's worth speaking to your GP — and earlier if there are known risk factors.</p><p><strong>It's often useful to have men tested first</strong> — male factor infertility is the cause in up to 50% of cases.</p>" },
+
+    { "type": "header", "content": "Closing CTA" },
+    { "type": "checkbox", "id": "show_closing", "label": "Show closing CTA", "default": true },
+    { "type": "text", "id": "closing_heading", "label": "Heading", "default": "Take the next step" },
+    { "type": "textarea", "id": "closing_sub", "label": "Sub-text", "default": "Whether you're just starting to research or ready to seek help, our specialists can guide you." },
+    { "type": "text", "id": "closing_btn1_text", "label": "Primary button", "default": "Speak to a specialist" },
+    { "type": "text", "id": "closing_btn1_link", "label": "Primary button link", "default": "/pages/contact" },
+    { "type": "text", "id": "closing_btn2_text", "label": "Secondary button", "default": "Male fertility facts" },
+    { "type": "text", "id": "closing_btn2_link", "label": "Secondary button link", "default": "/pages/male-infertility-facts" }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact block",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "richtext", "id": "body", "label": "Body" },
+        { "type": "text", "id": "stat_num", "label": "Stat number" },
+        { "type": "text", "id": "stat_label", "label": "Stat label" }
+      ]
+    },
+    {
+      "type": "cause",
+      "name": "Cause",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon", "default": "ph ph-circle" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    },
+    {
+      "type": "risk",
+      "name": "Risk factor",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon", "default": "ph ph-warning" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    },
+    {
+      "type": "treatment",
+      "name": "Treatment option",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon", "default": "ph ph-stethoscope" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Female Page" } ]
+}
+{% endschema %}

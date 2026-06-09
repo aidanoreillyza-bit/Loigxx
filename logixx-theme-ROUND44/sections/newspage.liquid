@@ -1,0 +1,173 @@
+<section class="lx-news">
+
+  <!-- HERO -->
+  <div class="lx-news-hero">
+    <div class="container">
+      <div class="lx-news-hero-inner">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h1>{{ section.settings.heading }}</h1>
+        <p class="lx-news-lead">{{ section.settings.subheading }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWS ITEMS -->
+  <div class="lx-news-list">
+    <div class="container">
+
+      {% assign featured_count = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'news' and block.settings.featured %}
+          {% assign featured_count = featured_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      <!-- FEATURED (large) item if any -->
+      {% if featured_count > 0 %}
+        {% for block in section.blocks %}
+          {% if block.type == 'news' and block.settings.featured %}
+            <div class="lx-news-featured" {{ block.shopify_attributes }}>
+              <div class="lx-news-featured-media">
+                {% if block.settings.image != blank %}
+                  <img src="{{ block.settings.image | image_url: width: 1400 }}" alt="{{ block.settings.title }}">
+                {% else %}
+                  <div class="lx-news-placeholder lx-news-placeholder--lg">
+                    <i class="ph ph-newspaper"></i>
+                  </div>
+                {% endif %}
+                {% if block.settings.badge != blank %}
+                  <span class="lx-news-featured-badge">{{ block.settings.badge }}</span>
+                {% endif %}
+              </div>
+              <div class="lx-news-featured-body">
+                {% if block.settings.tag != blank %}
+                  <div class="lx-news-tags">
+                    <span class="lx-news-tag">{{ block.settings.tag }}</span>
+                  </div>
+                {% endif %}
+                <h2>{{ block.settings.title }}</h2>
+                <div class="lx-news-excerpt rte">{{ block.settings.excerpt }}</div>
+                <div class="lx-news-meta">
+                  {% if block.settings.date != blank %}<span><i class="ph ph-calendar"></i> {{ block.settings.date }}</span>{% endif %}
+                  {% if block.settings.author != blank %}<span><i class="ph ph-user"></i> {{ block.settings.author }}</span>{% endif %}
+                  {% if block.settings.link != blank %}
+                    <a href="{{ block.settings.link }}" class="lx-news-readmore">{{ block.settings.link_text | default: 'Read more' }} <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      <!-- GRID of non-featured items -->
+      {% assign regular_count = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'news' and block.settings.featured != true %}
+          {% assign regular_count = regular_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      {% if regular_count > 0 %}
+        <div class="lx-news-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'news' and block.settings.featured != true %}
+              <article class="lx-news-card" {{ block.shopify_attributes }}>
+                <div class="lx-news-card-media">
+                  {% if block.settings.image != blank %}
+                    <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title }}">
+                  {% else %}
+                    <div class="lx-news-placeholder"><i class="ph ph-newspaper"></i></div>
+                  {% endif %}
+                </div>
+                <div class="lx-news-card-body">
+                  {% if block.settings.tag != blank %}
+                    <div class="lx-news-tags">
+                      <span class="lx-news-tag">{{ block.settings.tag }}</span>
+                    </div>
+                  {% endif %}
+                  <h3>{{ block.settings.title }}</h3>
+                  <div class="lx-news-card-excerpt rte">{{ block.settings.excerpt }}</div>
+                  <div class="lx-news-card-meta">
+                    {% if block.settings.date != blank %}<span><i class="ph ph-calendar"></i> {{ block.settings.date }}</span>{% endif %}
+                    {% if block.settings.link != blank %}
+                      <a href="{{ block.settings.link }}" class="lx-news-card-link">{{ block.settings.link_text | default: 'Read more' }} →</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.blocks.size == 0 %}
+        <div class="lx-news-empty">
+          <div class="lx-news-empty-icon"><i class="ph ph-newspaper-clipping"></i></div>
+          <h2>Add your first news item</h2>
+          <p>Open the theme customizer and click "Add block" → "News item" to add company announcements, partnerships, and awards.</p>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+  <!-- CLOSING CTA -->
+  {% if section.settings.show_closing %}
+    <div class="lx-news-closing">
+      <div class="container">
+        <div class="lx-news-closing-card">
+          {% if section.settings.closing_heading != blank %}<h2>{{ section.settings.closing_heading }}</h2>{% endif %}
+          <p>{{ section.settings.closing_sub }}</p>
+          <div class="lx-news-closing-actions">
+            <a href="{{ section.settings.closing_btn1_link }}" class="btn btn-primary">{{ section.settings.closing_btn1_text }}</a>
+            <a href="{{ section.settings.closing_btn2_link }}" class="btn btn-ghost">{{ section.settings.closing_btn2_text }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+{% schema %}
+{
+  "name": "News Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Company news" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Latest from LogixX" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Announcements, partnerships, awards, and the latest from our team." },
+
+    { "type": "header", "content": "Closing CTA" },
+    { "type": "checkbox", "id": "show_closing", "label": "Show closing CTA", "default": true },
+    { "type": "text", "id": "closing_heading", "label": "Heading", "default": "Get in touch" },
+    { "type": "textarea", "id": "closing_sub", "label": "Sub-text", "default": "Have a press enquiry or want to learn more about LogixX? Get in touch with our team." },
+    { "type": "text", "id": "closing_btn1_text", "label": "Primary button", "default": "Contact us" },
+    { "type": "text", "id": "closing_btn1_link", "label": "Primary button link", "default": "/pages/contact" },
+    { "type": "text", "id": "closing_btn2_text", "label": "Secondary button", "default": "Browse products" },
+    { "type": "text", "id": "closing_btn2_link", "label": "Secondary button link", "default": "/pages/shop" }
+  ],
+  "blocks": [
+    {
+      "type": "news",
+      "name": "News item",
+      "settings": [
+        { "type": "checkbox", "id": "featured", "label": "Featured (large card at top)", "default": false },
+        { "type": "text", "id": "badge", "label": "Featured badge text", "default": "Latest" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "tag", "label": "Tag (e.g. Partnership, Award)" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "richtext", "id": "excerpt", "label": "Excerpt / summary" },
+        { "type": "text", "id": "date", "label": "Date", "default": "January 2026" },
+        { "type": "text", "id": "author", "label": "Author (optional)" },
+        { "type": "text", "id": "link", "label": "Link URL (optional)" },
+        { "type": "text", "id": "link_text", "label": "Link text", "default": "Read more" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "News Page" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,109 @@
+<section class="contact-page">
+  <div class="container">
+
+    <div class="contact-grid">
+
+      <!-- LEFT: header + form -->
+      <div class="contact-left">
+        <div class="contact-head">
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+          <h1>{{ section.settings.heading }}</h1>
+          <p>{{ section.settings.subheading }}</p>
+        </div>
+
+        {% form 'contact', class: 'contact-form' %}
+          {% if form.posted_successfully? %}
+            <div class="form-success">
+              <i class="ph-fill ph-check-circle"></i>
+              <span>Message sent — we'll be in touch within 1 business day.</span>
+            </div>
+          {% endif %}
+          {% if form.errors %}
+            <div class="form-error">
+              <i class="ph-fill ph-warning-circle"></i>
+              <span>{{ form.errors | default_errors }}</span>
+            </div>
+          {% endif %}
+
+          <div class="form-row">
+            <label class="form-field">
+              <span class="form-label">Your name</span>
+              <input type="text" name="contact[name]" required value="{% if form.name %}{{ form.name }}{% endif %}" placeholder="Jane Doe">
+            </label>
+            <label class="form-field">
+              <span class="form-label">Email address</span>
+              <input type="email" name="contact[email]" required value="{% if form.email %}{{ form.email }}{% endif %}" placeholder="you@example.com">
+            </label>
+          </div>
+
+          <label class="form-field">
+            <span class="form-label">How can we help?</span>
+            <textarea name="contact[body]" rows="5" required placeholder="Tell us a bit about your enquiry…">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </label>
+
+          <button type="submit" class="btn btn-primary contact-submit">
+            Send message
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        {% endform %}
+      </div>
+
+      <!-- RIGHT: info panel -->
+      <aside class="contact-right">
+        <div class="contact-panel">
+
+          <div class="contact-panel-head">
+            <h2>Other ways to reach us</h2>
+            <p>Prefer to email or call? We're a small team — you'll always speak to someone real.</p>
+          </div>
+
+          <a class="contact-channel" href="mailto:{{ section.settings.email }}">
+            <div class="contact-channel-icon"><i class="ph ph-envelope-simple"></i></div>
+            <div class="contact-channel-body">
+              <span class="contact-channel-label">Email</span>
+              <strong>{{ section.settings.email }}</strong>
+              <span class="contact-channel-meta">Replies within 24 hours</span>
+            </div>
+            <i class="ph ph-arrow-up-right contact-channel-arrow"></i>
+          </a>
+
+          <a class="contact-channel" href="tel:{{ section.settings.phone | replace: ' ', '' | replace: '(', '' | replace: ')', '' }}">
+            <div class="contact-channel-icon"><i class="ph ph-phone"></i></div>
+            <div class="contact-channel-body">
+              <span class="contact-channel-label">Phone</span>
+              <strong>{{ section.settings.phone }}</strong>
+              <span class="contact-channel-meta">{{ section.settings.hours }}</span>
+            </div>
+            <i class="ph ph-arrow-up-right contact-channel-arrow"></i>
+          </a>
+
+          <div class="contact-channel contact-channel--static">
+            <div class="contact-channel-icon"><i class="ph ph-map-pin"></i></div>
+            <div class="contact-channel-body">
+              <span class="contact-channel-label">Office</span>
+              <address>{{ section.settings.address | newline_to_br }}</address>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",    "label": "Eyebrow",    "default": "Contact" },
+    { "type": "text",     "id": "heading",    "label": "Heading",    "default": "Let's talk." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Have a question about a product, your order, or your fertility journey? Drop us a message and we'll respond within one business day." },
+    { "type": "text",     "id": "email",      "label": "Email",      "default": "info@logixxpharma.com" },
+    { "type": "text",     "id": "phone",      "label": "Phone",      "default": "+44 (0) 1189 011 747" },
+    { "type": "textarea", "id": "address",    "label": "Address",    "default": "Merlin House, Brunel Road\nReading, RG7 4AB\nUnited Kingdom" },
+    { "type": "text",     "id": "hours",      "label": "Office hours","default": "Mon–Fri, 9am – 5pm GMT" }
+  ],
+  "presets": [{ "name": "Contact Page" }]
+}
+{% endschema %}

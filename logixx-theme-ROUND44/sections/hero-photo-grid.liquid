@@ -1,0 +1,114 @@
+{%- comment -%}
+  Hero — testhim-style split: text + CTAs left, photo grid right.
+{%- endcomment -%}
+
+<section class="hero-th">
+  <div class="hero-th-arc" data-parallax="0.2" aria-hidden="true"></div>
+  <div class="hero-th-inner">
+
+    {%- comment -%} ---- LEFT: Content ---- {%- endcomment -%}
+    <div class="hero-th-content">
+      {% if section.settings.eyebrow != blank %}
+        <span class="hero-th-eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      <h1 class="hero-th-heading">
+        {{ section.settings.heading_pre | default: 'Shaping the future of' }}
+        <span class="hero-th-heading-accent">{{ section.settings.heading_accent | default: 'fertility' }}</span>
+      </h1>
+      {% if section.settings.subheading != blank %}
+        <p class="hero-th-sub">{{ section.settings.subheading }}</p>
+      {% endif %}
+      <div class="hero-th-actions">
+        {% if section.settings.btn1_link != blank and section.settings.btn1_text != blank %}
+          <a href="{{ section.settings.btn1_link }}" class="hero-th-btn hero-th-btn--primary">
+            <span>{{ section.settings.btn1_text }}</span>
+            <span class="hero-th-btn-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </a>
+        {% endif %}
+        {% if section.settings.btn2_link != blank and section.settings.btn2_text != blank %}
+          <a href="{{ section.settings.btn2_link }}" class="hero-th-btn hero-th-btn--secondary">
+            <span>{{ section.settings.btn2_text }}</span>
+            <span class="hero-th-btn-arrow"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    {%- comment -%} ---- RIGHT: Photo grid ---- {%- endcomment -%}
+    <div class="hero-th-photos" aria-hidden="true">
+      {%- comment -%} Collect all non-blank photos into odd (left) / even (right) groups {%- endcomment -%}
+      <div class="hero-th-col hero-th-col--up">
+        {%- for i in (1..12) -%}
+          {%- assign img_key = 'photo_' | append: i -%}
+          {%- assign img = section.settings[img_key] -%}
+          {%- assign rem = i | modulo: 2 -%}
+          {%- if img != blank and rem == 1 -%}
+            <div class="hero-th-photo"><img src="{{ img | image_url: width: 600 }}" alt="" loading="lazy"></div>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- comment -%} Duplicate for seamless scroll {%- endcomment -%}
+        {%- for i in (1..12) -%}
+          {%- assign img_key = 'photo_' | append: i -%}
+          {%- assign img = section.settings[img_key] -%}
+          {%- assign rem = i | modulo: 2 -%}
+          {%- if img != blank and rem == 1 -%}
+            <div class="hero-th-photo"><img src="{{ img | image_url: width: 600 }}" alt="" loading="lazy"></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="hero-th-col hero-th-col--down">
+        {%- for i in (1..12) -%}
+          {%- assign img_key = 'photo_' | append: i -%}
+          {%- assign img = section.settings[img_key] -%}
+          {%- assign rem = i | modulo: 2 -%}
+          {%- if img != blank and rem == 0 -%}
+            <div class="hero-th-photo"><img src="{{ img | image_url: width: 600 }}" alt="" loading="lazy"></div>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- for i in (1..12) -%}
+          {%- assign img_key = 'photo_' | append: i -%}
+          {%- assign img = section.settings[img_key] -%}
+          {%- assign rem = i | modulo: 2 -%}
+          {%- if img != blank and rem == 0 -%}
+            <div class="hero-th-photo"><img src="{{ img | image_url: width: 600 }}" alt="" loading="lazy"></div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero — testhim style",
+  "settings": [
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)" },
+    { "type": "text", "id": "heading_pre", "label": "Heading (main part)", "default": "Shaping the future of" },
+    { "type": "text", "id": "heading_accent", "label": "Heading (accent — light blue)", "default": "fertility" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Our mission is to create positive change in the world of fertility by providing science-backed supplements, education and ongoing support for couples." },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "btn1_text", "label": "Primary button label", "default": "Shop the range" },
+    { "type": "url", "id": "btn1_link", "label": "Primary button link" },
+    { "type": "text", "id": "btn2_text", "label": "Secondary button label", "default": "Our story" },
+    { "type": "url", "id": "btn2_link", "label": "Secondary button link" },
+    { "type": "header", "content": "Photo grid" },
+    { "type": "paragraph", "content": "Upload 4–12 lifestyle photos. Portrait (3:4) works best. They auto-split across two scrolling columns (left scrolls up, right scrolls down). Add at least 4 so both columns move." },
+    { "type": "image_picker", "id": "photo_1", "label": "Photo 1" },
+    { "type": "image_picker", "id": "photo_2", "label": "Photo 2" },
+    { "type": "image_picker", "id": "photo_3", "label": "Photo 3" },
+    { "type": "image_picker", "id": "photo_4", "label": "Photo 4" },
+    { "type": "image_picker", "id": "photo_5", "label": "Photo 5" },
+    { "type": "image_picker", "id": "photo_6", "label": "Photo 6" },
+    { "type": "image_picker", "id": "photo_7", "label": "Photo 7" },
+    { "type": "image_picker", "id": "photo_8", "label": "Photo 8" },
+    { "type": "image_picker", "id": "photo_9", "label": "Photo 9" },
+    { "type": "image_picker", "id": "photo_10", "label": "Photo 10" },
+    { "type": "image_picker", "id": "photo_11", "label": "Photo 11" },
+    { "type": "image_picker", "id": "photo_12", "label": "Photo 12" }
+  ],
+  "presets": [{ "name": "Hero — testhim style" }]
+}
+{% endschema %}

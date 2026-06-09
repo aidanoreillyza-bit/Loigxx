@@ -1,0 +1,368 @@
+{%- comment -%}
+  Range / Comparison page — clean rebuild. Inline SVG icons, neutral tone.
+  Blocks: product, compare_row, vs_row, specialist, testimonial, reason, faq.
+{%- endcomment -%}
+
+{%- comment -%} ===== Inline SVG icon set ===== {%- endcomment -%}
+{%- capture icon_check -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>{%- endcapture -%}
+{%- capture icon_dash -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>{%- endcapture -%}
+{%- capture icon_arrow -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>{%- endcapture -%}
+{%- capture icon_star -%}<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>{%- endcapture -%}
+
+<div class="rng">
+
+  {%- comment -%} ============ 1. HERO ============ {%- endcomment -%}
+  <section class="rng-hero">
+    <div class="rng-container">
+      <span class="rng-eyebrow">{{ section.settings.hero_eyebrow | default: 'Compare the range' }}</span>
+      <h1 class="rng-hero-title">{{ section.settings.hero_heading | default: 'Find your formula' }}</h1>
+      <p class="rng-hero-lead">{{ section.settings.hero_sub | default: 'Two clinically-formulated options for male fertility. Compare them side by side and choose what fits your needs.' }}</p>
+    </div>
+  </section>
+
+  {%- comment -%} ============ 2. PRODUCT CARDS ============ {%- endcomment -%}
+  <section class="rng-products">
+    <div class="rng-container">
+      <div class="rng-products-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'product' %}
+            <div class="rng-prod-card" {{ block.shopify_attributes }}>
+              {% if block.settings.badge != blank %}<span class="rng-prod-badge">{{ block.settings.badge }}</span>{% endif %}
+              {% if block.settings.eyebrow != blank %}<span class="rng-prod-eyebrow">{{ block.settings.eyebrow }}</span>{% endif %}
+              <h3 class="rng-prod-title">{{ block.settings.title }}</h3>
+              {% if block.settings.tagline != blank %}<p class="rng-prod-tagline">{{ block.settings.tagline }}</p>{% endif %}
+
+              {% if block.settings.features != blank %}
+                <ul class="rng-prod-features">
+                  {% assign feats = block.settings.features | newline_to_br | split: '<br />' %}
+                  {% for f in feats %}
+                    {% assign ff = f | strip %}
+                    {% if ff != blank %}<li><span class="rng-feat-check">{{ icon_check }}</span>{{ ff }}</li>{% endif %}
+                  {% endfor %}
+                </ul>
+              {% endif %}
+
+              <div class="rng-prod-price">
+                <span class="rng-price">{{ block.settings.price }}</span>
+                {% if block.settings.compare_price != blank %}<span class="rng-compare-price">{{ block.settings.compare_price }}</span>{% endif %}
+              </div>
+              {% if block.settings.subtitle != blank %}<p class="rng-prod-subtitle">{{ block.settings.subtitle }}</p>{% endif %}
+
+              <div class="rng-prod-ctas">
+                {% if block.settings.cta_text != blank %}
+                  <a href="{{ block.settings.cta_link }}" class="rng-btn rng-btn--primary">{{ block.settings.cta_text }} <span class="rng-btn-arrow">{{ icon_arrow }}</span></a>
+                {% endif %}
+                {% if block.settings.cta2_text != blank %}
+                  <a href="{{ block.settings.cta2_link }}" class="rng-btn rng-btn--ghost">{{ block.settings.cta2_text }}</a>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ============ 3. COMPARISON TABLE ============ {%- endcomment -%}
+  {% assign cr_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'compare_row' %}{% assign cr_count = cr_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if cr_count > 0 %}
+    <section class="rng-compare">
+      <div class="rng-container">
+        <div class="rng-head">
+          <span class="rng-mini-eyebrow">{{ section.settings.compare_eyebrow | default: 'Side by side' }}</span>
+          <h2>{{ section.settings.compare_heading | default: 'How they compare' }}</h2>
+        </div>
+
+        <div class="rng-table">
+          <div class="rng-table-header">
+            <div class="rng-table-cell rng-table-cell--label"></div>
+            <div class="rng-table-cell rng-table-col-head">{{ section.settings.col1_name | default: 'Proxeed Plus' }}</div>
+            <div class="rng-table-cell rng-table-col-head">{{ section.settings.col2_name | default: 'Proxeed Men' }}</div>
+          </div>
+          {% for block in section.blocks %}
+            {% if block.type == 'compare_row' %}
+              <div class="rng-table-row" {{ block.shopify_attributes }}>
+                <div class="rng-table-cell rng-table-cell--label">{{ block.settings.label }}</div>
+                <div class="rng-table-cell">
+                  {% if block.settings.col1_check %}<span class="rng-cell-check">{{ icon_check }}</span>{% endif %}
+                  <span class="rng-cell-val">{{ block.settings.col1 }}</span>
+                </div>
+                <div class="rng-table-cell">
+                  {% if block.settings.col2_check %}<span class="rng-cell-check">{{ icon_check }}</span>{% else %}{% if block.settings.col2 == '—' or block.settings.col2 == blank %}<span class="rng-cell-dash">{{ icon_dash }}</span>{% endif %}{% endif %}
+                  <span class="rng-cell-val">{{ block.settings.col2 }}</span>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {%- comment -%} ============ 4. VS GENERIC ============ {%- endcomment -%}
+  {% assign vs_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'vs_row' %}{% assign vs_count = vs_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if vs_count > 0 %}
+    <section class="rng-vs">
+      <div class="rng-container">
+        <div class="rng-head">
+          <span class="rng-mini-eyebrow">{{ section.settings.vs_eyebrow | default: 'Why Proxeed' }}</span>
+          <h2>{{ section.settings.vs_heading | default: 'Proxeed vs generic supplements' }}</h2>
+        </div>
+        <div class="rng-vs-cols">
+          <div class="rng-vs-head rng-vs-head--us">{{ section.settings.vs_us_label | default: 'Proxeed' }}</div>
+          <div class="rng-vs-head rng-vs-head--them">{{ section.settings.vs_them_label | default: 'Generic supplements' }}</div>
+        </div>
+        {% for block in section.blocks %}
+          {% if block.type == 'vs_row' %}
+            <div class="rng-vs-row" {{ block.shopify_attributes }}>
+              <div class="rng-vs-cell rng-vs-cell--us"><span class="rng-vs-icon rng-vs-icon--yes">{{ icon_check }}</span>{{ block.settings.us }}</div>
+              <div class="rng-vs-cell rng-vs-cell--them"><span class="rng-vs-icon rng-vs-icon--no">{{ icon_dash }}</span>{{ block.settings.them }}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {%- comment -%} ============ 5. SPECIALISTS ============ {%- endcomment -%}
+  {% assign sp_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'specialist' %}{% assign sp_count = sp_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if sp_count > 0 %}
+    <section class="rng-specialists">
+      <div class="rng-container">
+        <div class="rng-head">
+          <span class="rng-mini-eyebrow">{{ section.settings.sp_eyebrow | default: 'Expert opinion' }}</span>
+          <h2>{{ section.settings.sp_heading | default: 'What specialists say' }}</h2>
+        </div>
+        <div class="rng-sp-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'specialist' %}
+              <div class="rng-sp-card" {{ block.shopify_attributes }}>
+                <p class="rng-sp-quote">"{{ block.settings.quote }}"</p>
+                <div class="rng-sp-person">
+                  <span class="rng-sp-avatar">{{ block.settings.initials }}</span>
+                  <div class="rng-sp-meta"><strong>{{ block.settings.name }}</strong><span>{{ block.settings.role }}</span></div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {%- comment -%} ============ 6. TESTIMONIALS + REASONS ============ {%- endcomment -%}
+  {% assign t_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'testimonial' %}{% assign t_count = t_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if t_count > 0 %}
+    <section class="rng-testimonials">
+      <div class="rng-container">
+        <div class="rng-head">
+          <span class="rng-mini-eyebrow">{{ section.settings.t_eyebrow | default: 'Real stories' }}</span>
+          <h2>{{ section.settings.t_heading | default: 'From couples like you' }}</h2>
+        </div>
+        <div class="rng-t-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'testimonial' %}
+              <div class="rng-t-card" {{ block.shopify_attributes }}>
+                <div class="rng-t-stars">{{ icon_star }}{{ icon_star }}{{ icon_star }}{{ icon_star }}{{ icon_star }}</div>
+                <p class="rng-t-quote">"{{ block.settings.quote }}"</p>
+                <div class="rng-t-meta"><strong>{{ block.settings.name }}</strong>{% if block.settings.location != blank %}<span>{{ block.settings.location }}</span>{% endif %}</div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% assign r_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'reason' %}{% assign r_count = r_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if r_count > 0 %}
+    <section class="rng-reasons">
+      <div class="rng-container">
+        <div class="rng-head">
+          <span class="rng-mini-eyebrow">{{ section.settings.r_eyebrow | default: 'Why choose us' }}</span>
+          <h2>{{ section.settings.r_heading | default: 'Trusted worldwide' }}</h2>
+        </div>
+        <div class="rng-reasons-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'reason' %}
+              <div class="rng-reason" {{ block.shopify_attributes }}>
+                <div class="rng-reason-icon">{{ icon_check }}</div>
+                <strong>{{ block.settings.title }}</strong>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {%- comment -%} ============ 7. FAQ + CTA ============ {%- endcomment -%}
+  {% assign fq_count = 0 %}
+  {% for block in section.blocks %}{% if block.type == 'faq' %}{% assign fq_count = fq_count | plus: 1 %}{% endif %}{% endfor %}
+  {% if fq_count > 0 %}
+    <section class="rng-faq">
+      <div class="rng-container">
+        <div class="rng-head">
+          <span class="rng-mini-eyebrow">{{ section.settings.fq_eyebrow | default: 'Questions' }}</span>
+          <h2>{{ section.settings.fq_heading | default: 'Frequently asked' }}</h2>
+        </div>
+        <div class="rng-faq-list">
+          {% for block in section.blocks %}
+            {% if block.type == 'faq' %}
+              <details class="rng-faq-item" {{ block.shopify_attributes }}>
+                <summary><span>{{ block.settings.question }}</span><span class="rng-faq-plus">{{ icon_arrow }}</span></summary>
+                <div class="rng-faq-answer rte">{{ block.settings.answer }}</div>
+              </details>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <section class="rng-cta">
+    <div class="rng-container">
+      <div class="rng-cta-card">
+        <h2>{{ section.settings.cta_heading | default: 'Ready to start?' }}</h2>
+        <p>{{ section.settings.cta_sub | default: 'Begin your fertility journey with a clinically-formulated supplement trusted by specialists worldwide.' }}</p>
+        <a href="{{ section.settings.cta_link | default: '/collections/all' }}" class="rng-btn rng-btn--light">{{ section.settings.cta_btn | default: 'Shop the range' }} <span class="rng-btn-arrow">{{ icon_arrow }}</span></a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var faqs = document.querySelectorAll('.rng-faq-item');
+  faqs.forEach(function(f){
+    f.addEventListener('toggle', function(){
+      if (f.open) faqs.forEach(function(o){ if (o !== f) o.open = false; });
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Range Compare Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Compare the range" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Find your formula" },
+    { "type": "textarea", "id": "hero_sub", "label": "Subtext", "default": "Two clinically-formulated options for male fertility. Compare them side by side and choose what fits your needs." },
+    { "type": "header", "content": "Comparison table" },
+    { "type": "text", "id": "compare_eyebrow", "label": "Eyebrow", "default": "Side by side" },
+    { "type": "text", "id": "compare_heading", "label": "Heading", "default": "How they compare" },
+    { "type": "text", "id": "col1_name", "label": "Column 1 name", "default": "Proxeed Plus" },
+    { "type": "text", "id": "col2_name", "label": "Column 2 name", "default": "Proxeed Men" },
+    { "type": "header", "content": "VS Generic" },
+    { "type": "text", "id": "vs_eyebrow", "label": "Eyebrow", "default": "Why Proxeed" },
+    { "type": "text", "id": "vs_heading", "label": "Heading", "default": "Proxeed vs generic supplements" },
+    { "type": "text", "id": "vs_us_label", "label": "Us label", "default": "Proxeed" },
+    { "type": "text", "id": "vs_them_label", "label": "Them label", "default": "Generic supplements" },
+    { "type": "header", "content": "Specialists" },
+    { "type": "text", "id": "sp_eyebrow", "label": "Eyebrow", "default": "Expert opinion" },
+    { "type": "text", "id": "sp_heading", "label": "Heading", "default": "What specialists say" },
+    { "type": "header", "content": "Testimonials" },
+    { "type": "text", "id": "t_eyebrow", "label": "Eyebrow", "default": "Real stories" },
+    { "type": "text", "id": "t_heading", "label": "Heading", "default": "From couples like you" },
+    { "type": "header", "content": "Reasons" },
+    { "type": "text", "id": "r_eyebrow", "label": "Eyebrow", "default": "Why choose us" },
+    { "type": "text", "id": "r_heading", "label": "Heading", "default": "Trusted worldwide" },
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "fq_eyebrow", "label": "Eyebrow", "default": "Questions" },
+    { "type": "text", "id": "fq_heading", "label": "Heading", "default": "Frequently asked" },
+    { "type": "header", "content": "Closing CTA" },
+    { "type": "text", "id": "cta_heading", "label": "Heading", "default": "Ready to start?" },
+    { "type": "textarea", "id": "cta_sub", "label": "Subtext", "default": "Begin your fertility journey with a clinically-formulated supplement trusted by specialists worldwide." },
+    { "type": "text", "id": "cta_btn", "label": "Button label", "default": "Shop the range" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product card",
+      "settings": [
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "tagline", "label": "Tagline" },
+        { "type": "textarea", "id": "features", "label": "Features (one per line)" },
+        { "type": "text", "id": "price", "label": "Price" },
+        { "type": "text", "id": "compare_price", "label": "Compare-at price" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle" },
+        { "type": "text", "id": "cta_text", "label": "Button 1 text" },
+        { "type": "url", "id": "cta_link", "label": "Button 1 link" },
+        { "type": "text", "id": "cta2_text", "label": "Button 2 text" },
+        { "type": "url", "id": "cta2_link", "label": "Button 2 link" }
+      ]
+    },
+    {
+      "type": "compare_row",
+      "name": "Comparison row",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (unused, kept for compatibility)" },
+        { "type": "text", "id": "label", "label": "Row label" },
+        { "type": "checkbox", "id": "col1_check", "label": "Column 1 tick" },
+        { "type": "text", "id": "col1", "label": "Column 1 value" },
+        { "type": "checkbox", "id": "col2_check", "label": "Column 2 tick" },
+        { "type": "text", "id": "col2", "label": "Column 2 value" }
+      ]
+    },
+    {
+      "type": "vs_row",
+      "name": "VS row",
+      "settings": [
+        { "type": "text", "id": "us", "label": "Us" },
+        { "type": "text", "id": "them", "label": "Them" }
+      ]
+    },
+    {
+      "type": "specialist",
+      "name": "Specialist",
+      "settings": [
+        { "type": "text", "id": "initials", "label": "Initials" },
+        { "type": "textarea", "id": "quote", "label": "Quote" },
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "role", "label": "Role" }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote" },
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "location", "label": "Location" }
+      ]
+    },
+    {
+      "type": "reason",
+      "name": "Reason",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Icon (unused)" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "description", "label": "Description" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Range Compare Page" }
+  ]
+}
+{% endschema %}

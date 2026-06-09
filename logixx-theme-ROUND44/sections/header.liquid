@@ -1,0 +1,354 @@
+<header class="header" id="lx-header">
+  <div class="container header-container">
+
+    <button class="lx-menu-trigger" id="lx-menu-trigger" aria-label="Open menu">
+      <span class="lx-menu-trigger-icon"><span></span><span></span><span></span></span>
+      <span class="lx-menu-trigger-label">Menu</span>
+    </button>
+
+    <a href="/" class="logo lx-logo-reveal" id="lx-logo-reveal" aria-label="{{ shop.name }}">
+      <span class="lx-lr-stack">
+        {% if section.settings.logo_image != blank %}
+          <img src="{{ section.settings.logo_image | image_url: width: 600 }}"
+               alt="{{ shop.name }}"
+               class="logo-img lx-lr-logo"
+               style="max-height: {{ section.settings.logo_height }}px; width: auto;">
+        {% else %}
+          <img src="{{ 'logixx-logo-v1.png' | asset_url }}"
+               alt="{{ shop.name }}"
+               class="logo-img lx-lr-logo"
+               style="max-height: {{ section.settings.logo_height }}px; width: auto;">
+        {% endif %}
+        <span class="lx-lr-track" aria-hidden="true">
+          <span class="lx-lr-line"></span>
+          <span class="lx-lr-glow"></span>
+        </span>
+      </span>
+    </a>
+
+    <div class="header-actions">
+      <button type="button" class="icon-btn" id="lx-search-trigger" aria-label="Search"><i class="ph ph-magnifying-glass"></i></button>
+      <a href="/account" class="icon-btn" aria-label="Account"><i class="ph ph-user"></i></a>
+      <a href="/cart" class="icon-btn cart-icon-btn" aria-label="Cart">
+        <i class="ph ph-shopping-bag"></i>
+        {% if cart.item_count > 0 %}<span class="cart-badge">{{ cart.item_count }}</span>{% endif %}
+      </a>
+      <a href="{{ section.settings.shop_btn_url | default: '/pages/shop' }}" class="shop-btn{% if template == 'page.shop' or request.path contains '/collections/' %} is-active{% endif %}">
+        {{ section.settings.shop_btn_text | default: 'Shop' }}
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+  </div>
+</header>
+
+{%- comment -%} Brand typography: bundled Neue Kabel (display) + Outfit (body) {%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
+<style>
+  @font-face {
+    font-family: 'Neue Kabel';
+    src: url('{{ "NeueKabel-Bold.woff2" | asset_url }}') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+
+{% stylesheet %}
+/* ============================================================
+   LogixX Fertility — Design Foundation
+   Loaded site-wide via the header section. Defines brand tokens,
+   base typography, shared components and the header bar.
+   ============================================================ */
+:root{
+  /* Brand blue (single accent) */
+  --blue:#0097D4;            /* kept: existing markup references var(--blue) */
+  --lx-blue:#0097D4;
+  --lx-blue-600:#0084BC;
+  --lx-blue-700:#006E9E;
+  --lx-blue-ink:#03658F;     /* AA-contrast blue for text/links on white */
+  --lx-blue-050:#EAF7FD;
+  --lx-blue-100:#D3EEFB;
+
+  /* Cool-gray family, tinted toward navy */
+  --lx-navy:#0B2A3C;         /* headings */
+  --lx-ink:#23394A;          /* body copy */
+  --lx-muted:#5C7383;        /* secondary copy */
+  --lx-faint:#8A9DAA;
+
+  --lx-bg:#FFFFFF;
+  --lx-bg-soft:#F2FAFE;      /* tinted section background */
+  --lx-bg-alt:#F5F9FB;
+  --lx-line:#E2EDF3;         /* hairline borders */
+  --lx-line-strong:#CBDDE8;
+
+  /* Category accents (semantic, desaturated) */
+  --lx-pink:#C8458A;
+  --lx-orange:#D26829;
+  --lx-gold:#B9890B;
+  --lx-green:#2E8B63;
+  --lx-star:#F4A91E;
+
+  /* Radii — softer on containers, tighter inside */
+  --lx-r-sm:10px;
+  --lx-r:14px;
+  --lx-r-lg:22px;
+  --lx-pill:999px;
+
+  /* Shadows — blue-tinted, single light source from above */
+  --lx-sh-sm:0 1px 2px rgba(11,42,60,.06), 0 2px 6px rgba(11,42,60,.05);
+  --lx-sh:0 6px 20px -6px rgba(11,42,60,.12);
+  --lx-sh-lg:0 24px 60px -16px rgba(11,42,60,.20);
+  --lx-sh-blue:0 12px 30px -10px rgba(0,151,212,.45);
+
+  /* Motion */
+  --lx-ease:cubic-bezier(.22,.7,.2,1);
+  --lx-dur:.22s;
+
+  /* Type */
+  --lx-display:'Neue Kabel','Outfit',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --lx-body:'Outfit',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+
+  /* Layout */
+  --lx-container:1200px;
+  --lx-z-header:100;
+}
+
+html{ scroll-behavior:smooth; }
+
+/* Base typography — :where() keeps specificity 0 so any real theme CSS still wins */
+:where(body){
+  font-family:var(--lx-body);
+  color:var(--lx-ink);
+  background:var(--lx-bg);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+:where(h1,h2,h3,h4,h5,h6){
+  font-family:var(--lx-display);
+  color:var(--lx-navy);
+  font-weight:700;
+  line-height:1.1;
+  letter-spacing:-.02em;
+  margin:0 0 .5em;
+  text-wrap:balance;
+}
+:where(h1){ font-size:clamp(2.3rem,1.4rem + 3.8vw,3.7rem); letter-spacing:-.03em; }
+:where(h2){ font-size:clamp(1.75rem,1.2rem + 2.2vw,2.6rem); }
+:where(h3){ font-size:clamp(1.2rem,1rem + .8vw,1.5rem); letter-spacing:-.01em; }
+:where(p){ margin:0 0 1rem; }
+:where(a){ color:var(--lx-blue-ink); text-decoration:none; transition:color var(--lx-dur); }
+:where(img){ max-width:100%; height:auto; display:block; }
+:where(:focus-visible){ outline:3px solid rgba(0,151,212,.45); outline-offset:2px; border-radius:6px; }
+
+/* Tabular figures for data-heavy numbers */
+.lx-stat-number, .product-price, .mission-stat strong{ font-variant-numeric:tabular-nums; }
+
+/* Shared container */
+.container{ width:100%; max-width:var(--lx-container); margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem); }
+
+/* Eyebrow label */
+.eyebrow{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:var(--lx-body); font-weight:600; font-size:.78rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--lx-blue-ink);
+}
+.eyebrow::before{
+  content:""; width:1.6rem; height:2px; border-radius:2px;
+  background:linear-gradient(90deg,var(--lx-blue),rgba(0,151,212,.15));
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.55rem;
+  font-family:var(--lx-body); font-weight:600; font-size:1rem; line-height:1;
+  padding:.95rem 1.6rem; border-radius:var(--lx-pill); border:1.5px solid transparent;
+  cursor:pointer; text-align:center; white-space:nowrap;
+  transition:transform var(--lx-dur) var(--lx-ease), box-shadow var(--lx-dur) var(--lx-ease),
+             background var(--lx-dur), color var(--lx-dur), border-color var(--lx-dur);
+}
+.btn svg{ transition:transform var(--lx-dur) var(--lx-ease); flex:none; }
+.btn-primary{ background:var(--lx-blue); color:#fff; box-shadow:var(--lx-sh-blue); }
+.btn-primary:hover{ background:var(--lx-blue-600); transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(0,151,212,.6); }
+.btn-primary:hover svg{ transform:translateX(3px); }
+.btn-primary:active{ transform:translateY(0); }
+.btn-secondary{ background:#fff; color:var(--lx-navy); border-color:var(--lx-line-strong); }
+.btn-secondary:hover{ border-color:var(--lx-blue); color:var(--lx-blue-ink); transform:translateY(-2px); box-shadow:var(--lx-sh); }
+.btn-secondary:active{ transform:translateY(0); }
+.btn-block{ display:flex; width:100%; }
+
+/* Section header (featured products, etc.) */
+.section-header{ display:flex; align-items:flex-end; justify-content:space-between; gap:1.5rem 2rem; flex-wrap:wrap; margin-bottom:clamp(2rem,4vw,3rem); }
+.section-title{ margin:.5rem 0 0; }
+.section-lead{ color:var(--lx-muted); max-width:56ch; margin:.75rem 0 0; font-size:1.05rem; }
+.view-all-link{ display:inline-flex; align-items:center; gap:.45rem; font-weight:600; color:var(--lx-blue-ink); white-space:nowrap; }
+.view-all-link i, .view-all-link svg{ transition:transform var(--lx-dur) var(--lx-ease); }
+.view-all-link:hover i, .view-all-link:hover svg{ transform:translateX(4px); }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{ animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+}
+
+/* ===== Header bar ===== */
+.header{
+  position:sticky; top:0; z-index:var(--lx-z-header);
+  background:rgba(255,255,255,.82);
+  backdrop-filter:saturate(180%) blur(16px);
+  -webkit-backdrop-filter:saturate(180%) blur(16px);
+  border-bottom:1px solid var(--lx-line);
+}
+.header-container{ display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:74px; gap:1rem; }
+.lx-menu-trigger{
+  justify-self:start; display:inline-flex; align-items:center; gap:.6rem;
+  background:none; border:0; cursor:pointer; color:var(--lx-navy);
+  font-family:var(--lx-body); font-weight:600; font-size:.95rem; padding:.5rem .3rem;
+  transition:color var(--lx-dur);
+}
+.lx-menu-trigger:hover{ color:var(--lx-blue-ink); }
+.lx-menu-trigger-icon{ display:inline-flex; flex-direction:column; justify-content:center; gap:4px; width:20px; height:14px; }
+.lx-menu-trigger-icon span{ display:block; height:2px; width:100%; border-radius:2px; background:currentColor; transition:transform var(--lx-dur) var(--lx-ease); }
+.lx-menu-trigger:hover .lx-menu-trigger-icon span:nth-child(2){ transform:scaleX(.6); transform-origin:left; }
+.logo{ justify-self:center; display:inline-flex; }
+.logo-img{ display:block; }
+.header-actions{ justify-self:end; display:flex; align-items:center; gap:.25rem; }
+.icon-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:42px; border-radius:50%; color:var(--lx-navy);
+  font-size:1.3rem; position:relative;
+  transition:background var(--lx-dur), color var(--lx-dur), transform var(--lx-dur) var(--lx-ease);
+}
+.icon-btn:hover{ background:var(--lx-blue-050); color:var(--lx-blue-ink); transform:translateY(-1px); }
+.cart-badge{
+  position:absolute; top:3px; right:1px; min-width:18px; height:18px; padding:0 5px;
+  border-radius:9px; background:var(--lx-blue); color:#fff; font-size:.68rem; font-weight:700;
+  display:inline-flex; align-items:center; justify-content:center; line-height:1; box-shadow:0 0 0 2px #fff;
+}
+.shop-btn{
+  display:inline-flex; align-items:center; gap:.45rem; margin-left:.55rem;
+  padding:.62rem 1.2rem; border-radius:var(--lx-pill);
+  background:var(--lx-navy); color:#fff; font-family:var(--lx-body); font-weight:600; font-size:.92rem;
+  transition:background var(--lx-dur), transform var(--lx-dur) var(--lx-ease), box-shadow var(--lx-dur);
+}
+.shop-btn svg{ transition:transform var(--lx-dur) var(--lx-ease); }
+.shop-btn:hover{ background:var(--lx-blue); transform:translateY(-1px); box-shadow:var(--lx-sh-blue); }
+.shop-btn:hover svg{ transform:translateX(2px); }
+.shop-btn.is-active{ background:var(--lx-blue); }
+
+@media (max-width:768px){
+  .header-container{ min-height:64px; }
+  .lx-menu-trigger-label{ display:none; }
+}
+@media (max-width:480px){
+  .shop-btn{ padding:.55rem .9rem; }
+}
+
+/* ===== Logo reveal ===== */
+.lx-logo-reveal { display: inline-flex; align-items: center; text-decoration: none; }
+.lx-lr-stack {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 6px;
+}
+.lx-lr-logo {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.lx-lr-track {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: 3px;
+  overflow: visible;
+}
+.lx-lr-line {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg,
+    rgba(0,151,212,0) 0%,
+    #0097D4 12%,
+    #0097D4 88%,
+    rgba(0,151,212,0) 100%);
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.lx-lr-glow {
+  position: absolute;
+  top: 50%; left: 0;
+  width: 60px; height: 14px;
+  transform: translate(-50%, -50%) scale(0);
+  background: radial-gradient(closest-side, rgba(0,151,212,0.55), rgba(0,151,212,0));
+  opacity: 0;
+  pointer-events: none;
+}
+/* Animated state: only when JS adds .lx-lr-play (so no-JS users just see the static logo) */
+.lx-lr-play .lx-lr-logo {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: lx-lr-rise 880ms cubic-bezier(0.22,0.7,0.2,1) 820ms forwards;
+}
+.lx-lr-play .lx-lr-line {
+  transform: scaleX(0);
+  animation: lx-lr-draw 900ms cubic-bezier(0.65,0.02,0.18,1) forwards;
+}
+.lx-lr-play .lx-lr-glow {
+  animation: lx-lr-glow 900ms cubic-bezier(0.65,0.02,0.18,1) forwards;
+}
+@keyframes lx-lr-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes lx-lr-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lx-lr-glow {
+  0% { left: 0; transform: translate(-50%,-50%) scale(0); opacity: 0; }
+  12% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  88% { opacity: 0.85; }
+  100% { left: 100%; opacity: 0; transform: translate(-50%,-50%) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lx-lr-play .lx-lr-logo { opacity: 1; transform: none; animation: none; }
+  .lx-lr-play .lx-lr-line { transform: scaleX(1); animation: none; }
+  .lx-lr-play .lx-lr-glow { display: none; }
+}
+{% endstylesheet %}
+
+<script>
+(function () {
+  {% if section.settings.animate_logo == false %}return;{% endif %}
+  function playReveal() {
+    var el = document.getElementById('lx-logo-reveal');
+    if (!el) return;
+    // Restart cleanly each time, then play
+    el.classList.remove('lx-lr-play');
+    void el.offsetWidth; // force reflow so the animation can re-trigger
+    el.classList.add('lx-lr-play');
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', playReveal);
+  } else {
+    playReveal();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "header", "content": "Logo" },
+    { "type": "image_picker", "id": "logo_image", "label": "Logo image", "info": "Upload your logo (PNG with transparent background works best). Leave blank to use the built-in LogixX logo." },
+    { "type": "range", "id": "logo_height", "label": "Logo height", "min": 24, "max": 80, "step": 4, "unit": "px", "default": 40 },
+    { "type": "checkbox", "id": "animate_logo", "label": "Animate logo on load", "info": "Plays the line-wipe reveal once when the site first loads.", "default": true },
+    { "type": "header", "content": "Shop button" },
+    { "type": "text", "id": "shop_btn_text", "label": "Button label", "default": "Shop" },
+    { "type": "url", "id": "shop_btn_url", "label": "Button link", "info": "Points to your shop page, all-products collection, or anywhere you choose." }
+  ]
+}
+{% endschema %}

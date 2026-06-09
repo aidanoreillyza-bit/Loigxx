@@ -1,0 +1,17 @@
+<section class="default-page">
+  <div class="container default-page-container">
+    <header class="default-page-head">
+      <h1>{{ page.title }}</h1>
+    </header>
+    <div class="default-page-content rte">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page content",
+  "settings": []
+}
+{% endschema %}

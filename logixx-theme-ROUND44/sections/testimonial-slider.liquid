@@ -1,0 +1,182 @@
+{%- comment -%}
+  Testimonial slider — quote-based, prev/next arrows + dots. Auto-rotates.
+{%- endcomment -%}
+
+<section class="lx-testi" id="lx-testi-{{ section.id }}">
+  <div class="lx-testi-inner">
+
+    <div class="lx-testi-head">
+      {% if section.settings.eyebrow != blank %}
+        <p class="lx-testi-eyebrow">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      <h2 class="lx-testi-heading">{{ section.settings.heading | default: 'What our customers say' }}</h2>
+    </div>
+
+    <div class="lx-testi-stage">
+      <button class="lx-testi-arrow lx-testi-arrow--prev" aria-label="Previous testimonial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <div class="lx-testi-track">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'quote' %}
+              <article class="lx-testi-card{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+                <div class="lx-testi-stars">
+                  {% assign rating = block.settings.rating | default: 5 | plus: 0 %}
+                  {% for s in (1..5) %}
+                    <svg viewBox="0 0 24 24" fill="{% if s <= rating %}currentColor{% else %}none{% endif %}" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9 12 2"/></svg>
+                  {% endfor %}
+                </div>
+                <blockquote class="lx-testi-quote">"{{ block.settings.quote }}"</blockquote>
+                <div class="lx-testi-author">
+                  <strong>{{ block.settings.author | default: 'Anonymous' }}</strong>
+                  {% if block.settings.location != blank %}<span>{{ block.settings.location }}</span>{% endif %}
+                </div>
+              </article>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <article class="lx-testi-card is-active" data-index="0">
+            <div class="lx-testi-stars">
+              {% for s in (1..5) %}<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9 12 2"/></svg>{% endfor %}
+            </div>
+            <blockquote class="lx-testi-quote">"After 2 years of trying, we conceived within 4 months of starting Proxeed Plus. The team's support throughout was incredible."</blockquote>
+            <div class="lx-testi-author">
+              <strong>Sarah &amp; James</strong>
+              <span>London, UK</span>
+            </div>
+          </article>
+        {% endif %}
+      </div>
+
+      <button class="lx-testi-arrow lx-testi-arrow--next" aria-label="Next testimonial">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    {% if section.blocks.size > 1 %}
+      <div class="lx-testi-dots">
+        {% for block in section.blocks %}
+          {% if block.type == 'quote' %}
+            <button class="lx-testi-dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Show testimonial {{ forloop.index }}"></button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+(function(){
+  function initTesti(){
+    var root = document.getElementById('lx-testi-{{ section.id }}');
+    if (!root) return;
+    if (root.dataset.lxInit === '1') return;
+    root.dataset.lxInit = '1';
+
+    var cards = root.querySelectorAll('.lx-testi-card');
+    var dots = root.querySelectorAll('.lx-testi-dot');
+    var prev = root.querySelector('.lx-testi-arrow--prev');
+    var next = root.querySelector('.lx-testi-arrow--next');
+
+    if (cards.length < 2) {
+      if (prev) prev.style.display = 'none';
+      if (next) next.style.display = 'none';
+      return;
+    }
+
+    var current = 0;
+    var timer = null;
+    var rotateMs = {{ section.settings.rotate_seconds | default: 7 | times: 1000 }};
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function show(i) {
+      current = (i + cards.length) % cards.length;
+      cards.forEach(function(c, idx){ c.classList.toggle('is-active', idx === current); });
+      dots.forEach(function(d, idx){ d.classList.toggle('is-active', idx === current); });
+    }
+    function stop(){ if (timer) { clearInterval(timer); timer = null; } }
+    function start(){ stop(); if (reduce) return; timer = setInterval(function(){ show(current + 1); }, rotateMs); }
+    function step(dir){ show(current + dir); start(); }
+
+    if (prev) prev.addEventListener('click', function(){ step(-1); });
+    if (next) next.addEventListener('click', function(){ step(1); });
+    dots.forEach(function(d){
+      d.addEventListener('click', function(){ show(parseInt(d.dataset.index, 10)); start(); });
+    });
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+
+    start();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTesti);
+  } else {
+    initTesti();
+  }
+})();
+</script>
+
+{% stylesheet %}
+.lx-testi{ padding-block:clamp(3.5rem,7vw,6.5rem); background:var(--lx-bg-soft); }
+.lx-testi-inner{ max-width:880px; margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem); text-align:center; }
+.lx-testi-head{ margin-bottom:2.5rem; }
+.lx-testi-eyebrow{ font-weight:600; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--lx-blue-ink); margin:0 0 .6rem; }
+.lx-testi-heading{ margin:0; }
+.lx-testi-stage{ display:flex; align-items:center; gap:clamp(.5rem,2vw,1.5rem); }
+.lx-testi-track{ position:relative; flex:1; display:grid; }
+.lx-testi-card{ grid-area:1/1; opacity:0; visibility:hidden; transform:translateY(10px); transition:opacity .5s var(--lx-ease), transform .5s var(--lx-ease); pointer-events:none; }
+.lx-testi-card.is-active{ opacity:1; visibility:visible; transform:none; pointer-events:auto; }
+.lx-testi-stars{ display:inline-flex; gap:3px; color:var(--lx-star); margin-bottom:1.2rem; }
+.lx-testi-stars svg{ width:22px; height:22px; }
+.lx-testi-quote{ font-family:var(--lx-display); font-weight:700; font-size:clamp(1.35rem,1rem + 1.6vw,2rem); line-height:1.35; letter-spacing:-.01em; color:var(--lx-navy); margin:0 0 1.5rem; text-wrap:balance; }
+.lx-testi-author strong{ display:block; font-family:var(--lx-display); color:var(--lx-navy); font-size:1.05rem; }
+.lx-testi-author span{ display:block; color:var(--lx-muted); font-size:.9rem; margin-top:.15rem; }
+.lx-testi-arrow{ flex:none; width:48px; height:48px; border-radius:50%; border:1.5px solid var(--lx-line-strong); background:#fff; color:var(--lx-navy); display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:transform var(--lx-dur) var(--lx-ease), border-color var(--lx-dur), color var(--lx-dur), box-shadow var(--lx-dur); }
+.lx-testi-arrow svg{ width:22px; height:22px; }
+.lx-testi-arrow:hover{ border-color:var(--lx-blue); color:var(--lx-blue-ink); box-shadow:var(--lx-sh); transform:translateY(-2px); }
+.lx-testi-dots{ display:flex; justify-content:center; gap:.5rem; margin-top:2rem; }
+.lx-testi-dot{ width:9px; height:9px; padding:0; border:0; border-radius:50%; background:var(--lx-line-strong); cursor:pointer; transition:background var(--lx-dur), transform var(--lx-dur) var(--lx-ease); }
+.lx-testi-dot:hover{ background:var(--lx-faint); }
+.lx-testi-dot.is-active{ background:var(--lx-blue); transform:scale(1.3); }
+@media (max-width:560px){ .lx-testi-arrow{ width:42px; height:42px; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonial slider",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (optional)", "default": "Reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say" },
+    { "type": "range", "id": "rotate_seconds", "label": "Auto-rotate every", "min": 4, "max": 15, "step": 1, "unit": "s", "default": 7 }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "This product was a game-changer for us." },
+        { "type": "text", "id": "author", "label": "Author name", "default": "Sarah & James" },
+        { "type": "text", "id": "location", "label": "Location (optional)", "default": "London, UK" },
+        { "type": "range", "id": "rating", "label": "Star rating", "min": 1, "max": 5, "step": 1, "default": 5 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial slider",
+      "blocks": [
+        { "type": "quote", "settings": { "quote": "After 2 years of trying, we conceived within 4 months of starting Proxeed Plus. The team's support throughout was incredible.", "author": "Sarah & James", "location": "London, UK", "rating": 5 } },
+        { "type": "quote", "settings": { "quote": "Real, science-backed information instead of vague advice. The supplements made a measurable difference in my sperm analysis results.", "author": "Tom R.", "location": "Manchester, UK", "rating": 5 } },
+        { "type": "quote", "settings": { "quote": "Fast US delivery and the duties were sorted at checkout — no surprises. Customer service was responsive and genuinely helpful.", "author": "Mike & Jenna", "location": "Austin, TX", "rating": 5 } },
+        { "type": "quote", "settings": { "quote": "Recommended by our fertility consultant and I can see why. Quality you can trust during a stressful time.", "author": "Priya K.", "location": "Birmingham, UK", "rating": 5 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

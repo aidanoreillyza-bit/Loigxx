@@ -1,0 +1,98 @@
+<section class="search-page">
+  <div class="container">
+
+    <!-- Header -->
+    <header class="search-head">
+      <h1>{% if search.terms != blank %}Results for "{{ search.terms }}"{% else %}Search{% endif %}</h1>
+      <form action="/search" method="get" role="search" class="search-form">
+        <i class="ph ph-magnifying-glass"></i>
+        <input type="hidden" name="type" value="product,page,article">
+        <input type="search" name="q" value="{{ search.terms }}" placeholder="Search products, guides, pages…" autocomplete="off">
+        <button type="submit">Search</button>
+      </form>
+      {% if search.performed and search.results_count > 0 %}
+        <p class="search-count">{{ search.results_count }} {% if search.results_count == 1 %}result{% else %}results{% endif %}</p>
+      {% endif %}
+    </header>
+
+    <!-- Results -->
+    {% if search.performed %}
+      {% if search.results_count == 0 %}
+        <div class="search-empty">
+          <i class="ph ph-magnifying-glass"></i>
+          <h3>No results for "{{ search.terms }}"</h3>
+          <p>Try different keywords, or browse our products below.</p>
+          <a href="/pages/shop" class="btn btn-primary">Browse all products</a>
+        </div>
+      {% else %}
+        {% paginate search.results by 12 %}
+          <div class="product-grid product-grid--3col">
+            {% for item in search.results %}
+              {% if item.object_type == 'product' %}
+                <a href="{{ item.url }}" class="product-card">
+                  <div class="product-image">
+                    {% if item.featured_image %}
+                      <img src="{{ item.featured_image | image_url: width: 600 }}" alt="{{ item.title }}">
+                    {% else %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    {% endif %}
+                    {% if item.compare_at_price > item.price %}
+                      <span class="product-badge">Sale</span>
+                    {% endif %}
+                  </div>
+                  <div class="product-info">
+                    {% if item.vendor %}<div class="product-cat">{{ item.vendor }}</div>{% endif %}
+                    <h3 class="product-title">{{ item.title }}</h3>
+                    <div class="product-price">
+                      {{ item.price | money }}
+                      {% if item.compare_at_price > item.price %}
+                        <span class="compare">{{ item.compare_at_price | money }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </a>
+              {% else %}
+                <a href="{{ item.url }}" class="search-page-card">
+                  <span class="search-page-type">{{ item.object_type | capitalize }}</span>
+                  <h3>{{ item.title }}</h3>
+                  {% if item.content %}
+                    <p>{{ item.content | strip_html | truncate: 140 }}</p>
+                  {% endif %}
+                  <span class="search-page-link">Read more →</span>
+                </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if paginate.pages > 1 %}
+            <nav class="shop-pagination">
+              {% if paginate.previous %}<a href="{{ paginate.previous.url }}" class="shop-page-btn">← Previous</a>{% endif %}
+              {% for part in paginate.parts %}
+                {% if part.is_link %}
+                  <a href="{{ part.url }}" class="shop-page-btn">{{ part.title }}</a>
+                {% else %}
+                  <span class="shop-page-btn is-current">{{ part.title }}</span>
+                {% endif %}
+              {% endfor %}
+              {% if paginate.next %}<a href="{{ paginate.next.url }}" class="shop-page-btn">Next →</a>{% endif %}
+            </nav>
+          {% endif %}
+        {% endpaginate %}
+      {% endif %}
+    {% else %}
+      <div class="search-empty">
+        <i class="ph ph-magnifying-glass"></i>
+        <h3>Start typing to search</h3>
+        <p>Find products by name, brand, or category.</p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Search results",
+  "settings": []
+}
+{% endschema %}

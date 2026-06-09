@@ -1,0 +1,209 @@
+<section class="hero hero--image-led">
+  <div class="hero-swimmers" aria-hidden="true">
+    {% assign swimmer_count = 40 %}
+    {% for i in (1..swimmer_count) %}
+      <svg class="swimmer swimmer-{{ i }}" viewBox="0 0 70 12" xmlns="http://www.w3.org/2000/svg">
+        <!-- Simple thin tail -->
+        <path class="tail" d="M58 6 L 4 6" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <!-- Small oval head -->
+        <ellipse cx="62" cy="6" rx="5" ry="3.5" fill="currentColor"/>
+      </svg>
+    {% endfor %}
+  </div>
+
+  <div class="container hero-grid">
+
+    <div class="hero-content">
+      {% if section.settings.eyebrow != blank %}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {% endif %}
+      <h1>{{ section.settings.heading }}</h1>
+      <p>{{ section.settings.subheading }}</p>
+      <div class="hero-actions">
+        {% if section.settings.btn1_link != blank %}
+          <a href="{{ section.settings.btn1_link }}" class="btn btn-primary">
+            {{ section.settings.btn1_text }}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        {% endif %}
+        {% if section.settings.btn2_link != blank %}
+          <a href="{{ section.settings.btn2_link }}" class="btn btn-secondary">{{ section.settings.btn2_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="hero-image-wrap">
+      <div class="hero-image">
+        {% if section.settings.image != blank %}
+          <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.heading }}">
+        {% else %}
+          <div class="hero-image-empty">
+            <i class="ph ph-image"></i>
+            <span>Add hero image in Customize</span>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.show_badge %}
+        <div class="hero-badge hero-badge--top">
+          <div class="hero-badge-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <div>
+            <strong>{{ section.settings.badge_top_title }}</strong>
+            <span>{{ section.settings.badge_top_subtitle }}</span>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if section.settings.show_review %}
+        <div class="hero-badge hero-badge--bottom">
+          <div class="hero-stars">
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+            <i class="ph-fill ph-star"></i>
+          </div>
+          <div>
+            <strong>{{ section.settings.review_score }}</strong>
+            <span>{{ section.settings.review_count }} reviews</span>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{% stylesheet %}
+.hero{
+  position:relative; overflow:hidden;
+  padding-block:clamp(3rem,6vw,6rem) clamp(3.5rem,7vw,7rem);
+  background:
+    radial-gradient(120% 130% at 88% -10%, var(--lx-blue-050) 0%, rgba(242,250,254,0) 55%),
+    linear-gradient(180deg,#fff 0%, var(--lx-bg-soft) 100%);
+}
+.hero-grid{
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:1.05fr .95fr;
+  gap:clamp(2rem,5vw,4.5rem); align-items:center;
+}
+.hero-content{ max-width:34rem; }
+.hero-content .eyebrow{ margin-bottom:1.1rem; }
+.hero-content h1{ margin:0 0 1.15rem; }
+.hero-content > p{
+  font-size:clamp(1.05rem,1rem + .45vw,1.27rem);
+  color:var(--lx-muted); max-width:46ch; line-height:1.6; margin:0 0 2rem;
+}
+.hero-actions{ display:flex; flex-wrap:wrap; gap:.85rem; }
+
+/* Image + floating badges */
+.hero-image-wrap{ position:relative; z-index:1; }
+.hero-image{
+  position:relative; border-radius:var(--lx-r-lg); overflow:hidden;
+  aspect-ratio:4/5; box-shadow:var(--lx-sh-lg);
+  background:linear-gradient(160deg,#E7F5FC,#D2ECF9);
+}
+.hero-image img{ width:100%; height:100%; object-fit:cover; }
+.hero-image-empty{
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:.6rem; color:var(--lx-faint); font-size:.95rem;
+}
+.hero-image-empty i{ font-size:2.4rem; }
+.hero-badge{
+  position:absolute; display:flex; align-items:center; gap:.7rem;
+  background:rgba(255,255,255,.9); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.75); border-radius:var(--lx-r);
+  padding:.75rem .95rem; box-shadow:var(--lx-sh-lg);
+}
+.hero-badge strong{ display:block; font-family:var(--lx-display); font-size:.95rem; color:var(--lx-navy); line-height:1.15; }
+.hero-badge span{ display:block; font-size:.78rem; color:var(--lx-muted); }
+.hero-badge-icon{
+  width:38px; height:38px; flex:none; border-radius:10px; display:flex;
+  align-items:center; justify-content:center; background:var(--lx-blue-050); color:var(--lx-blue);
+}
+.hero-badge-icon svg{ width:20px; height:20px; }
+.hero-badge--top{ top:1.1rem; left:clamp(-1.1rem,-2vw,0rem); animation:lx-float 6s ease-in-out infinite; }
+.hero-badge--bottom{ bottom:1.4rem; right:clamp(-1.1rem,-2vw,0rem); flex-direction:column; align-items:flex-start; gap:.3rem; animation:lx-float 6s ease-in-out infinite 1.5s; }
+.hero-badge--bottom > div{ display:flex; align-items:baseline; gap:.4rem; }
+.hero-stars{ display:inline-flex; gap:1px; color:var(--lx-star); font-size:.9rem; }
+@keyframes lx-float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
+
+/* Swimmers — subtle sperm drifting across the backdrop */
+.hero-swimmers{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+.swimmer{
+  position:absolute; left:0; width:62px; height:11px; color:var(--lx-blue); opacity:.10;
+  transform:translateX(-160px); will-change:transform;
+  animation:lx-swim linear infinite;
+}
+@keyframes lx-swim{ from{ transform:translateX(-160px); } to{ transform:translateX(calc(100vw + 160px)); } }
+/* 10 vertical lanes (mod 10) keep them spread top→bottom */
+.swimmer:nth-child(10n+1){ top:5%; }   .swimmer:nth-child(10n+2){ top:14%; }
+.swimmer:nth-child(10n+3){ top:23%; }  .swimmer:nth-child(10n+4){ top:33%; }
+.swimmer:nth-child(10n+5){ top:43%; }  .swimmer:nth-child(10n+6){ top:53%; }
+.swimmer:nth-child(10n+7){ top:63%; }  .swimmer:nth-child(10n+8){ top:73%; }
+.swimmer:nth-child(10n+9){ top:83%; }  .swimmer:nth-child(10n){   top:93%; }
+/* Speed variety (mod 4) and head-start delays (mod 7) avoid visible rows */
+.swimmer:nth-child(4n+1){ animation-duration:15s; }
+.swimmer:nth-child(4n+2){ animation-duration:21s; }
+.swimmer:nth-child(4n+3){ animation-duration:26s; }
+.swimmer:nth-child(4n){   animation-duration:18s; }
+.swimmer:nth-child(7n+1){ animation-delay:-3s;  opacity:.07; }
+.swimmer:nth-child(7n+3){ animation-delay:-9s;  width:52px; }
+.swimmer:nth-child(7n+5){ animation-delay:-14s; opacity:.13; }
+.swimmer:nth-child(7n){   animation-delay:-6s;  width:72px; }
+
+/* Entry motion */
+.hero-content > *{ animation:lx-rise .7s var(--lx-ease) backwards; }
+.hero-content .eyebrow{ animation-delay:.05s; }
+.hero-content h1{ animation-delay:.12s; }
+.hero-content > p{ animation-delay:.2s; }
+.hero-actions{ animation-delay:.28s; }
+.hero-image-wrap{ animation:lx-rise .8s var(--lx-ease) .15s backwards; }
+@keyframes lx-rise{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:none; } }
+
+@media (max-width:900px){
+  .hero-grid{ grid-template-columns:1fr; gap:2.5rem; }
+  .hero-content{ max-width:none; }
+  .hero-image{ aspect-ratio:16/11; }
+  .hero-badge--top{ left:.6rem; }
+  .hero-badge--bottom{ right:.6rem; }
+}
+@media (max-width:480px){
+  .hero-actions{ flex-direction:column; align-items:stretch; }
+  .hero-actions .btn{ width:100%; }
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-swimmers{ display:none; }
+  .hero-badge--top, .hero-badge--bottom{ animation:none; }
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "311,733+ couples helped worldwide" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The science of starting a family." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Pharmaceutical-grade fertility supplements and clinic-grade diagnostics — trusted by leading specialists in 40+ countries." },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "btn1_text", "label": "Primary button", "default": "Find your product" },
+    { "type": "url", "id": "btn1_link", "label": "Primary button link" },
+    { "type": "text", "id": "btn2_text", "label": "Secondary button", "default": "Our science" },
+    { "type": "url", "id": "btn2_link", "label": "Secondary button link" },
+    { "type": "header", "content": "Hero image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "header", "content": "Floating top-left badge" },
+    { "type": "checkbox", "id": "show_badge", "label": "Show top badge", "default": true },
+    { "type": "text", "id": "badge_top_title", "label": "Title", "default": "Specialist recommended" },
+    { "type": "text", "id": "badge_top_subtitle", "label": "Subtitle", "default": "Peer-reviewed formulas" },
+    { "type": "header", "content": "Floating bottom-right review badge" },
+    { "type": "checkbox", "id": "show_review", "label": "Show review badge", "default": true },
+    { "type": "text", "id": "review_score", "label": "Score", "default": "4.9 / 5" },
+    { "type": "text", "id": "review_count", "label": "Reviews count", "default": "2,400+ verified reviews" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

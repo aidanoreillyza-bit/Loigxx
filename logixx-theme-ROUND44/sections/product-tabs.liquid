@@ -1,0 +1,187 @@
+<section class="lx-tabs-section">
+  <div class="container">
+
+    <!-- Tab nav -->
+    <div class="lx-tabs-nav" role="tablist">
+      {% if section.settings.tab1_enabled %}
+        <button type="button" class="lx-tab-btn is-active" data-tab="tab1" role="tab">{{ section.settings.tab1_label }}</button>
+      {% endif %}
+      {% if section.settings.tab2_enabled %}
+        <button type="button" class="lx-tab-btn{% unless section.settings.tab1_enabled %} is-active{% endunless %}" data-tab="tab2" role="tab">{{ section.settings.tab2_label }}</button>
+      {% endif %}
+      {% if section.settings.tab3_enabled %}
+        <button type="button" class="lx-tab-btn" data-tab="tab3" role="tab">{{ section.settings.tab3_label }}</button>
+      {% endif %}
+      {% if section.settings.tab4_enabled %}
+        <button type="button" class="lx-tab-btn" data-tab="tab4" role="tab">{{ section.settings.tab4_label }}</button>
+      {% endif %}
+    </div>
+
+    <!-- Tab panels -->
+    {% if section.settings.tab1_enabled %}
+      <div class="lx-tab-panel is-active" data-panel="tab1">
+        <div class="lx-tab-rich rte">{{ section.settings.tab1_content }}</div>
+      </div>
+    {% endif %}
+
+    {% if section.settings.tab2_enabled %}
+      <div class="lx-tab-panel{% unless section.settings.tab1_enabled %} is-active{% endunless %}" data-panel="tab2">
+        <div class="lx-ingredient-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'ingredient' %}
+              <div class="lx-ingredient-card" {{ block.shopify_attributes }}>
+                <div class="lx-ingredient-icon"><i class="{{ block.settings.icon | default: 'ph ph-flask' }}"></i></div>
+                <div class="lx-ingredient-body">
+                  <div class="lx-ingredient-head">
+                    <h4>{{ block.settings.name }}</h4>
+                    {% if block.settings.dosage != blank %}<span class="lx-ingredient-dose">{{ block.settings.dosage }}</span>{% endif %}
+                  </div>
+                  {% if block.settings.description != blank %}<p>{{ block.settings.description }}</p>{% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.settings.tab3_enabled %}
+      <div class="lx-tab-panel" data-panel="tab3">
+        <div class="lx-benefits-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'benefit' %}
+              <div class="lx-benefit-card" {{ block.shopify_attributes }}>
+                <div class="lx-benefit-icon"><i class="{{ block.settings.icon | default: 'ph ph-check-circle' }}"></i></div>
+                <h4>{{ block.settings.title }}</h4>
+                {% if block.settings.description != blank %}<p>{{ block.settings.description }}</p>{% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.settings.tab4_enabled %}
+      <div class="lx-tab-panel" data-panel="tab4">
+        <div class="lx-steps">
+          {% assign step_idx = 0 %}
+          {% for block in section.blocks %}
+            {% if block.type == 'step' %}
+              {% assign step_idx = step_idx | plus: 1 %}
+              <div class="lx-step" {{ block.shopify_attributes }}>
+                <div class="lx-step-num">{{ step_idx }}</div>
+                <div class="lx-step-body">
+                  <h4>{{ block.settings.title }}</h4>
+                  {% if block.settings.description != blank %}<p>{{ block.settings.description }}</p>{% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var section = document.currentScript.previousElementSibling;
+  while (section && !section.classList.contains('lx-tabs-section')) {
+    section = section.previousElementSibling;
+  }
+  if (!section) section = document.querySelector('.lx-tabs-section');
+  if (!section) return;
+  var tabs = section.querySelectorAll('.lx-tab-btn');
+  var panels = section.querySelectorAll('.lx-tab-panel');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('is-active'); });
+      panels.forEach(function(p){ p.classList.remove('is-active'); });
+      tab.classList.add('is-active');
+      var target = section.querySelector('[data-panel="' + tab.dataset.tab + '"]');
+      if (target) target.classList.add('is-active');
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Product Tabs",
+  "settings": [
+    { "type": "header", "content": "Tab 1 — Overview" },
+    { "type": "checkbox", "id": "tab1_enabled", "label": "Enable", "default": true },
+    { "type": "text", "id": "tab1_label", "label": "Label", "default": "Overview" },
+    { "type": "richtext", "id": "tab1_content", "label": "Content", "default": "<p>Proxeed Plus is a clinically-proven nutraceutical for male fertility, formulated by leading reproductive scientists. Each sachet delivers a precise blend of L-Carnitine, Coenzyme Q10, antioxidants, and essential micronutrients shown to support sperm health and motility.</p><p>Trusted by over 311,000 couples worldwide, Proxeed Plus is recommended by fertility specialists across 40+ countries as part of a comprehensive male fertility protocol.</p>" },
+
+    { "type": "header", "content": "Tab 2 — Ingredients" },
+    { "type": "checkbox", "id": "tab2_enabled", "label": "Enable", "default": true },
+    { "type": "text", "id": "tab2_label", "label": "Label", "default": "Ingredients" },
+
+    { "type": "header", "content": "Tab 3 — Benefits" },
+    { "type": "checkbox", "id": "tab3_enabled", "label": "Enable", "default": true },
+    { "type": "text", "id": "tab3_label", "label": "Label", "default": "Benefits" },
+
+    { "type": "header", "content": "Tab 4 — How to Use" },
+    { "type": "checkbox", "id": "tab4_enabled", "label": "Enable", "default": true },
+    { "type": "text", "id": "tab4_label", "label": "Label", "default": "How to Use" }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Phosphor icon", "default": "ph ph-flask" },
+        { "type": "text", "id": "name", "label": "Name", "default": "L-Carnitine" },
+        { "type": "text", "id": "dosage", "label": "Dosage", "default": "1465 mg" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Supports sperm energy production and motility." }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Phosphor icon", "default": "ph ph-check-circle" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Improves sperm motility" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Clinical evidence shows improved sperm movement parameters within 3 months." }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Usage step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Take 2 sachets daily" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Mix with 200ml of water or juice." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Tabs",
+      "blocks": [
+        { "type": "ingredient", "settings": { "icon": "ph ph-flask",     "name": "L-Carnitine",         "dosage": "1465 mg", "description": "Essential amino acid that supports sperm energy production and motility — the most heavily-researched ingredient for male fertility." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-atom",      "name": "Acetyl-L-Carnitine",  "dosage": "725 mg",  "description": "Works synergistically with L-Carnitine to deliver energy directly to sperm cells." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-flame",     "name": "Coenzyme Q10",        "dosage": "20 mg",   "description": "Powerful antioxidant that supports cellular energy production and protects sperm from oxidative damage." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-leaf",      "name": "Fructose",            "dosage": "250 mg",  "description": "Natural energy source for sperm cells, supporting their journey." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-citrus",    "name": "Citric Acid",         "dosage": "50 mg",   "description": "Helps maintain optimal seminal fluid chemistry." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-vitamin",   "name": "Vitamin B12",         "dosage": "1.5 µg",  "description": "Essential for healthy sperm DNA and reduces sperm DNA damage." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-circle",    "name": "Folic Acid",          "dosage": "200 µg",  "description": "Critical for normal sperm production and reducing chromosomal abnormalities." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-sparkle",   "name": "Zinc",                "dosage": "10 mg",   "description": "Supports normal testosterone levels, normal fertility and reproduction." } },
+        { "type": "ingredient", "settings": { "icon": "ph ph-shield",    "name": "Selenium",            "dosage": "50 µg",   "description": "Antioxidant that contributes to normal spermatogenesis." } },
+
+        { "type": "benefit", "settings": { "icon": "ph ph-trend-up",       "title": "Improves sperm motility",      "description": "Clinical studies show measurable improvement in sperm movement parameters within 3 months of daily use." } },
+        { "type": "benefit", "settings": { "icon": "ph ph-shield-check",   "title": "Protects sperm DNA",            "description": "Powerful antioxidant blend reduces oxidative stress and DNA fragmentation in sperm cells." } },
+        { "type": "benefit", "settings": { "icon": "ph ph-heart",          "title": "Boosts sperm count",            "description": "Supports normal spermatogenesis through clinically-proven micronutrients." } },
+        { "type": "benefit", "settings": { "icon": "ph ph-lightning",      "title": "Increases sperm energy",        "description": "L-Carnitine and CoQ10 directly fuel cellular energy production for healthier, more active sperm." } },
+        { "type": "benefit", "settings": { "icon": "ph ph-test-tube",      "title": "Improves morphology",           "description": "Supports the development of sperm with normal shape and structure." } },
+        { "type": "benefit", "settings": { "icon": "ph ph-couch",          "title": "Backed by 311k+ couples",       "description": "Proven track record across 40+ countries with leading fertility specialists worldwide." } },
+
+        { "type": "step", "settings": { "title": "Take 2 sachets daily",   "description": "Take one sachet in the morning and one in the evening." } },
+        { "type": "step", "settings": { "title": "Mix thoroughly",         "description": "Empty contents into 200ml of water or fruit juice and stir until dissolved." } },
+        { "type": "step", "settings": { "title": "Consume with food",      "description": "Drink with breakfast and dinner for best absorption. Use daily for at least 3 months." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
