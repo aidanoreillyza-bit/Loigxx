@@ -144,6 +144,365 @@
 })();
 </script>
 
+{% stylesheet %}
+/* =============================================
+   fertility-team-content — Team page
+   Scoped under .team-page
+   ============================================= */
+
+.team-page {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg);
+}
+
+/* Page header */
+.team-head {
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.team-head h1 {
+  font-family: var(--lx-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--lx-navy);
+  line-height: 1.1;
+  margin-block: .5rem 1rem;
+}
+
+.team-head p {
+  font-size: 1.05rem;
+  color: var(--lx-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Sub-section labels (Leadership / Operations) */
+.team-section-label {
+  text-align: center;
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+.team-section-label--mt {
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+.team-section-label h2 {
+  font-family: var(--lx-display);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 700;
+  color: var(--lx-navy);
+  margin-bottom: .4rem;
+}
+
+.team-section-label p {
+  font-size: 1rem;
+  color: var(--lx-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Leadership cards ── */
+.leader-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 2rem;
+  margin-bottom: 0;
+}
+
+.leader-card {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  background: #fff;
+  border: 1px solid var(--lx-line);
+  border-radius: var(--lx-r-lg);
+  padding: 1.75rem;
+  transition: transform var(--lx-dur) var(--lx-ease), box-shadow var(--lx-dur) var(--lx-ease), border-color var(--lx-dur) var(--lx-ease);
+}
+
+.leader-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lx-sh-lg);
+  border-color: transparent;
+}
+
+/* Photo */
+.leader-photo {
+  width: 140px;
+  height: 140px;
+  border-radius: var(--lx-r);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--lx-bg-alt);
+}
+
+.leader-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.leader-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  color: var(--lx-faint);
+  font-size: .75rem;
+}
+
+.leader-photo-placeholder i { font-size: 2rem; }
+
+/* Body */
+.leader-role {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--lx-blue-ink);
+  margin-bottom: .3rem;
+}
+
+.leader-name {
+  font-family: var(--lx-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--lx-navy);
+  margin: 0 0 .3rem;
+  line-height: 1.25;
+}
+
+.leader-quals {
+  font-size: .8rem;
+  color: var(--lx-muted);
+  margin: 0 0 .65rem;
+}
+
+.leader-bio {
+  font-size: .875rem;
+  color: var(--lx-ink);
+  line-height: 1.65;
+  margin-bottom: .85rem;
+}
+
+.leader-bio p { margin: 0; }
+.leader-bio p + p { margin-top: .5rem; }
+
+/* Contact rows inside leader card */
+.leader-contact {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.leader-contact-row {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  background: none;
+  border: none;
+  padding: .45rem .65rem;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-size: .825rem;
+  color: var(--lx-ink);
+  text-decoration: none;
+  transition: background var(--lx-dur) var(--lx-ease), color var(--lx-dur) var(--lx-ease);
+}
+
+.leader-contact-row:hover {
+  background: var(--lx-blue-050);
+  color: var(--lx-blue-ink);
+}
+
+.leader-contact-row:focus-visible {
+  outline: 2px solid var(--lx-blue);
+  outline-offset: 2px;
+}
+
+.leader-contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--lx-blue-050);
+  color: var(--lx-blue);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.leader-contact-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leader-contact-action {
+  flex-shrink: 0;
+  color: var(--lx-faint);
+  font-size: .9rem;
+}
+
+/* copy animation */
+.leader-contact-row .copy-done { display: none; }
+.leader-contact-row.is-copied .copy-default { display: none; }
+.leader-contact-row.is-copied .copy-done { display: inline; color: var(--lx-green); }
+
+/* ── Operations / member cards ── */
+.member-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: 1.25rem;
+}
+
+.member-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: .5rem;
+  padding: 1.5rem 1.25rem;
+  background: #fff;
+  border: 1px solid var(--lx-line);
+  border-radius: var(--lx-r-lg);
+  transition: transform var(--lx-dur) var(--lx-ease), box-shadow var(--lx-dur) var(--lx-ease), border-color var(--lx-dur) var(--lx-ease);
+}
+
+.member-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--lx-sh);
+  border-color: transparent;
+}
+
+.member-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: .25rem;
+}
+
+.member-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.member-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--lx-blue-100);
+  color: var(--lx-blue-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--lx-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: .25rem;
+}
+
+.member-name {
+  font-family: var(--lx-display);
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--lx-navy);
+  margin: 0;
+}
+
+.member-role {
+  font-size: .8rem;
+  color: var(--lx-muted);
+  margin-bottom: .4rem;
+}
+
+.member-contact {
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  width: 100%;
+}
+
+.member-contact-link {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: none;
+  border: none;
+  padding: .35rem .5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: .78rem;
+  color: var(--lx-muted);
+  text-align: left;
+  transition: background var(--lx-dur) var(--lx-ease), color var(--lx-dur) var(--lx-ease);
+}
+
+.member-contact-link:hover {
+  background: var(--lx-blue-050);
+  color: var(--lx-blue-ink);
+}
+
+.member-contact-link span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .78rem;
+}
+
+.member-copy-icon { color: var(--lx-faint); font-size: .85rem; }
+
+.member-contact-link .copy-done { display: none; }
+.member-contact-link.is-copied .copy-default { display: none; }
+.member-contact-link.is-copied .copy-done { display: inline; color: var(--lx-green); }
+
+/* Responsive */
+@media (max-width: 860px) {
+  .leader-card {
+    grid-template-columns: 100px 1fr;
+    gap: 1.25rem;
+  }
+  .leader-photo { width: 100px; height: 100px; }
+}
+
+@media (max-width: 520px) {
+  .leader-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .leader-photo {
+    width: 100px;
+    height: 100px;
+    margin-inline: auto;
+  }
+  .leader-body { text-align: left; }
+  .member-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leader-card,
+  .member-card { transition: none; }
+}
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Fertility Team",

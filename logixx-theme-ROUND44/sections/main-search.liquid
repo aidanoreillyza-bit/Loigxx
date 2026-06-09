@@ -90,6 +90,212 @@
   </div>
 </section>
 
+{% stylesheet %}
+/* ================================================================
+   MAIN-SEARCH — scoped to .search-page and children
+   Design tokens are globally defined. Do not redefine :root.
+   ================================================================ */
+
+/* ---- Section wrapper ---- */
+.search-page {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg);
+}
+
+/* ================================================================
+   SEARCH HEADER
+   ================================================================ */
+.search-head {
+  max-width: 700px;
+  margin-inline: auto;
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.search-head h1 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1.12;
+  margin: 0;
+}
+
+/* ---- Search form ---- */
+.search-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 560px;
+  background: #fff;
+  border: 1.5px solid var(--lx-line-strong);
+  border-radius: var(--lx-pill);
+  overflow: hidden;
+  box-shadow: var(--lx-sh-sm);
+  transition: border-color var(--lx-dur) var(--lx-ease),
+              box-shadow var(--lx-dur) var(--lx-ease);
+}
+.search-form:focus-within {
+  border-color: var(--lx-blue);
+  box-shadow: 0 0 0 3px var(--lx-blue-100);
+}
+.search-form i {
+  position: absolute;
+  left: 1.1rem;
+  font-size: 1.1rem;
+  color: var(--lx-muted);
+  pointer-events: none;
+}
+.search-form input[type="search"] {
+  flex: 1;
+  padding: 0.85rem 0.75rem 0.85rem 2.9rem;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  color: var(--lx-ink);
+  background: transparent;
+  min-width: 0;
+}
+.search-form input[type="search"]::placeholder {
+  color: var(--lx-faint);
+}
+.search-form button[type="submit"] {
+  flex-shrink: 0;
+  padding: 0.75rem 1.35rem;
+  background: var(--lx-blue);
+  color: #fff;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--lx-display);
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background var(--lx-dur) var(--lx-ease);
+}
+.search-form button[type="submit"]:hover {
+  background: var(--lx-blue-600);
+}
+
+/* Result count */
+.search-count {
+  font-size: 0.88rem;
+  color: var(--lx-muted);
+  margin: 0;
+}
+
+/* ================================================================
+   EMPTY / PRE-SEARCH STATE
+   ================================================================ */
+.search-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(3rem, 6vw, 5rem) 1rem;
+  text-align: center;
+  gap: 1rem;
+  background: var(--lx-bg-soft);
+  border: 1px dashed var(--lx-line-strong);
+  border-radius: var(--lx-r-lg);
+  max-width: 480px;
+  margin-inline: auto;
+}
+.search-empty i {
+  font-size: 3rem;
+  color: var(--lx-faint);
+}
+.search-empty h3 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: 1.4rem;
+  margin: 0;
+}
+.search-empty p {
+  color: var(--lx-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* ================================================================
+   NON-PRODUCT (page/article) RESULT CARD
+   ================================================================ */
+.search-page-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.35rem 1.5rem;
+  background: #fff;
+  border: 1px solid var(--lx-line);
+  border-radius: var(--lx-r-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--lx-dur) var(--lx-ease),
+              box-shadow var(--lx-dur) var(--lx-ease),
+              border-color var(--lx-dur) var(--lx-ease);
+}
+.search-page-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lx-sh-lg);
+  border-color: transparent;
+}
+.search-page-type {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lx-blue-ink);
+  background: var(--lx-blue-050);
+  border: 1px solid var(--lx-blue-100);
+  border-radius: var(--lx-pill);
+  padding: 0.18rem 0.6rem;
+  width: fit-content;
+}
+.search-page-card h3 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: 1.05rem;
+  margin: 0;
+  line-height: 1.3;
+}
+.search-page-card p {
+  font-size: 0.88rem;
+  color: var(--lx-muted);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.search-page-link {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--lx-blue-ink);
+  margin-top: auto;
+  transition: color var(--lx-dur) var(--lx-ease);
+}
+.search-page-card:hover .search-page-link {
+  color: var(--lx-blue);
+}
+
+/* ================================================================
+   REDUCED MOTION
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .search-form,
+  .search-page-card {
+    transition: none;
+  }
+  .search-page-card:hover {
+    transform: none;
+  }
+}
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Search results",

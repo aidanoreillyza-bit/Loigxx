@@ -98,6 +98,138 @@
   </div>
 </section>
 
+{% stylesheet %}
+/* ============================================================
+   partners-marquee  — scoped to .marquee-section
+   NOTE: .container is a global shared class — only used as-is.
+   All unique classes: .marquee-section, .marquee-label,
+   .marquee, .marquee-track, .marquee-row, .marquee-item
+   ============================================================ */
+
+/* --- Section shell --- */
+.marquee-section {
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+  background: var(--lx-bg-alt);
+  border-block: 1px solid var(--lx-line);
+  overflow: hidden;
+}
+
+/* --- Heading label above marquee --- */
+.marquee-label {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lx-faint);
+  margin-block-end: 1.75rem;
+}
+
+/* --- Marquee viewport: clips the scroll --- */
+.marquee {
+  position: relative;
+  overflow: hidden;
+  /* Soft fade edges */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+/* --- Track holds two identical rows side-by-side for seamless loop --- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 32s linear infinite;
+}
+
+/* Pause entire track on hover */
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* --- Each row is a flex container of items --- */
+.marquee-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  padding-inline: clamp(1rem, 2vw, 2rem);
+}
+
+/* --- Individual partner item --- */
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 40px;
+  opacity: 0.55;
+  transition: opacity var(--lx-dur) var(--lx-ease),
+              filter var(--lx-dur) var(--lx-ease);
+  filter: grayscale(1);
+}
+
+.marquee-item:hover {
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+/* Logo images */
+.marquee-item img {
+  max-height: 36px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Text-only fallback names */
+.marquee-item span {
+  font-family: var(--lx-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--lx-ink);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* --- Reduced-motion: disable animation, show static row --- */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .marquee-row:last-child {
+    display: none;
+  }
+  .marquee-item {
+    opacity: 0.7;
+    filter: grayscale(0.4);
+  }
+  .marquee {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Partners marquee",

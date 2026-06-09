@@ -347,6 +347,1292 @@
 
 </section>
 
+{% stylesheet %}
+/* ============================================================
+   PUNALPIN PAGE  —  .lx-pun  (all rules scoped here)
+   Design tokens and global components defined globally;
+   only unique .lx-pun-* classes are styled below.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   SECTION ROOT
+   ---------------------------------------------------------- */
+.lx-pun {
+  position: relative;
+  overflow: hidden;
+  background: var(--lx-bg);
+  color: var(--lx-ink);
+  font-family: var(--lx-body);
+}
+
+/* ----------------------------------------------------------
+   BOTANICAL BACKGROUND DECORATION
+   ---------------------------------------------------------- */
+.lx-pun-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.lx-pun-leaf {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  color: var(--lx-blue-100);
+  opacity: .55;
+  user-select: none;
+}
+
+/* Scatter leaves across the background */
+.lx-pun-leaf--1  { top:  4%;  left:  3%;   transform: rotate(-20deg); }
+.lx-pun-leaf--2  { top:  8%;  right: 5%;   transform: rotate( 30deg); }
+.lx-pun-leaf--3  { top: 22%;  left:  1%;   transform: rotate( 55deg); }
+.lx-pun-leaf--4  { top: 35%;  right: 2%;   transform: rotate(-40deg); }
+.lx-pun-leaf--5  { top: 50%;  left:  4%;   transform: rotate( 15deg); }
+.lx-pun-leaf--1:nth-child(6)  { top: 60%;  right: 6%;  transform: rotate(-55deg); }
+.lx-pun-leaf--2:nth-child(7)  { top: 70%;  left:  2%;  transform: rotate( 70deg); }
+.lx-pun-leaf--3:nth-child(8)  { top: 80%;  right: 3%;  transform: rotate(-30deg); }
+.lx-pun-leaf--4:nth-child(9)  { top: 88%;  left:  5%;  transform: rotate( 45deg); }
+.lx-pun-leaf--5:nth-child(10) { top: 94%;  right: 7%;  transform: rotate(-10deg); }
+.lx-pun-leaf--1:nth-child(11) { top: 15%;  left: 48%;  transform: rotate( 20deg); font-size: 1rem; opacity: .3; }
+.lx-pun-leaf--2:nth-child(12) { top: 55%;  left: 52%;  transform: rotate(-35deg); font-size: 0.9rem; opacity: .25; }
+.lx-pun-leaf--3:nth-child(13) { top: 30%;  left: 90%;  transform: rotate( 60deg); font-size: 1.1rem; opacity: .3; }
+.lx-pun-leaf--4:nth-child(14) { top: 75%;  left: 85%;  transform: rotate(-25deg); font-size: 1rem; opacity: .28; }
+
+.lx-pun-berry {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e8b4cc, var(--lx-pink));
+  opacity: .18;
+}
+.lx-pun-berry--1 { width: 10px; height: 10px; top: 12%;  left: 18%; }
+.lx-pun-berry--2 { width:  7px; height:  7px; top: 28%;  left: 80%; }
+.lx-pun-berry--3 { width: 12px; height: 12px; top: 43%;  left: 60%; }
+.lx-pun-berry--4 { width:  8px; height:  8px; top: 58%;  left: 22%; }
+.lx-pun-berry--5 { width: 11px; height: 11px; top: 67%;  left: 75%; }
+.lx-pun-berry--6 { width:  6px; height:  6px; top: 78%;  left: 40%; }
+.lx-pun-berry--7 { width:  9px; height:  9px; top: 87%;  left: 12%; }
+.lx-pun-berry--8 { width: 13px; height: 13px; top: 93%;  left: 65%; }
+
+/* ----------------------------------------------------------
+   SHARED INNER LAYOUT HELPERS
+   ---------------------------------------------------------- */
+.lx-pun > *:not(.lx-pun-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ----------------------------------------------------------
+   SHARED SECTION HEAD
+   ---------------------------------------------------------- */
+.lx-pun-section-head {
+  text-align: center;
+  max-width: 680px;
+  margin-inline: auto;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.lx-pun-section-head h2 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  margin-block: .5rem 1rem;
+}
+
+.lx-pun-section-head p {
+  color: var(--lx-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.lx-pun-mini-eyebrow {
+  display: inline-block;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--lx-blue-ink);
+  background: var(--lx-blue-050);
+  border-radius: var(--lx-pill);
+  padding: .28em .9em;
+  margin-bottom: .75rem;
+}
+
+/* ----------------------------------------------------------
+   BUTTONS  (bespoke — not .btn* globally)
+   ---------------------------------------------------------- */
+.lx-pun-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--lx-body);
+  font-size: .95rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: .85rem 1.75rem;
+  border-radius: var(--lx-pill);
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform    var(--lx-dur) var(--lx-ease),
+    box-shadow   var(--lx-dur) var(--lx-ease),
+    background   var(--lx-dur) var(--lx-ease),
+    border-color var(--lx-dur) var(--lx-ease),
+    color        var(--lx-dur) var(--lx-ease);
+}
+
+.lx-pun-btn--primary {
+  background: var(--lx-blue);
+  color: #fff;
+  box-shadow: var(--lx-sh-blue);
+}
+.lx-pun-btn--primary:hover,
+.lx-pun-btn--primary:focus-visible {
+  background: var(--lx-blue-600);
+  transform: translateY(-2px);
+  box-shadow: var(--lx-sh-lg);
+}
+
+.lx-pun-btn--ghost {
+  background: transparent;
+  color: var(--lx-blue-ink);
+  border-color: var(--lx-line-strong);
+}
+.lx-pun-btn--ghost:hover,
+.lx-pun-btn--ghost:focus-visible {
+  border-color: var(--lx-blue);
+  color: var(--lx-blue);
+  transform: translateY(-2px);
+}
+
+.lx-pun-btn--white {
+  background: #fff;
+  color: var(--lx-navy);
+  box-shadow: var(--lx-sh);
+}
+.lx-pun-btn--white:hover,
+.lx-pun-btn--white:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--lx-sh-lg);
+}
+
+.lx-pun-btn--outline-white {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255,255,255,.55);
+}
+.lx-pun-btn--outline-white:hover,
+.lx-pun-btn--outline-white:focus-visible {
+  border-color: #fff;
+  background: rgba(255,255,255,.12);
+  transform: translateY(-2px);
+}
+
+/* ----------------------------------------------------------
+   HERO
+   ---------------------------------------------------------- */
+.lx-pun-hero {
+  padding-block: clamp(4rem, 9vw, 7.5rem) clamp(3rem, 7vw, 6rem);
+  background: linear-gradient(155deg, var(--lx-bg-soft) 0%, var(--lx-bg) 55%);
+}
+
+.lx-pun-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.lx-pun-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lx-pun-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--lx-blue-ink);
+  background: var(--lx-blue-050);
+  border-radius: var(--lx-pill);
+  padding: .35em 1em;
+  width: fit-content;
+}
+
+.lx-pun-eyebrow i {
+  font-size: 1em;
+  color: var(--lx-blue);
+}
+
+.lx-pun-hero-text h1 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  line-height: 1.12;
+  margin: 0;
+}
+
+.lx-pun-lead {
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  line-height: 1.75;
+  color: var(--lx-muted);
+  max-width: 540px;
+  margin: 0;
+}
+
+/* Tag chips */
+.lx-pun-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+}
+
+.lx-pun-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--lx-blue-ink);
+  background: var(--lx-blue-050);
+  border: 1px solid var(--lx-blue-100);
+  border-radius: var(--lx-pill);
+  padding: .32em .85em;
+}
+
+.lx-pun-tag i {
+  font-size: 1em;
+  color: var(--lx-blue);
+}
+
+.lx-pun-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Hero image */
+.lx-pun-hero-visual {
+  position: relative;
+  border-radius: var(--lx-r-lg);
+  overflow: hidden;
+  box-shadow: var(--lx-sh-lg);
+}
+
+.lx-pun-hero-visual img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--lx-r-lg);
+}
+
+.lx-pun-hero-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 380px;
+  background: var(--lx-bg-alt);
+  border-radius: var(--lx-r-lg);
+  border: 2px dashed var(--lx-line-strong);
+  color: var(--lx-muted);
+  font-size: .9rem;
+}
+
+.lx-pun-hero-placeholder i {
+  font-size: 3.5rem;
+  color: var(--lx-blue-100);
+}
+
+/* ----------------------------------------------------------
+   THREE KEY INGREDIENTS (PILLARS)
+   ---------------------------------------------------------- */
+.lx-pun-pillars {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg-alt);
+}
+
+.lx-pun-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+}
+
+.lx-pun-pillar {
+  background: #fff;
+  border: 1px solid var(--lx-line);
+  border-radius: var(--lx-r-lg);
+  padding: clamp(1.75rem, 3.5vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition:
+    transform   var(--lx-dur) var(--lx-ease),
+    box-shadow  var(--lx-dur) var(--lx-ease),
+    border-color var(--lx-dur) var(--lx-ease);
+}
+
+.lx-pun-pillar:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lx-sh-lg);
+  border-color: transparent;
+}
+
+.lx-pun-pillar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--lx-blue-050);
+  color: var(--lx-blue);
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.lx-pun-pillar h3 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.lx-pun-pillar p {
+  color: var(--lx-muted);
+  font-size: .93rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ----------------------------------------------------------
+   PACK SIZE PRODUCT CARDS
+   ---------------------------------------------------------- */
+.lx-pun-packs {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg);
+}
+
+.lx-pun-packs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+  justify-content: center;
+}
+
+.lx-pun-pack {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--lx-line);
+  border-radius: var(--lx-r-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform   var(--lx-dur) var(--lx-ease),
+    box-shadow  var(--lx-dur) var(--lx-ease),
+    border-color var(--lx-dur) var(--lx-ease);
+}
+
+.lx-pun-pack:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lx-sh-lg);
+  border-color: transparent;
+}
+
+.lx-pun-pack--featured {
+  border-color: var(--lx-blue);
+  box-shadow: var(--lx-sh-blue);
+}
+
+.lx-pun-pack--featured:hover {
+  border-color: transparent;
+}
+
+.lx-pun-pack-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  background: var(--lx-blue);
+  color: #fff;
+  border-radius: var(--lx-pill);
+  padding: .3em .85em;
+  z-index: 2;
+}
+
+.lx-pun-pack-media {
+  position: relative;
+  background: var(--lx-bg-soft);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.lx-pun-pack-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s var(--lx-ease);
+}
+
+.lx-pun-pack:hover .lx-pun-pack-media img {
+  transform: scale(1.04);
+}
+
+.lx-pun-pack-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--lx-faint);
+  font-size: 3rem;
+}
+
+.lx-pun-pack-body {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  flex: 1;
+}
+
+.lx-pun-pack-eyebrow {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--lx-blue-ink);
+}
+
+.lx-pun-pack-body h3 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+.lx-pun-pack-body > p {
+  color: var(--lx-muted);
+  font-size: .9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.lx-pun-pack-meta {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  padding: .75rem 0;
+  border-top: 1px solid var(--lx-line);
+  border-bottom: 1px solid var(--lx-line);
+  margin-block: .25rem;
+}
+
+.lx-pun-pack-meta-item {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .85rem;
+  color: var(--lx-muted);
+}
+
+.lx-pun-pack-meta-item i {
+  color: var(--lx-blue);
+  font-size: 1em;
+}
+
+.lx-pun-pack-pricing {
+  display: flex;
+  align-items: baseline;
+  gap: .65rem;
+  flex-wrap: wrap;
+}
+
+.lx-pun-pack-price strong {
+  font-family: var(--lx-display);
+  font-size: 1.8rem;
+  color: var(--lx-navy);
+  line-height: 1;
+}
+
+.lx-pun-pack-compare {
+  font-size: .95rem;
+  color: var(--lx-faint);
+  text-decoration: line-through;
+}
+
+.lx-pun-pack-savings {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--lx-green);
+  background: #e8f7ee;
+  border-radius: var(--lx-pill);
+  padding: .22em .75em;
+}
+
+.lx-pun-pack-btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: auto;
+}
+
+/* ----------------------------------------------------------
+   INGREDIENT BREAKDOWN (alternating)
+   ---------------------------------------------------------- */
+.lx-pun-ingredients {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg-soft);
+}
+
+.lx-pun-ing {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 5vw, 5rem);
+  align-items: center;
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--lx-line);
+}
+
+.lx-pun-ing:last-child {
+  border-bottom: none;
+}
+
+/* Alternate layout: visual on left for odd rows */
+.lx-pun-ing--alt {
+  direction: rtl;
+}
+
+.lx-pun-ing--alt > * {
+  direction: ltr;
+}
+
+.lx-pun-ing-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lx-pun-ing-name-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lx-pun-ing-num {
+  font-family: var(--lx-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--lx-blue-100);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.lx-pun-ing-name-row h3 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  margin: 0;
+}
+
+.lx-pun-ing-tag {
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--lx-blue-ink);
+  background: var(--lx-blue-050);
+  border: 1px solid var(--lx-blue-100);
+  border-radius: var(--lx-pill);
+  padding: .25em .8em;
+  width: fit-content;
+}
+
+.lx-pun-ing-body {
+  color: var(--lx-ink);
+  font-size: .97rem;
+  line-height: 1.75;
+}
+
+.lx-pun-ing-fact {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  background: var(--lx-blue-050);
+  border-left: 3px solid var(--lx-blue);
+  border-radius: 0 var(--lx-r-sm) var(--lx-r-sm) 0;
+  padding: .75rem 1rem;
+  font-size: .88rem;
+  color: var(--lx-blue-ink);
+  line-height: 1.55;
+}
+
+.lx-pun-ing-fact i {
+  font-size: 1.1em;
+  flex-shrink: 0;
+  margin-top: .05em;
+}
+
+/* Ingredient visual */
+.lx-pun-ing-visual {
+  border-radius: var(--lx-r-lg);
+  overflow: hidden;
+  box-shadow: var(--lx-sh);
+}
+
+.lx-pun-ing-visual img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.lx-pun-ing-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: var(--lx-bg-alt);
+  border: 2px dashed var(--lx-line-strong);
+  border-radius: var(--lx-r-lg);
+  color: var(--lx-faint);
+  font-size: 3.5rem;
+}
+
+/* ----------------------------------------------------------
+   INGREDIENTS TABLE
+   ---------------------------------------------------------- */
+.lx-pun-table-section {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg);
+}
+
+.lx-pun-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--lx-r-lg);
+  box-shadow: var(--lx-sh-sm);
+}
+
+.lx-pun-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: var(--lx-r-lg);
+  overflow: hidden;
+}
+
+.lx-pun-table-head {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.5fr;
+  background: var(--lx-navy);
+  color: #fff;
+}
+
+.lx-pun-table-head .lx-pun-table-cell {
+  padding: 1rem 1.25rem;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.lx-pun-table-row {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1.5fr;
+  border-bottom: 1px solid var(--lx-line);
+  transition: background var(--lx-dur) var(--lx-ease);
+}
+
+.lx-pun-table-row:last-child {
+  border-bottom: none;
+}
+
+.lx-pun-table-row:nth-child(even) {
+  background: var(--lx-bg-soft);
+}
+
+.lx-pun-table-row:hover {
+  background: var(--lx-blue-050);
+}
+
+.lx-pun-table-cell {
+  padding: .95rem 1.25rem;
+  font-size: .9rem;
+  color: var(--lx-ink);
+  line-height: 1.5;
+}
+
+.lx-pun-table-footnote {
+  font-size: .78rem;
+  color: var(--lx-muted);
+  line-height: 1.6;
+  margin-top: 1.25rem;
+  padding: 0 .5rem;
+}
+
+/* Responsive table — stack on narrow */
+@media (max-width: 520px) {
+  .lx-pun-table-head {
+    display: none;
+  }
+  .lx-pun-table-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: .75rem 1rem;
+  }
+  .lx-pun-table-cell {
+    padding: .35rem 0;
+  }
+  .lx-pun-table-cell[data-label]::before {
+    content: attr(data-label) ": ";
+    font-weight: 700;
+    color: var(--lx-navy);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+}
+
+/* ----------------------------------------------------------
+   DAILY DOSE
+   ---------------------------------------------------------- */
+.lx-pun-dose {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg-alt);
+}
+
+.lx-pun-dose-head {
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.lx-pun-dose-head span.lx-pun-mini-eyebrow {
+  display: inline-block;
+  margin-bottom: .75rem;
+}
+
+.lx-pun-dose-head h2 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  margin-block: .5rem .85rem;
+}
+
+.lx-pun-dose-head p {
+  color: var(--lx-muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Dose flow: step + connector + step + connector + total */
+.lx-pun-dose-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  flex-wrap: wrap;
+  background: #fff;
+  border: 1px solid var(--lx-line);
+  border-radius: var(--lx-r-lg);
+  padding: clamp(2rem, 4vw, 3rem);
+  box-shadow: var(--lx-sh-sm);
+}
+
+.lx-pun-dose-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  text-align: center;
+  min-width: 120px;
+}
+
+.lx-pun-dose-step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--lx-blue-050);
+  color: var(--lx-blue);
+  font-size: 1.75rem;
+  transition: background var(--lx-dur) var(--lx-ease);
+}
+
+.lx-pun-dose-step-icon--accent {
+  background: var(--lx-blue);
+  color: #fff;
+}
+
+.lx-pun-dose-step-label {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--lx-muted);
+}
+
+.lx-pun-dose-step-value {
+  font-family: var(--lx-display);
+  font-size: 1.5rem;
+  color: var(--lx-navy);
+  line-height: 1;
+}
+
+.lx-pun-dose-step--total .lx-pun-dose-step-value {
+  color: var(--lx-blue);
+  font-size: 1.65rem;
+}
+
+.lx-pun-dose-step-sub {
+  font-size: .82rem;
+  color: var(--lx-faint);
+}
+
+/* Connector symbols */
+.lx-pun-dose-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lx-pun-dose-plus,
+.lx-pun-dose-eq {
+  font-family: var(--lx-display);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--lx-blue-100);
+  line-height: 1;
+}
+
+/* 90-day cycle band */
+.lx-pun-cycle-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, var(--lx-navy) 0%, var(--lx-blue-700) 100%);
+  border-radius: var(--lx-r-lg);
+  padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.75rem, 4vw, 2.75rem);
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  color: #fff;
+  flex-wrap: wrap;
+}
+
+.lx-pun-cycle-text {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+
+.lx-pun-cycle-label {
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .75;
+}
+
+.lx-pun-cycle-formula {
+  font-family: var(--lx-display);
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  color: #fff;
+}
+
+.lx-pun-cycle-arrow {
+  opacity: .6;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.lx-pun-cycle-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .1rem;
+  text-align: right;
+}
+
+.lx-pun-cycle-result strong {
+  font-family: var(--lx-display);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+}
+
+.lx-pun-cycle-result span {
+  font-size: .82rem;
+  opacity: .7;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+/* ----------------------------------------------------------
+   ORGANIC FARM STORY
+   ---------------------------------------------------------- */
+.lx-pun-farm {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg);
+}
+
+.lx-pun-farm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(3rem, 6vw, 5.5rem);
+  align-items: center;
+}
+
+.lx-pun-farm-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.lx-pun-farm-text h2 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin: 0;
+}
+
+.lx-pun-farm-body {
+  color: var(--lx-ink);
+  font-size: .97rem;
+  line-height: 1.75;
+}
+
+.lx-pun-farm-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: .5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--lx-line);
+}
+
+.lx-pun-farm-stat {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.lx-pun-farm-stat strong {
+  font-family: var(--lx-display);
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  color: var(--lx-navy);
+  line-height: 1;
+}
+
+.lx-pun-farm-stat span {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--lx-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* Farm visual */
+.lx-pun-farm-visual {
+  border-radius: var(--lx-r-lg);
+  overflow: hidden;
+  box-shadow: var(--lx-sh-lg);
+}
+
+.lx-pun-farm-visual img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--lx-r-lg);
+}
+
+.lx-pun-farm-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 360px;
+  background: var(--lx-bg-alt);
+  border: 2px dashed var(--lx-line-strong);
+  border-radius: var(--lx-r-lg);
+  color: var(--lx-muted);
+  font-size: .9rem;
+}
+
+.lx-pun-farm-placeholder i {
+  font-size: 3.5rem;
+  color: var(--lx-blue-100);
+}
+
+/* ----------------------------------------------------------
+   BENEFITS GRID
+   ---------------------------------------------------------- */
+.lx-pun-benefits {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg-soft);
+}
+
+.lx-pun-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.lx-pun-benefit-card {
+  background: #fff;
+  border: 1px solid var(--lx-line);
+  border-radius: var(--lx-r-lg);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: .85rem;
+  transition:
+    transform   var(--lx-dur) var(--lx-ease),
+    box-shadow  var(--lx-dur) var(--lx-ease),
+    border-color var(--lx-dur) var(--lx-ease);
+}
+
+.lx-pun-benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lx-sh-lg);
+  border-color: transparent;
+}
+
+.lx-pun-benefit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  background: var(--lx-blue-050);
+  color: var(--lx-blue);
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.lx-pun-benefit-card h3 {
+  font-family: var(--lx-display);
+  color: var(--lx-navy);
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.lx-pun-benefit-card p {
+  color: var(--lx-muted);
+  font-size: .9rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ----------------------------------------------------------
+   CLOSING CTA
+   ---------------------------------------------------------- */
+.lx-pun-closing {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg);
+}
+
+.lx-pun-closing-card {
+  background: linear-gradient(135deg, var(--lx-navy) 0%, var(--lx-blue-700) 100%);
+  border-radius: var(--lx-r-lg);
+  padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 5vw, 4.5rem);
+  text-align: center;
+  box-shadow: var(--lx-sh-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.lx-pun-closing-card h2 {
+  font-family: var(--lx-display);
+  color: #fff;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin: 0;
+  max-width: 680px;
+}
+
+.lx-pun-closing-card > p {
+  color: rgba(255,255,255,.75);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 560px;
+  margin: 0;
+}
+
+.lx-pun-closing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: .5rem;
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE — 860 px breakpoint (tablets / wide phones)
+   ---------------------------------------------------------- */
+@media (max-width: 860px) {
+  .lx-pun-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .lx-pun-hero-visual {
+    order: -1;
+  }
+
+  .lx-pun-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .lx-pun-packs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lx-pun-ing {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .lx-pun-ing--alt {
+    direction: ltr;
+  }
+
+  .lx-pun-ing-visual {
+    order: -1;
+  }
+
+  .lx-pun-farm-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .lx-pun-farm-visual {
+    order: -1;
+  }
+
+  .lx-pun-farm-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .lx-pun-dose-flow {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .lx-pun-dose-connector {
+    transform: rotate(90deg);
+  }
+
+  .lx-pun-cycle-band {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lx-pun-cycle-result {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .lx-pun-cycle-arrow {
+    transform: rotate(90deg);
+    align-self: center;
+  }
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE — 520 px breakpoint (phones)
+   ---------------------------------------------------------- */
+@media (max-width: 520px) {
+  .lx-pun-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lx-pun-btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .lx-pun-tags {
+    gap: .4rem;
+  }
+
+  .lx-pun-tag {
+    font-size: .78rem;
+  }
+
+  .lx-pun-pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lx-pun-farm-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: .75rem;
+  }
+
+  .lx-pun-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lx-pun-closing-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lx-pun-dose-flow {
+    padding: 1.5rem 1rem;
+  }
+
+  .lx-pun-ing-num {
+    font-size: 1.8rem;
+  }
+}
+
+/* ----------------------------------------------------------
+   REDUCED-MOTION GUARD
+   ---------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .lx-pun-btn,
+  .lx-pun-pillar,
+  .lx-pun-pack,
+  .lx-pun-benefit-card,
+  .lx-pun-pack-media img {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Punalpin Page",

@@ -44,6 +44,178 @@
   </div>
 </section>
 
+{% stylesheet %}
+/* =============================================
+   lx-kb — Knowledge Base card grid
+   ============================================= */
+
+.lx-kb {
+  padding-block: clamp(3.5rem, 7vw, 6.5rem);
+  background: var(--lx-bg);
+}
+
+.lx-kb-inner {
+  max-width: var(--lx-container);
+  margin-inline: auto;
+  padding-inline: clamp(1.1rem, 4vw, 2rem);
+}
+
+/* Head */
+.lx-kb-head {
+  text-align: center;
+  max-width: 620px;
+  margin-inline: auto;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+}
+
+.lx-kb-eyebrow {
+  display: inline-block;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--lx-blue-ink);
+  margin-bottom: .75rem;
+}
+
+.lx-kb-heading {
+  font-family: var(--lx-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: var(--lx-navy);
+  line-height: 1.18;
+  margin-bottom: .6rem;
+}
+
+.lx-kb-sub {
+  font-size: 1.05rem;
+  color: var(--lx-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Grid */
+.lx-kb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.5rem;
+}
+
+/* Card */
+.lx-kb-card {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  padding: 2rem 1.75rem;
+  background: var(--lx-navy);
+  border: 1px solid transparent;
+  border-radius: var(--lx-r-lg);
+  text-decoration: none;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--lx-dur) var(--lx-ease), box-shadow var(--lx-dur) var(--lx-ease), border-color var(--lx-dur) var(--lx-ease), background var(--lx-dur) var(--lx-ease);
+}
+
+.lx-kb-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,151,212,.18) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--lx-dur) var(--lx-ease);
+}
+
+.lx-kb-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lx-sh-lg);
+  border-color: var(--lx-blue-600);
+  background: var(--lx-ink);
+}
+
+.lx-kb-card:hover::before { opacity: 1; }
+
+.lx-kb-card:focus-visible {
+  outline: 2px solid var(--lx-blue);
+  outline-offset: 3px;
+}
+
+/* Icon chip */
+.lx-kb-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: rgba(0,151,212,.18);
+  color: var(--lx-blue-050);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: .5rem;
+  flex-shrink: 0;
+}
+
+.lx-kb-card-eyebrow {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+  color: var(--lx-blue-100);
+}
+
+.lx-kb-card-title {
+  font-family: var(--lx-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.lx-kb-card-desc {
+  font-size: .9rem;
+  color: rgba(255,255,255,.65);
+  line-height: 1.55;
+  margin: 0;
+  flex: 1;
+}
+
+/* Arrow icon at bottom */
+.lx-kb-card-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  color: var(--lx-blue-100);
+  margin-top: .5rem;
+  align-self: flex-start;
+  transition: background var(--lx-dur) var(--lx-ease), transform var(--lx-dur) var(--lx-ease);
+}
+
+.lx-kb-card-arrow svg { width: 13px; height: 13px; display: block; }
+
+.lx-kb-card:hover .lx-kb-card-arrow {
+  background: var(--lx-blue);
+  transform: translateX(3px);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .lx-kb-card,
+  .lx-kb-card::before,
+  .lx-kb-card-arrow { transition: none; }
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .lx-kb-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .lx-kb-card { padding: 1.5rem 1.25rem; }
+}
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Knowledge base",
