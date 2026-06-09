@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "partners-marquee", "settings": {} } },
+  "order": ["main"]
+}

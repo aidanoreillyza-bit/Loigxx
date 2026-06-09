@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "newspage", "settings": {} } },
+  "order": ["main"]
+}

@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "knowledge-base", "settings": {} } },
+  "order": ["main"]
+}

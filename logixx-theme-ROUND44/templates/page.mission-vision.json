@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "mission-vision", "settings": {} } },
+  "order": ["main"]
+}

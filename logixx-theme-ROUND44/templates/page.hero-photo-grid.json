@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "hero-photo-grid", "settings": {} } },
+  "order": ["main"]
+}

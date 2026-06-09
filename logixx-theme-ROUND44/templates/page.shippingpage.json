@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "shippingpage", "settings": {} } },
+  "order": ["main"]
+}

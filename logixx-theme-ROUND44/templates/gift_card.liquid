@@ -1,0 +1,9 @@
+<section class="lx-giftcard" style="padding-block:clamp(3rem,7vw,6rem);text-align:center;">
+  <div class="container">
+    <span class="eyebrow">{{ shop.name }}</span>
+    <h1>Gift card</h1>
+    <p style="color:var(--lx-muted);">Your gift card balance: <strong>{{ gift_card.balance | money }}</strong></p>
+    {% if gift_card.qr_identifier %}{{ gift_card | img_tag }}{% endif %}
+    <p style="font-family:var(--lx-display);font-size:1.4rem;letter-spacing:.08em;margin-top:1.5rem;">{{ gift_card.code | format_code }}</p>
+  </div>
+</section>
