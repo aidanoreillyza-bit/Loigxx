@@ -9,6 +9,18 @@
   </div>
 </section>
 
+{% stylesheet %}
+.default-page{ padding-block:clamp(3.5rem,7vw,6.5rem); }
+.default-page-container{ max-width:800px; }
+.default-page-head{ margin-bottom:2.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--lx-line); }
+.default-page-head h1{ margin:0; }
+.default-page-content.rte p{ color:var(--lx-ink); line-height:1.8; margin-bottom:1.1rem; }
+.default-page-content.rte h2,.default-page-content.rte h3{ color:var(--lx-navy); margin-top:2rem; }
+.default-page-content.rte a{ color:var(--lx-blue-ink); text-decoration:underline; text-underline-offset:3px; }
+.default-page-content.rte ul,.default-page-content.rte ol{ padding-left:1.4rem; margin-bottom:1rem; }
+.default-page-content.rte li{ margin-bottom:.4rem; color:var(--lx-ink); }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Page content",

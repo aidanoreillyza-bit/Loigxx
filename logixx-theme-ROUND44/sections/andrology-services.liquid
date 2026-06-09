@@ -135,6 +135,47 @@
 
 </div>
 
+{% stylesheet %}
+.acs{ font-family:var(--lx-body); }
+.acs-hero{ padding:clamp(3rem,6vw,5rem) clamp(1.1rem,4vw,2rem); text-align:center; background:var(--lx-bg-soft); border-bottom:1px solid var(--lx-line); }
+.acs-hero-intro{ text-transform:uppercase; letter-spacing:.14em; font-size:.78rem; font-weight:700; color:var(--lx-blue-ink); margin-bottom:1.2rem; }
+.acs-hero-lockup{ display:flex; align-items:center; justify-content:center; gap:2rem; flex-wrap:wrap; max-width:700px; margin-inline:auto; }
+.acs-hero-logo-card{ flex:1; min-width:200px; max-width:320px; display:flex; align-items:center; justify-content:center; background:#fff; border:1px solid var(--lx-line); border-radius:var(--lx-r-lg); padding:1.5rem 2rem; box-shadow:var(--lx-sh-sm); }
+.acs-hero-logo{ max-width:100%; height:auto; }
+.acs-hero-divider{ width:1px; height:60px; background:var(--lx-line-strong); }
+.acs-hero-rule{ width:60px; height:3px; background:var(--lx-blue); border-radius:2px; margin:1.8rem auto .8rem; }
+.acs-hero-url{ font-size:.9rem; color:var(--lx-muted); letter-spacing:.06em; }
+.acs-split{ padding-block:clamp(3rem,6vw,5rem); max-width:var(--lx-container); margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem); display:grid; grid-template-columns:1fr 1fr; gap:clamp(2rem,5vw,4rem); align-items:center; }
+.acs-split--img-left .acs-split-media{ order:-1; }
+.acs-split:nth-child(even){ background:var(--lx-bg-soft); max-width:unset; padding-inline:0; }
+.acs-split:nth-child(even) .acs-split-text,.acs-split:nth-child(even) .acs-split-media{ max-width:var(--lx-container); }
+.acs-split:nth-child(even){ display:block; }
+.acs-split:nth-child(even) > *{ max-width:calc(var(--lx-container)/2 - 2rem); }
+.acs-split-media--framed{ border-radius:var(--lx-r-lg); overflow:hidden; box-shadow:var(--lx-sh-lg); background:var(--lx-bg-alt); aspect-ratio:4/3; }
+.acs-split-media--framed img{ width:100%; height:100%; object-fit:cover; display:block; }
+.acs-ph{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:3rem; color:var(--lx-faint); }
+.acs-h2{ font-family:var(--lx-display); color:var(--lx-navy); font-size:clamp(1.5rem,3.5vw,2.1rem); margin:0 0 1rem; }
+.acs-split-text p{ color:var(--lx-ink); line-height:1.75; margin-bottom:1rem; }
+.acs-quote{ border-left:3px solid var(--lx-blue); padding-left:1.1rem; font-style:italic; color:var(--lx-muted); margin:1.5rem 0 !important; }
+.acs-subhead{ font-weight:600; color:var(--lx-navy); margin-bottom:.6rem !important; }
+.acs-feature-list{ list-style:none; padding:0; margin:.75rem 0; display:flex; gap:1.25rem; flex-wrap:wrap; }
+.acs-feature-list li{ display:flex; align-items:center; gap:.5rem; font-weight:600; color:var(--lx-blue-ink); }
+.acs-feature-icon{ width:32px; height:32px; background:var(--lx-blue-050); border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--lx-blue); }
+.acs-footnote{ font-size:.8rem; color:var(--lx-faint); margin-top:.5rem !important; }
+.acs-check-list{ list-style:none; padding:0; margin:.75rem 0; display:flex; flex-direction:column; gap:.65rem; }
+.acs-check-list li{ display:flex; align-items:flex-start; gap:.75rem; color:var(--lx-ink); line-height:1.55; }
+.acs-check{ width:22px; height:22px; flex:none; background:var(--lx-blue); border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:.75rem; margin-top:.15rem; }
+.acs-promise-photos{ display:flex; flex-direction:column; gap:1rem; }
+.acs-promise-photos .acs-split-media--framed{ aspect-ratio:16/7; }
+.acs-register-link{ display:inline-flex; align-items:center; gap:.5rem; margin-top:1rem; padding:.75rem 1.5rem; background:var(--lx-blue); color:#fff; border-radius:var(--lx-pill); font-weight:700; text-decoration:none; font-size:.95rem; transition:background var(--lx-dur) var(--lx-ease), transform var(--lx-dur); }
+.acs-register-link:hover{ background:var(--lx-blue-700); transform:translateY(-2px); }
+@media(max-width:860px){
+  .acs-split{ grid-template-columns:1fr; }
+  .acs-split--img-left .acs-split-media{ order:unset; }
+  .acs-split:nth-child(even){ display:grid; grid-template-columns:1fr; padding-inline:clamp(1.1rem,4vw,2rem); }
+}
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Andrology Services",

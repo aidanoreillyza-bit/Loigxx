@@ -6,6 +6,12 @@
   </div>
 </section>
 
+{% stylesheet %}
+.page-404{ padding-block:clamp(5rem,12vw,9rem); text-align:center; background:var(--lx-bg-soft); }
+.page-404 h1{ font-family:var(--lx-display); font-size:clamp(5rem,18vw,12rem); line-height:1; color:var(--lx-blue); margin:0 0 .5rem; letter-spacing:-.04em; }
+.page-404 p{ font-size:1.15rem; color:var(--lx-muted); max-width:36ch; margin:0 auto 2.5rem; }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "404 page",

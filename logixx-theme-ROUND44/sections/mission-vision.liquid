@@ -34,6 +34,23 @@
   </div>
 </section>
 
+{% stylesheet %}
+.lx-mv{ padding-block:clamp(3.5rem,7vw,6.5rem); }
+.lx-mv-inner{ max-width:var(--lx-container); margin-inline:auto; padding-inline:clamp(1.1rem,4vw,2rem); display:grid; grid-template-columns:1fr 1fr; gap:clamp(2.5rem,6vw,5rem); align-items:center; }
+.lx-mv--img-left .lx-mv-media{ order:-1; }
+.lx-mv-eyebrow{ display:inline-block; text-transform:uppercase; letter-spacing:.14em; font-size:.78rem; font-weight:700; color:var(--lx-blue-ink); margin-bottom:1rem; }
+.lx-mv-heading{ font-family:var(--lx-display); color:var(--lx-navy); font-size:clamp(1.6rem,4vw,2.4rem); margin:0 0 1.1rem; }
+.lx-mv-body{ color:var(--lx-muted); line-height:1.75; }
+.lx-mv-body p{ margin:0 0 1rem; }
+.lx-mv-cta{ display:inline-flex; align-items:center; gap:.5rem; margin-top:1.5rem; color:var(--lx-blue-ink); font-weight:600; text-decoration:none; font-size:.95rem; transition:gap var(--lx-dur) var(--lx-ease); }
+.lx-mv-cta svg{ width:16px; height:16px; flex:none; transition:transform var(--lx-dur) var(--lx-ease); }
+.lx-mv-cta:hover{ gap:.75rem; }
+.lx-mv-cta:hover svg{ transform:translateX(4px); }
+.lx-mv-media img{ width:100%; border-radius:var(--lx-r-lg); box-shadow:var(--lx-sh-lg); display:block; aspect-ratio:4/3; object-fit:cover; }
+.lx-mv-placeholder{ aspect-ratio:4/3; background:var(--lx-bg-soft); border-radius:var(--lx-r-lg); display:flex; align-items:center; justify-content:center; color:var(--lx-faint); font-size:3rem; }
+@media(max-width:860px){ .lx-mv-inner{ grid-template-columns:1fr; } .lx-mv--img-left .lx-mv-media{ order:unset; } }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Mission / Vision",

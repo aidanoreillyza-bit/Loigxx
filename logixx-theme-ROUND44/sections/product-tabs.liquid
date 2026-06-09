@@ -106,6 +106,38 @@
 })();
 </script>
 
+{% stylesheet %}
+.lx-tabs-section{ padding-block:clamp(3rem,6vw,5rem); background:var(--lx-bg-soft); }
+.lx-tabs-nav{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:2.5rem; border-bottom:1px solid var(--lx-line); padding-bottom:.25rem; }
+.lx-tab-btn{ background:none; border:none; padding:.6rem 1.25rem; font-family:var(--lx-body); font-size:.95rem; font-weight:600; color:var(--lx-muted); cursor:pointer; border-radius:var(--lx-r) var(--lx-r) 0 0; border-bottom:2.5px solid transparent; transition:color var(--lx-dur), border-color var(--lx-dur); }
+.lx-tab-btn:hover{ color:var(--lx-navy); }
+.lx-tab-btn.is-active{ color:var(--lx-blue-ink); border-bottom-color:var(--lx-blue); }
+.lx-tab-panel{ display:none; }
+.lx-tab-panel.is-active{ display:block; animation:lx-rise .3s var(--lx-ease); }
+.lx-tab-rich.rte{ max-width:760px; line-height:1.8; color:var(--lx-ink); }
+.lx-tab-rich.rte p{ margin-bottom:1rem; }
+.lx-ingredient-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1rem; }
+.lx-ingredient-card{ background:#fff; border:1px solid var(--lx-line); border-radius:var(--lx-r); padding:1.25rem; display:flex; gap:1rem; align-items:flex-start; transition:box-shadow var(--lx-dur), transform var(--lx-dur); }
+.lx-ingredient-card:hover{ box-shadow:var(--lx-sh); transform:translateY(-2px); }
+.lx-ingredient-icon{ width:40px; height:40px; background:var(--lx-blue-050); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:var(--lx-blue); flex:none; }
+.lx-ingredient-head{ display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; margin-bottom:.35rem; flex-wrap:wrap; }
+.lx-ingredient-head h4{ margin:0; font-size:.95rem; color:var(--lx-navy); }
+.lx-ingredient-dose{ font-size:.78rem; font-weight:700; color:var(--lx-blue-ink); background:var(--lx-blue-050); padding:.15rem .5rem; border-radius:var(--lx-pill); }
+.lx-ingredient-body p{ font-size:.85rem; color:var(--lx-muted); margin:0; line-height:1.55; }
+.lx-benefits-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1rem; }
+.lx-benefit-card{ background:#fff; border:1px solid var(--lx-line); border-radius:var(--lx-r); padding:1.5rem; text-align:center; transition:transform var(--lx-dur), box-shadow var(--lx-dur), border-color var(--lx-dur); }
+.lx-benefit-card:hover{ transform:translateY(-4px); box-shadow:var(--lx-sh-lg); border-color:transparent; }
+.lx-benefit-icon{ width:50px; height:50px; background:var(--lx-blue-050); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:1.6rem; color:var(--lx-blue); margin:0 auto 1rem; }
+.lx-benefit-card h4{ margin:0 0 .5rem; color:var(--lx-navy); font-size:.95rem; }
+.lx-benefit-card p{ font-size:.85rem; color:var(--lx-muted); margin:0; line-height:1.55; }
+.lx-steps{ display:flex; flex-direction:column; gap:1.25rem; max-width:680px; }
+.lx-step{ display:grid; grid-template-columns:48px 1fr; gap:1.25rem; align-items:flex-start; }
+.lx-step-num{ width:48px; height:48px; background:var(--lx-blue); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--lx-display); font-size:1.15rem; font-weight:700; flex:none; }
+.lx-step-body h4{ margin:0 0 .4rem; color:var(--lx-navy); font-size:1rem; }
+.lx-step-body p{ font-size:.9rem; color:var(--lx-muted); margin:0; line-height:1.55; }
+@media(max-width:520px){ .lx-ingredient-grid,.lx-benefits-grid{ grid-template-columns:1fr; } }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Product Tabs",
