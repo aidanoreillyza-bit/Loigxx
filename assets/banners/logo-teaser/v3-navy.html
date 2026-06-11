@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  @font-face{
+    font-family:"Montserrat";
+    src:url("../../fonts/montserrat-variable.woff2") format("woff2");
+    font-weight:100 900; font-style:normal; font-display:block;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--azure:#159BD7; --navy:#1C3F6E; --sky:#4FB8E6; --skyhi:#86D2F2;}
+  html,body{width:1080px;height:1920px;overflow:hidden}
+  .stage{
+    position:relative;width:1080px;height:1920px;overflow:hidden;
+    background:linear-gradient(165deg,#23508A 0%,#1C3F6E 48%,#15315A 100%);
+    font-family:"Montserrat",sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  .bg{position:absolute;inset:0;width:1080px;height:1920px}
+  .glow{position:absolute;left:50%;top:300px;transform:translateX(-50%);
+        width:1100px;height:1100px;border-radius:50%;
+        background:radial-gradient(circle, rgba(79,184,230,.30) 0%, rgba(79,184,230,0) 62%)}
+  .content{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:250px 100px 300px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:16px;
+    font-size:27px;font-weight:700;letter-spacing:.46em;text-transform:uppercase;
+    color:var(--skyhi);margin-bottom:60px;
+  }
+  .eyebrow .ln{width:54px;height:2px;background:var(--skyhi);opacity:.7}
+  .card{
+    background:#ffffff;border-radius:52px;padding:104px 96px 92px;
+    box-shadow:0 50px 110px rgba(8,24,48,.45);margin-bottom:72px;
+  }
+  .wordmark{font-weight:800;font-size:150px;line-height:.92;letter-spacing:-.03em}
+  .wordmark .azure{color:var(--azure)}
+  .wordmark .navy{color:var(--navy)}
+  .sub{margin-top:4px;text-align:left;font-weight:600;font-size:58px;color:var(--sky);padding-left:6px}
+  .headline{font-weight:700;font-size:80px;letter-spacing:-.015em;color:#fff;line-height:1.04}
+  .headline .accent{color:var(--skyhi)}
+  .dots{display:flex;gap:20px;margin-top:50px}
+  .dots i{width:18px;height:18px;border-radius:50%;background:var(--skyhi);opacity:.45}
+  .dots i:nth-child(2){opacity:.7}
+  .dots i:nth-child(3){opacity:1}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <svg class="bg" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#4FB8E6" fill="none" opacity="0.9">
+        <circle cx="540" cy="560" r="360" stroke-width="2" opacity="0.12"/>
+        <circle cx="540" cy="560" r="520" stroke-width="2" opacity="0.08"/>
+        <circle cx="540" cy="560" r="700" stroke-width="2" opacity="0.05"/>
+      </g>
+      <!-- dot grids -->
+      <g fill="#4FB8E6" opacity="0.5">
+        <g>
+          <circle cx="120" cy="1500" r="6"/><circle cx="180" cy="1500" r="6"/><circle cx="240" cy="1500" r="6"/>
+          <circle cx="120" cy="1560" r="6"/><circle cx="180" cy="1560" r="6"/><circle cx="240" cy="1560" r="6"/>
+          <circle cx="120" cy="1620" r="6"/><circle cx="180" cy="1620" r="6"/><circle cx="240" cy="1620" r="6"/>
+        </g>
+        <g>
+          <circle cx="840" cy="360" r="6"/><circle cx="900" cy="360" r="6"/><circle cx="960" cy="360" r="6"/>
+          <circle cx="840" cy="420" r="6"/><circle cx="900" cy="420" r="6"/><circle cx="960" cy="420" r="6"/>
+          <circle cx="840" cy="480" r="6"/><circle cx="900" cy="480" r="6"/><circle cx="960" cy="480" r="6"/>
+        </g>
+      </g>
+      <path d="M -40 1700 Q 540 1560 1120 1700" stroke="#4FB8E6" stroke-width="3" opacity="0.16"/>
+    </svg>
+    <div class="glow"></div>
+    <div class="content">
+      <div class="eyebrow"><span class="ln"></span>Coming soon<span class="ln"></span></div>
+      <div class="card">
+        <div class="wordmark"><span class="azure">Logix</span><span class="navy">X</span></div>
+        <div class="sub">Fertility</div>
+      </div>
+      <div class="headline">More is <span class="accent">coming</span></div>
+      <div class="dots"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</body>
+</html>
