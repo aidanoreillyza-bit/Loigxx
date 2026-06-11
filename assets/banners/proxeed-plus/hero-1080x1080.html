@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  @font-face{
+    font-family:"Montserrat";
+    src:url("../../fonts/montserrat-variable.woff2") format("woff2");
+    font-weight:100 900; font-style:normal; font-display:block;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--cyan:#16A5DD; --blue:#2A8FCE; --navy:#103A5E; --orange:#F39200; --azure:#159BD7; --sky:#4FB8E6;}
+  html,body{width:1080px;height:1080px;overflow:hidden}
+  .stage{position:relative;width:1080px;height:1080px;background:#ffffff;
+    font-family:"Montserrat",sans-serif;-webkit-font-smoothing:antialiased}
+  .bg{position:absolute;inset:0;width:1080px;height:1080px}
+
+  .eyebrow{position:absolute;top:70px;left:0;right:0;text-align:center;
+    font-size:24px;font-weight:700;letter-spacing:.34em;color:var(--navy);text-transform:uppercase;opacity:.85}
+  .eyebrow sup{font-size:.5em;letter-spacing:0}
+  .brand{position:absolute;top:108px;left:0;right:0;display:flex;align-items:baseline;justify-content:center;gap:16px}
+  .wordmark{font-weight:800;font-size:126px;letter-spacing:-.035em;line-height:1}
+  .wordmark .n{color:var(--navy)} .wordmark .o{color:var(--orange)}
+  .wordmark sup{font-size:.2em;color:var(--navy);font-weight:700;vertical-align:super}
+  .plus{font-weight:800;font-size:68px;letter-spacing:.01em;color:var(--orange)}
+  .claim{position:absolute;top:262px;left:0;right:0;text-align:center;
+    font-size:39px;font-weight:600;color:var(--navy);line-height:1.2}
+  .claim .hl{color:var(--cyan)}
+
+  /* product placeholder (centered hero) */
+  .product{position:absolute;left:50%;top:350px;transform:translateX(-50%);
+    width:720px;height:450px;border:3px dashed rgba(21,165,221,.45);border-radius:26px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+    background:linear-gradient(180deg,rgba(234,246,252,.5),rgba(234,246,252,0))}
+  .product .ic{width:78px;height:78px;border-radius:18px;border:3px solid rgba(21,165,221,.5);
+    display:flex;align-items:center;justify-content:center}
+  .product .ic:before{content:"";width:32px;height:32px;border-radius:50%;border:3px solid rgba(21,165,221,.6)}
+  .product .lbl{color:var(--blue);font-weight:600;font-size:27px;letter-spacing:.02em;text-align:center}
+  .product .lbl small{display:block;font-weight:500;font-size:22px;opacity:.75;margin-top:4px}
+
+  /* seller + claim on the waves */
+  .avail{position:absolute;top:838px;left:0;right:0;text-align:center;
+    font-size:23px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#fff;opacity:.95}
+  .chip{position:absolute;top:880px;left:50%;transform:translateX(-50%);
+    background:#fff;border-radius:22px;padding:20px 40px 18px;box-shadow:0 18px 40px rgba(8,40,72,.28);
+    text-align:center;line-height:1}
+  .chip .lx{font-weight:800;font-size:52px;letter-spacing:-.02em}
+  .chip .lx .a{color:var(--azure)} .chip .lx .b{color:var(--navy)}
+  .chip .sub{display:block;text-align:left;font-weight:600;font-size:22px;color:var(--sky);padding-left:4px;margin-top:1px}
+  .micro{position:absolute;left:0;right:0;bottom:34px;text-align:center;font-size:17px;
+    color:rgba(255,255,255,.92);font-weight:500;padding:0 90px;line-height:1.35}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <svg class="bg" viewBox="0 0 1080 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wave" x1="0" y1="780" x2="1080" y2="1080" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#1FB0E6"/><stop offset="0.55" stop-color="#179FDB"/><stop offset="1" stop-color="#2A7FC0"/>
+        </linearGradient>
+        <linearGradient id="wave2" x1="0" y1="760" x2="1080" y2="1080" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#9CDCF1"/><stop offset="1" stop-color="#46B6E6"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 812 C 260 740 430 880 700 812 C 880 768 980 792 1080 776 L1080 1080 L0 1080 Z" fill="url(#wave2)" opacity="0.6"/>
+      <path d="M0 868 C 250 800 470 940 760 858 C 920 812 1010 838 1080 824 L1080 1080 L0 1080 Z" fill="url(#wave)"/>
+      <path d="M0 946 C 300 1010 520 880 820 962 C 960 998 1020 980 1080 990 L1080 1080 L0 1080 Z" fill="#0E6FB0" opacity="0.30"/>
+      <!-- DNA double-helix strip (top) -->
+      <g stroke="#9CD8F0" stroke-width="3" opacity="0.6" fill="none">
+        <path d="M150 64 C 270 14 390 114 510 64 C 630 14 750 114 870 64 C 940 34 980 84 1006 66"/>
+        <path d="M150 116 C 270 166 390 66 510 116 C 630 166 750 66 870 116 C 940 146 980 96 1006 114"/>
+      </g>
+      <g stroke="#62C2E8" stroke-width="2.5" opacity="0.5">
+        <line x1="210" y1="82" x2="210" y2="98"/><line x1="330" y1="98" x2="330" y2="82"/>
+        <line x1="450" y1="82" x2="450" y2="98"/><line x1="570" y1="98" x2="570" y2="82"/>
+        <line x1="690" y1="82" x2="690" y2="98"/><line x1="810" y1="98" x2="810" y2="82"/>
+      </g>
+    </svg>
+
+    <div class="eyebrow">The Metabolic Approach<sup>&trade;</sup></div>
+    <div class="brand">
+      <div class="wordmark"><span class="n">Pr</span><span class="o">o</span><span class="n">xeed</span><sup>&reg;</sup></div>
+      <div class="plus">PLUS</div>
+    </div>
+    <div class="claim">The metabolic approach to <span class="hl">male fertility</span></div>
+
+    <div class="product">
+      <div class="ic"></div>
+      <div class="lbl">Proxeed&reg; Plus pack<small>your product photo drops in here</small></div>
+    </div>
+
+    <div class="avail">Available at</div>
+    <div class="chip">
+      <span class="lx"><span class="a">Logix</span><span class="b">X</span></span>
+      <span class="sub">Fertility</span>
+    </div>
+    <div class="micro">Contains zinc for normal fertility &amp; reproduction and selenium for normal spermatogenesis. Food supplement.</div>
+  </div>
+</body>
+</html>
