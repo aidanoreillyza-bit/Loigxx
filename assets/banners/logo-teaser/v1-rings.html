@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  @font-face{
+    font-family:"Montserrat";
+    src:url("../../fonts/montserrat-variable.woff2") format("woff2");
+    font-weight:100 900; font-style:normal; font-display:block;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --azure:#159BD7; --navy:#1C3F6E; --sky:#4FB8E6; --mist:#EAF6FC;
+  }
+  html,body{width:1080px;height:1920px;overflow:hidden}
+  .stage{
+    position:relative;width:1080px;height:1920px;
+    background:radial-gradient(120% 80% at 50% 38%, #ffffff 0%, #F4FBFE 55%, var(--mist) 100%);
+    font-family:"Montserrat",sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  .bg{position:absolute;inset:0;width:1080px;height:1920px}
+  .content{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:260px 120px 300px; /* story safe zones */
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:14px;
+    font-size:26px;font-weight:600;letter-spacing:.42em;
+    color:var(--azure);text-transform:uppercase;margin-bottom:64px;
+  }
+  .eyebrow .ln{width:46px;height:2px;background:var(--azure);opacity:.6}
+  .logo{margin-bottom:54px}
+  .wordmark{font-weight:800;font-size:158px;line-height:.92;letter-spacing:-.03em}
+  .wordmark .azure{color:var(--azure)}
+  .wordmark .navy{color:var(--navy)}
+  .sub{
+    margin-top:6px;text-align:left;font-weight:600;font-size:62px;
+    letter-spacing:.005em;color:var(--sky);padding-left:8px;
+  }
+  .divider{width:96px;height:4px;border-radius:4px;background:var(--azure);margin:8px 0 46px}
+  .headline{font-weight:600;font-size:72px;letter-spacing:-.01em;color:var(--navy)}
+  .headline .accent{color:var(--azure)}
+  .dots{display:flex;gap:18px;margin-top:54px}
+  .dots i{width:16px;height:16px;border-radius:50%;background:var(--sky);opacity:.5}
+  .dots i:nth-child(2){opacity:.75}
+  .dots i:nth-child(3){opacity:1;background:var(--azure)}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <svg class="bg" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- concentric ripple rings centered on the logo -->
+      <g stroke="#159BD7" fill="none">
+        <circle cx="540" cy="780" r="250" stroke-width="2.5" opacity="0.30"/>
+        <circle cx="540" cy="780" r="400" stroke-width="2.5" opacity="0.22"/>
+        <circle cx="540" cy="780" r="560" stroke-width="2.5" opacity="0.15"/>
+        <circle cx="540" cy="780" r="730" stroke-width="2.5" opacity="0.10"/>
+        <circle cx="540" cy="780" r="910" stroke-width="2.5" opacity="0.06"/>
+      </g>
+      <!-- floating dots -->
+      <g fill="#4FB8E6">
+        <circle cx="250" cy="430" r="9" opacity="0.55"/>
+        <circle cx="861" cy="360" r="13" opacity="0.45"/>
+        <circle cx="905" cy="690" r="8" opacity="0.5"/>
+        <circle cx="180" cy="760" r="11" opacity="0.4"/>
+        <circle cx="835" cy="1180" r="10" opacity="0.5"/>
+        <circle cx="232" cy="1240" r="14" opacity="0.4"/>
+        <circle cx="540" cy="250" r="7" opacity="0.5"/>
+      </g>
+      <g fill="#1C3F6E">
+        <circle cx="760" cy="500" r="7" opacity="0.5"/>
+        <circle cx="330" cy="1080" r="8" opacity="0.45"/>
+      </g>
+      <!-- soft accent arc bottom -->
+      <path d="M -40 1640 Q 540 1500 1120 1640" stroke="#159BD7" stroke-width="3" opacity="0.12"/>
+    </svg>
+
+    <div class="content">
+      <div class="eyebrow"><span class="ln"></span>Coming soon<span class="ln"></span></div>
+      <div class="logo">
+        <div class="wordmark"><span class="azure">Logix</span><span class="navy">X</span></div>
+        <div class="sub">Fertility</div>
+      </div>
+      <div class="divider"></div>
+      <div class="headline">More is <span class="accent">coming</span></div>
+      <div class="dots"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+</body>
+</html>

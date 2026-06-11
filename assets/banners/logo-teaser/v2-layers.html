@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<style>
+  @font-face{
+    font-family:"Montserrat";
+    src:url("../../fonts/montserrat-variable.woff2") format("woff2");
+    font-weight:100 900; font-style:normal; font-display:block;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--azure:#159BD7; --navy:#1C3F6E; --sky:#4FB8E6; --mist:#E6F4FC;}
+  html,body{width:1080px;height:1920px;overflow:hidden}
+  .stage{
+    position:relative;width:1080px;height:1920px;overflow:hidden;
+    background:linear-gradient(160deg,#EAF7FD 0%,#FFFFFF 42%,#F1FAFE 70%,#DDF0FB 100%);
+    font-family:"Montserrat",sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  /* soft depth blobs */
+  .blob{position:absolute;border-radius:50%;filter:blur(8px)}
+  .b1{width:760px;height:760px;left:-220px;top:-160px;
+      background:radial-gradient(circle at 35% 35%, rgba(79,184,230,.55), rgba(79,184,230,0) 70%)}
+  .b2{width:900px;height:900px;right:-320px;bottom:-260px;
+      background:radial-gradient(circle at 50% 50%, rgba(21,155,215,.42), rgba(21,155,215,0) 70%)}
+  .b3{width:520px;height:520px;right:-120px;top:300px;
+      background:radial-gradient(circle at 50% 50%, rgba(28,63,110,.20), rgba(28,63,110,0) 70%)}
+  .glow{position:absolute;left:50%;top:820px;transform:translate(-50%,-50%);
+        width:900px;height:900px;border-radius:50%;
+        background:radial-gradient(circle, rgba(255,255,255,.92) 0%, rgba(255,255,255,.65) 42%, rgba(255,255,255,0) 70%)}
+  .shapes{position:absolute;inset:0;width:1080px;height:1920px}
+  .content{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    padding:260px 110px 300px;
+  }
+  .pill{
+    font-size:25px;font-weight:700;letter-spacing:.4em;text-transform:uppercase;
+    color:var(--azure);background:rgba(255,255,255,.7);
+    border:1.5px solid rgba(21,155,215,.35);border-radius:999px;
+    padding:18px 36px;margin-bottom:62px;backdrop-filter:blur(2px);
+  }
+  .logo{margin-bottom:56px}
+  .wordmark{font-weight:800;font-size:164px;line-height:.92;letter-spacing:-.03em}
+  .wordmark .azure{color:var(--azure)}
+  .wordmark .navy{color:var(--navy)}
+  .sub{margin-top:6px;text-align:left;font-weight:600;font-size:64px;color:var(--sky);padding-left:8px}
+  .headline{font-weight:700;font-size:78px;letter-spacing:-.015em;color:var(--navy);line-height:1.05}
+  .headline .accent{color:var(--azure)}
+  .tagsmall{margin-top:34px;font-size:30px;font-weight:500;letter-spacing:.22em;
+            text-transform:uppercase;color:rgba(28,63,110,.55)}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <svg class="shapes" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="540" cy="820" r="470" stroke="#159BD7" stroke-width="2.5" opacity="0.18"/>
+      <circle cx="850" cy="540" r="120" stroke="#1C3F6E" stroke-width="3" opacity="0.16"/>
+      <rect x="150" y="1230" width="150" height="150" rx="34" transform="rotate(-18 225 1305)"
+            stroke="#159BD7" stroke-width="3" opacity="0.18"/>
+      <g fill="#159BD7">
+        <circle cx="232" cy="470" r="10" opacity="0.6"/>
+        <circle cx="868" cy="1230" r="12" opacity="0.5"/>
+        <circle cx="780" cy="1410" r="8" opacity="0.5"/>
+      </g>
+    </svg>
+    <div class="glow"></div>
+    <div class="content">
+      <div class="pill">Coming soon</div>
+      <div class="logo">
+        <div class="wordmark"><span class="azure">Logix</span><span class="navy">X</span></div>
+        <div class="sub">Fertility</div>
+      </div>
+      <div class="headline">More is <span class="accent">coming</span></div>
+      <div class="tagsmall">Watch this space</div>
+    </div>
+  </div>
+</body>
+</html>
