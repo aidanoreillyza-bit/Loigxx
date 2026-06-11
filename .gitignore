@@ -1,2 +1,5 @@
 logixx-theme-ROUND44.zip
 *.zip
+
+# Hyperframes render artifacts
+snapshots/

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #000;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      code,
+      pre,
+      .monospace {
+        font-family: "JetBrains Mono", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="6"
+      data-width="1920"
+      data-height="1080"
+    >
+      <!-- logo-outro block (compositions/logo-outro.html) -->
+      <div
+        data-composition-id="logo-outro"
+        data-composition-src="compositions/logo-outro.html"
+        data-start="0"
+        data-duration="6"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
