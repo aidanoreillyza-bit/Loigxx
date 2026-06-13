@@ -6,6 +6,18 @@
 -%}
 
 <section class="lx-hero" aria-label="{{ section.settings.heading | escape }}">
+  {%- if section.settings.show_swimmers -%}
+    <div class="lx-hero-swimmers" aria-hidden="true">
+      {%- assign swimmer_count = 28 -%}
+      {%- for i in (1..swimmer_count) -%}
+        <svg class="lx-swimmer" viewBox="0 0 70 12" xmlns="http://www.w3.org/2000/svg">
+          <path d="M58 6 L 4 6" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.7"/>
+          <ellipse cx="62" cy="6" rx="5" ry="3.5" fill="currentColor"/>
+        </svg>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
   <div class="lx-hero-grid">
 
     {%- comment -%} Text column {%- endcomment -%}
@@ -82,11 +94,35 @@
    Hero — warm clinical, paper ground, Lora headline
    ==================================================== */
 .lx-hero{
+  position:relative;
   background:var(--p-paper, #FAF8F5);
   overflow:hidden;
 }
 
+/* Swimmers — subtle drift across the paper backdrop */
+.lx-hero-swimmers{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+.lx-swimmer{
+  position:absolute; left:0; width:60px; height:11px;
+  color:var(--p-blue, #1B5F8C); opacity:.08;
+  transform:translateX(-160px); will-change:transform;
+  animation:lx-swim linear infinite;
+}
+@keyframes lx-swim{ from{ transform:translateX(-160px); } to{ transform:translateX(calc(100vw + 160px)); } }
+.lx-swimmer:nth-child(7n+1){ top:6%; }  .lx-swimmer:nth-child(7n+2){ top:20%; }
+.lx-swimmer:nth-child(7n+3){ top:34%; } .lx-swimmer:nth-child(7n+4){ top:48%; }
+.lx-swimmer:nth-child(7n+5){ top:62%; } .lx-swimmer:nth-child(7n+6){ top:76%; }
+.lx-swimmer:nth-child(7n){   top:90%; }
+.lx-swimmer:nth-child(4n+1){ animation-duration:19s; }
+.lx-swimmer:nth-child(4n+2){ animation-duration:25s; }
+.lx-swimmer:nth-child(4n+3){ animation-duration:30s; }
+.lx-swimmer:nth-child(4n){   animation-duration:22s; }
+.lx-swimmer:nth-child(5n+1){ animation-delay:-4s; opacity:.06; }
+.lx-swimmer:nth-child(5n+3){ animation-delay:-11s; width:50px; }
+.lx-swimmer:nth-child(5n){   animation-delay:-7s; opacity:.11; width:70px; }
+
 .lx-hero-grid{
+  position:relative;
+  z-index:1;
   display:grid;
   grid-template-columns:55fr 45fr;
   min-height:min(100dvh, 860px);
@@ -285,6 +321,8 @@
   .lx-hero-btn-primary,
   .lx-hero-btn-primary svg,
   .lx-hero-btn-ghost{ transition:none; }
+  .lx-swimmer{ animation:none; }
+  .lx-hero-swimmers{ display:none; }
 }
 {% endstylesheet %}
 
@@ -305,7 +343,8 @@
     { "type":"text",     "id":"stat1_value",   "label":"Stat 1 value",   "default":"94%" },
     { "type":"text",     "id":"stat1_label",   "label":"Stat 1 label",   "default":"of couples see improvement within 90 days" },
     { "type":"text",     "id":"stat2_value",   "label":"Stat 2 value",   "default":"311k+" },
-    { "type":"text",     "id":"stat2_label",   "label":"Stat 2 label",   "default":"couples supported since 2014" }
+    { "type":"text",     "id":"stat2_label",   "label":"Stat 2 label",   "default":"couples supported since 2014" },
+    { "type":"checkbox", "id":"show_swimmers", "label":"Show drifting cell animation", "default":true }
   ],
   "presets": [{ "name": "Hero" }]
 }

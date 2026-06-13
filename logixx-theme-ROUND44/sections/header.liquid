@@ -42,15 +42,61 @@
   </div>
 </header>
 
+{%- comment -%} Slide-out navigation drawer — wired to the Menu button {%- endcomment -%}
+<div class="lx-nav" id="lx-nav" data-open="false">
+  <div class="lx-nav-overlay" data-nav-close tabindex="-1"></div>
+  <nav class="lx-nav-panel" aria-label="Main navigation" aria-hidden="true">
+    <div class="lx-nav-head">
+      <span class="lx-nav-eyebrow">Menu</span>
+      <button type="button" class="lx-nav-close" data-nav-close aria-label="Close menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
+    </div>
+
+    <ul class="lx-nav-list">
+      {%- if linklists.main-menu.links.size > 0 -%}
+        {%- for link in linklists.main-menu.links -%}
+          <li>
+            <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>
+              <span>{{ link.title }}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Fallback links when no Shopify "main-menu" is configured {%- endcomment -%}
+        {%- assign fallback_titles = 'Home,Shop all,Our story,The team,Optimising sperm health,Fertility tips,Support' | split: ',' -%}
+        {%- assign fallback_urls = '/,/collections/all,/pages/about,/pages/fertility-team,/pages/optimising-sperm-health,/pages/fertility-tips,/pages/contact' | split: ',' -%}
+        {%- for title in fallback_titles -%}
+          <li>
+            <a href="{{ fallback_urls[forloop.index0] }}"{% if request.path == fallback_urls[forloop.index0] %} aria-current="page"{% endif %}>
+              <span>{{ title }}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+
+    <div class="lx-nav-foot">
+      <a href="/account" class="lx-nav-foot-link">Account</a>
+      <a href="/cart" class="lx-nav-foot-link">Cart{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
+    </div>
+  </nav>
+</div>
+
 {%- comment -%} Brand typography: bundled Neue Kabel (display) + Outfit (body) {%- endcomment -%}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap">
 <style>
+  /* Brand rule: all text renders in Neue Kabel. Only the Bold weight is
+     bundled, so every requested weight maps to the same file — the browser
+     never falls back to Outfit for real text. */
   @font-face {
     font-family: 'Neue Kabel';
     src: url('{{ "NeueKabel-Bold.woff2" | asset_url }}') format('woff2');
-    font-weight: 700;
+    font-weight: 100 900;
     font-style: normal;
     font-display: swap;
   }
@@ -107,10 +153,10 @@
   --lx-ease:cubic-bezier(.22,.7,.2,1);
   --lx-dur:.22s;
 
-  /* Type */
+  /* Type — brand rule: Neue Kabel everywhere (Outfit is fallback only) */
   --lx-display:'Neue Kabel','Outfit',ui-sans-serif,system-ui,-apple-system,sans-serif;
-  --lx-body:'Outfit',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-  --lx-serif:'Lora',Georgia,'Times New Roman',serif;
+  --lx-body:'Neue Kabel','Outfit',ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --lx-serif:'Neue Kabel','Outfit',ui-sans-serif,system-ui,-apple-system,sans-serif;
 
   /* Layout */
   --lx-container:1200px;
@@ -343,6 +389,80 @@ html{ scroll-behavior:smooth; }
   .lx-lr-play .lx-lr-line { transform: scaleX(1); animation: none; }
   .lx-lr-play .lx-lr-glow { display: none; }
 }
+
+/* ===== Slide-out navigation drawer ===== */
+.lx-nav{
+  position:fixed; inset:0; z-index:1000;
+  visibility:hidden; pointer-events:none;
+}
+.lx-nav[data-open="true"]{ visibility:visible; pointer-events:auto; }
+.lx-nav-overlay{
+  position:absolute; inset:0;
+  background:rgba(28,28,28,.42);
+  opacity:0; transition:opacity .28s var(--lx-ease);
+}
+.lx-nav[data-open="true"] .lx-nav-overlay{ opacity:1; }
+.lx-nav-panel{
+  position:absolute; top:0; left:0; bottom:0;
+  width:min(420px, 86vw);
+  background:var(--p-paper, #FAF8F5);
+  border-right:1px solid var(--p-rule, #D8D2C8);
+  display:flex; flex-direction:column;
+  padding:clamp(1.5rem, 4vw, 2.5rem);
+  transform:translateX(-100%);
+  transition:transform .32s cubic-bezier(.32,.72,0,1);
+  overflow-y:auto;
+}
+.lx-nav[data-open="true"] .lx-nav-panel{ transform:translateX(0); }
+.lx-nav-head{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:2rem;
+}
+.lx-nav-eyebrow{
+  font-family:var(--lx-display); font-weight:700;
+  font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--p-muted, #6B6460);
+}
+.lx-nav-close{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:42px; border:0; border-radius:8px; cursor:pointer;
+  background:none; color:var(--p-charcoal, #1C1C1C);
+  transition:background .18s, transform .14s ease-out;
+}
+.lx-nav-close:hover{ background:var(--p-linen, #EDE8DF); }
+.lx-nav-close:active{ transform:scale(.94); }
+.lx-nav-list{ list-style:none; margin:0; padding:0; flex:1 1 auto; }
+.lx-nav-list li{ border-bottom:1px solid var(--p-rule, #D8D2C8); }
+.lx-nav-list li:first-child{ border-top:1px solid var(--p-rule, #D8D2C8); }
+.lx-nav-list a{
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  padding:1.05rem .25rem;
+  font-family:var(--lx-display); font-weight:700;
+  font-size:1.15rem; letter-spacing:-.01em;
+  color:var(--p-charcoal, #1C1C1C); text-decoration:none;
+  transition:padding-left .2s var(--lx-ease), color .18s;
+}
+.lx-nav-list a svg{ color:var(--p-amber, #C8860A); opacity:0; transform:translateX(-6px); transition:opacity .2s, transform .2s var(--lx-ease); flex:none; }
+.lx-nav-list a:hover{ padding-left:.7rem; color:var(--p-blue, #1B5F8C); }
+.lx-nav-list a:hover svg{ opacity:1; transform:translateX(0); }
+.lx-nav-list a[aria-current="page"]{ color:var(--p-blue, #1B5F8C); }
+.lx-nav-list a[aria-current="page"] svg{ opacity:1; transform:translateX(0); }
+.lx-nav-foot{
+  display:flex; gap:1.5rem; margin-top:2rem; padding-top:1.5rem;
+  border-top:1px solid var(--p-rule, #D8D2C8);
+}
+.lx-nav-foot-link{
+  font-family:var(--lx-body); font-weight:500; font-size:.95rem;
+  color:var(--p-muted, #6B6460); text-decoration:underline;
+  text-decoration-color:var(--p-rule-strong, #B8B0A4); text-underline-offset:.2em;
+  transition:color .16s, text-decoration-color .16s;
+}
+.lx-nav-foot-link:hover{ color:var(--p-charcoal, #1C1C1C); text-decoration-color:var(--p-amber, #C8860A); }
+body.lx-nav-open{ overflow:hidden; }
+
+@media (prefers-reduced-motion: reduce){
+  .lx-nav-overlay, .lx-nav-panel{ transition:none; }
+}
 {% endstylesheet %}
 
 <script>
@@ -361,6 +481,44 @@ html{ scroll-behavior:smooth; }
   } else {
     playReveal();
   }
+})();
+
+/* Navigation drawer */
+(function () {
+  var nav = document.getElementById('lx-nav');
+  var trigger = document.getElementById('lx-menu-trigger');
+  if (!nav || !trigger) return;
+  var panel = nav.querySelector('.lx-nav-panel');
+  var lastFocus = null;
+
+  function open() {
+    lastFocus = document.activeElement;
+    nav.setAttribute('data-open', 'true');
+    panel.setAttribute('aria-hidden', 'false');
+    trigger.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('lx-nav-open');
+    var first = nav.querySelector('.lx-nav-close');
+    if (first) first.focus();
+    document.addEventListener('keydown', onKey);
+  }
+  function close() {
+    nav.setAttribute('data-open', 'false');
+    panel.setAttribute('aria-hidden', 'true');
+    trigger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('lx-nav-open');
+    document.removeEventListener('keydown', onKey);
+    if (lastFocus) lastFocus.focus();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape') close();
+  }
+
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.setAttribute('aria-controls', 'lx-nav');
+  trigger.addEventListener('click', open);
+  nav.querySelectorAll('[data-nav-close]').forEach(function (el) {
+    el.addEventListener('click', close);
+  });
 })();
 </script>
 

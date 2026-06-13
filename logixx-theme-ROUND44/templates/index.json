@@ -1,6 +1,7 @@
 {
   "sections": {
     "hero": { "type": "hero", "settings": {} },
+    "partners-marquee": { "type": "partners-marquee", "settings": {} },
     "trust-bar": { "type": "trust-bar", "settings": {} },
     "why-us": { "type": "why-us", "settings": {} },
     "featured-products": { "type": "featured-products", "settings": {} },
@@ -9,5 +10,5 @@
     "our-mission": { "type": "our-mission", "settings": {} },
     "testimonial-slider": { "type": "testimonial-slider", "settings": {} }
   },
-  "order": ["hero","trust-bar","why-us","featured-products","stats-counter","product-spotlight","our-mission","testimonial-slider"]
+  "order": ["hero","partners-marquee","trust-bar","why-us","featured-products","stats-counter","product-spotlight","our-mission","testimonial-slider"]
 }
