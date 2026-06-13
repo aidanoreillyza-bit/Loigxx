@@ -1,182 +1,290 @@
-<section class="hero hero--image-led">
-  <div class="hero-swimmers" aria-hidden="true">
-    {% assign swimmer_count = 40 %}
-    {% for i in (1..swimmer_count) %}
-      <svg class="swimmer swimmer-{{ i }}" viewBox="0 0 70 12" xmlns="http://www.w3.org/2000/svg">
-        <!-- Simple thin tail -->
-        <path class="tail" d="M58 6 L 4 6" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.7"/>
-        <!-- Small oval head -->
-        <ellipse cx="62" cy="6" rx="5" ry="3.5" fill="currentColor"/>
-      </svg>
-    {% endfor %}
-  </div>
+{%- liquid
+  assign mk = section.settings.mark_word | strip
+  if mk != blank
+    assign head_parts = section.settings.heading | split: mk
+  endif
+-%}
 
-  <div class="container hero-grid">
+<section class="lx-hero" aria-label="{{ section.settings.heading | escape }}">
+  <div class="lx-hero-grid">
 
-    <div class="hero-content">
-      {% if section.settings.eyebrow != blank %}
-        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
-      {% endif %}
-      <h1>{{ section.settings.heading }}</h1>
-      <p>{{ section.settings.subheading }}</p>
-      <div class="hero-actions">
-        {% if section.settings.btn1_link != blank %}
-          <a href="{{ section.settings.btn1_link }}" class="btn btn-primary">
+    {%- comment -%} Text column {%- endcomment -%}
+    <div class="lx-hero-text">
+      <div class="lx-hero-eyebrow">
+        <span class="lx-hero-eyebrow-rule" aria-hidden="true"></span>
+        <span>{{ section.settings.eyebrow | default: 'Evidence-Based Fertility Support' }}</span>
+      </div>
+
+      <h1 class="lx-hero-heading">
+        {%- if mk != blank and head_parts.size >= 2 -%}
+          {{ head_parts[0] }}<mark class="lx-mark">{{ mk }}</mark>{{ head_parts[1] }}
+        {%- else -%}
+          {{ section.settings.heading }}
+        {%- endif -%}
+      </h1>
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="lx-hero-sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      <div class="lx-hero-actions">
+        {%- if section.settings.btn1_text != blank -%}
+          <a href="{{ section.settings.btn1_link | default: '#' }}" class="lx-hero-btn-primary">
             {{ section.settings.btn1_text }}
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
-        {% endif %}
-        {% if section.settings.btn2_link != blank %}
-          <a href="{{ section.settings.btn2_link }}" class="btn btn-secondary">{{ section.settings.btn2_text }}</a>
-        {% endif %}
+        {%- endif -%}
+        {%- if section.settings.btn2_text != blank -%}
+          <a href="{{ section.settings.btn2_link | default: '#' }}" class="lx-hero-btn-ghost">
+            {{ section.settings.btn2_text }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="lx-hero-data" aria-label="Key statistics">
+        <div class="lx-hero-stat">
+          <strong>{{ section.settings.stat1_value | default: '94%' }}</strong>
+          <span>{{ section.settings.stat1_label | default: 'of couples see improvement within 90 days' }}</span>
+        </div>
+        <div class="lx-hero-stat-divider" aria-hidden="true"></div>
+        <div class="lx-hero-stat">
+          <strong>{{ section.settings.stat2_value | default: '311k+' }}</strong>
+          <span>{{ section.settings.stat2_label | default: 'couples supported since 2014' }}</span>
+        </div>
       </div>
     </div>
 
-    <div class="hero-image-wrap">
-      <div class="hero-image">
-        {% if section.settings.image != blank %}
-          <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.heading }}">
-        {% else %}
-          <div class="hero-image-empty">
-            <i class="ph ph-image"></i>
-            <span>Add hero image in Customize</span>
-          </div>
-        {% endif %}
-      </div>
-
-      {% if section.settings.show_badge %}
-        <div class="hero-badge hero-badge--top">
-          <div class="hero-badge-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-          </div>
-          <div>
-            <strong>{{ section.settings.badge_top_title }}</strong>
-            <span>{{ section.settings.badge_top_subtitle }}</span>
-          </div>
-        </div>
-      {% endif %}
-
-      {% if section.settings.show_review %}
-        <div class="hero-badge hero-badge--bottom">
-          <div class="hero-stars">
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-            <i class="ph-fill ph-star"></i>
-          </div>
-          <div>
-            <strong>{{ section.settings.review_score }}</strong>
-            <span>{{ section.settings.review_count }} reviews</span>
-          </div>
-        </div>
-      {% endif %}
+    {%- comment -%} Image column — bleeds to right edge {%- endcomment -%}
+    <div class="lx-hero-media" aria-hidden="true">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1200 }}"
+          srcset="{{ section.settings.image | image_url: width: 600 }} 600w,
+                  {{ section.settings.image | image_url: width: 900 }} 900w,
+                  {{ section.settings.image | image_url: width: 1200 }} 1200w"
+          sizes="(max-width: 860px) 100vw, 45vw"
+          alt="{{ section.settings.image_alt | default: '' }}"
+          width="1200"
+          height="1500"
+          loading="eager"
+          fetchpriority="high"
+          class="lx-hero-img">
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'lx-hero-img lx-hero-placeholder' }}
+      {%- endif -%}
     </div>
 
   </div>
 </section>
 
 {% stylesheet %}
-.hero{
-  position:relative; overflow:hidden;
-  padding-block:clamp(3rem,6vw,6rem) clamp(3.5rem,7vw,7rem);
-  background:
-    radial-gradient(120% 130% at 88% -10%, var(--lx-blue-050) 0%, rgba(242,250,254,0) 55%),
-    linear-gradient(180deg,#fff 0%, var(--lx-bg-soft) 100%);
+/* ====================================================
+   Hero — warm clinical, paper ground, Lora headline
+   ==================================================== */
+.lx-hero{
+  background:var(--p-paper, #FAF8F5);
+  overflow:hidden;
 }
-.hero-grid{
-  position:relative; z-index:1;
-  display:grid; grid-template-columns:1.05fr .95fr;
-  gap:clamp(2rem,5vw,4.5rem); align-items:center;
-}
-.hero-content{ max-width:34rem; }
-.hero-content .eyebrow{ margin-bottom:1.1rem; }
-.hero-content h1{ margin:0 0 1.15rem; }
-.hero-content > p{
-  font-size:clamp(1.05rem,1rem + .45vw,1.27rem);
-  color:var(--lx-muted); max-width:46ch; line-height:1.6; margin:0 0 2rem;
-}
-.hero-actions{ display:flex; flex-wrap:wrap; gap:.85rem; }
 
-/* Image + floating badges */
-.hero-image-wrap{ position:relative; z-index:1; }
-.hero-image{
-  position:relative; border-radius:var(--lx-r-lg); overflow:hidden;
-  aspect-ratio:4/5; box-shadow:var(--lx-sh-lg);
-  background:linear-gradient(160deg,#E7F5FC,#D2ECF9);
+.lx-hero-grid{
+  display:grid;
+  grid-template-columns:55fr 45fr;
+  min-height:min(100dvh, 860px);
+  max-width:var(--lx-container, 1200px);
+  margin-inline:auto;
 }
-.hero-image img{ width:100%; height:100%; object-fit:cover; }
-.hero-image-empty{
-  position:absolute; inset:0; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; gap:.6rem; color:var(--lx-faint); font-size:.95rem;
-}
-.hero-image-empty i{ font-size:2.4rem; }
-.hero-badge{
-  position:absolute; display:flex; align-items:center; gap:.7rem;
-  background:rgba(255,255,255,.9); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.75); border-radius:var(--lx-r);
-  padding:.75rem .95rem; box-shadow:var(--lx-sh-lg);
-}
-.hero-badge strong{ display:block; font-family:var(--lx-display); font-size:.95rem; color:var(--lx-navy); line-height:1.15; }
-.hero-badge span{ display:block; font-size:.78rem; color:var(--lx-muted); }
-.hero-badge-icon{
-  width:38px; height:38px; flex:none; border-radius:10px; display:flex;
-  align-items:center; justify-content:center; background:var(--lx-blue-050); color:var(--lx-blue);
-}
-.hero-badge-icon svg{ width:20px; height:20px; }
-.hero-badge--top{ top:1.1rem; left:clamp(-1.1rem,-2vw,0rem); animation:lx-float 6s ease-in-out infinite; }
-.hero-badge--bottom{ bottom:1.4rem; right:clamp(-1.1rem,-2vw,0rem); flex-direction:column; align-items:flex-start; gap:.3rem; animation:lx-float 6s ease-in-out infinite 1.5s; }
-.hero-badge--bottom > div{ display:flex; align-items:baseline; gap:.4rem; }
-.hero-stars{ display:inline-flex; gap:1px; color:var(--lx-star); font-size:.9rem; }
-@keyframes lx-float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
 
-/* Swimmers — subtle sperm drifting across the backdrop */
-.hero-swimmers{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
-.swimmer{
-  position:absolute; left:0; width:62px; height:11px; color:var(--lx-blue); opacity:.10;
-  transform:translateX(-160px); will-change:transform;
-  animation:lx-swim linear infinite;
+/* ---- Text column ---- */
+.lx-hero-text{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:clamp(3rem, 8vw, 6rem) clamp(1.25rem, 4vw, 2.5rem) clamp(3rem, 8vw, 6rem) clamp(1.25rem, 6vw, 4rem);
+  position:relative;
 }
-@keyframes lx-swim{ from{ transform:translateX(-160px); } to{ transform:translateX(calc(100vw + 160px)); } }
-/* 10 vertical lanes (mod 10) keep them spread top→bottom */
-.swimmer:nth-child(10n+1){ top:5%; }   .swimmer:nth-child(10n+2){ top:14%; }
-.swimmer:nth-child(10n+3){ top:23%; }  .swimmer:nth-child(10n+4){ top:33%; }
-.swimmer:nth-child(10n+5){ top:43%; }  .swimmer:nth-child(10n+6){ top:53%; }
-.swimmer:nth-child(10n+7){ top:63%; }  .swimmer:nth-child(10n+8){ top:73%; }
-.swimmer:nth-child(10n+9){ top:83%; }  .swimmer:nth-child(10n){   top:93%; }
-/* Speed variety (mod 4) and head-start delays (mod 7) avoid visible rows */
-.swimmer:nth-child(4n+1){ animation-duration:15s; }
-.swimmer:nth-child(4n+2){ animation-duration:21s; }
-.swimmer:nth-child(4n+3){ animation-duration:26s; }
-.swimmer:nth-child(4n){   animation-duration:18s; }
-.swimmer:nth-child(7n+1){ animation-delay:-3s;  opacity:.07; }
-.swimmer:nth-child(7n+3){ animation-delay:-9s;  width:52px; }
-.swimmer:nth-child(7n+5){ animation-delay:-14s; opacity:.13; }
-.swimmer:nth-child(7n){   animation-delay:-6s;  width:72px; }
-
-/* Entry motion */
-.hero-content > *{ animation:lx-rise .7s var(--lx-ease) backwards; }
-.hero-content .eyebrow{ animation-delay:.05s; }
-.hero-content h1{ animation-delay:.12s; }
-.hero-content > p{ animation-delay:.2s; }
-.hero-actions{ animation-delay:.28s; }
-.hero-image-wrap{ animation:lx-rise .8s var(--lx-ease) .15s backwards; }
-@keyframes lx-rise{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:none; } }
-
-@media (max-width:900px){
-  .hero-grid{ grid-template-columns:1fr; gap:2.5rem; }
-  .hero-content{ max-width:none; }
-  .hero-image{ aspect-ratio:16/11; }
-  .hero-badge--top{ left:.6rem; }
-  .hero-badge--bottom{ right:.6rem; }
+/* Right-edge hairline rule separating columns */
+.lx-hero-text::after{
+  content:"";
+  position:absolute;
+  right:0; top:15%; bottom:15%;
+  width:1px;
+  background:var(--p-rule, #D8D2C8);
 }
+
+/* ---- Eyebrow ---- */
+.lx-hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:.75rem;
+  font-family:var(--lx-display);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--p-muted, #6B6460);
+  margin-bottom:1.5rem;
+}
+.lx-hero-eyebrow-rule{
+  display:block;
+  width:2rem;
+  height:2px;
+  background:var(--p-amber, #C8860A);
+  flex:none;
+}
+
+/* ---- Heading ---- */
+.lx-hero-heading{
+  font-family:var(--lx-serif, 'Lora', Georgia, serif);
+  font-weight:500;
+  font-size:clamp(2.4rem, 2vw + 1.6rem, 4rem);
+  line-height:1.12;
+  letter-spacing:-.01em;
+  color:var(--p-charcoal, #1C1C1C);
+  margin:0 0 1.5rem;
+  text-wrap:balance;
+  max-width:16ch;
+}
+
+/* ---- Sub ---- */
+.lx-hero-sub{
+  font-size:clamp(1rem, .5vw + .85rem, 1.15rem);
+  color:var(--p-muted, #6B6460);
+  line-height:1.7;
+  max-width:44ch;
+  margin:0 0 2.5rem;
+}
+
+/* ---- CTAs ---- */
+.lx-hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:1.25rem;
+  margin-bottom:3rem;
+}
+
+.lx-hero-btn-primary{
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  background:var(--p-blue, #1B5F8C);
+  color:#fff;
+  font-family:var(--lx-display);
+  font-weight:700;
+  font-size:.95rem;
+  letter-spacing:.03em;
+  padding:.85rem 1.6rem;
+  border-radius:6px;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  transition:background .18s ease-out, transform .14s ease-out;
+}
+.lx-hero-btn-primary:hover{
+  background:var(--p-blue-hover, #154E75);
+  transform:translateY(-1px);
+}
+.lx-hero-btn-primary:active{ transform:scale(.97); }
+.lx-hero-btn-primary svg{ transition:transform .14s ease-out; }
+.lx-hero-btn-primary:hover svg{ transform:translateX(3px); }
+
+.lx-hero-btn-ghost{
+  font-family:var(--lx-body);
+  font-size:.95rem;
+  font-weight:500;
+  color:var(--p-ink, #2E2E2E);
+  text-decoration:underline;
+  text-decoration-color:var(--p-rule-strong, #B8B0A4);
+  text-decoration-thickness:1.5px;
+  text-underline-offset:.2em;
+  transition:text-decoration-color .16s;
+}
+.lx-hero-btn-ghost:hover{
+  text-decoration-color:var(--p-amber, #C8860A);
+  color:var(--p-ink, #2E2E2E);
+}
+
+/* ---- Data row ---- */
+.lx-hero-data{
+  display:flex;
+  align-items:flex-start;
+  gap:2rem;
+}
+.lx-hero-stat{
+  display:flex;
+  flex-direction:column;
+  gap:.25rem;
+}
+.lx-hero-stat strong{
+  font-family:var(--lx-display);
+  font-size:clamp(1.6rem, 1vw + 1.2rem, 2rem);
+  font-weight:700;
+  color:var(--p-charcoal, #1C1C1C);
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+}
+.lx-hero-stat span{
+  font-size:.82rem;
+  color:var(--p-muted, #6B6460);
+  line-height:1.4;
+  max-width:18ch;
+}
+.lx-hero-stat-divider{
+  width:1px;
+  align-self:stretch;
+  background:var(--p-rule, #D8D2C8);
+  margin-top:.25rem;
+}
+
+/* ---- Image column ---- */
+.lx-hero-media{
+  position:relative;
+  overflow:hidden;
+}
+.lx-hero-img,
+.lx-hero-placeholder{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+}
+
+/* ---- Responsive ---- */
+@media (max-width:860px){
+  .lx-hero-grid{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto;
+    min-height:auto;
+  }
+  .lx-hero-text{
+    order:2;
+    padding:2.5rem clamp(1rem, 5vw, 2rem) 3rem;
+  }
+  .lx-hero-text::after{ display:none; }
+  .lx-hero-heading{ max-width:none; }
+  .lx-hero-media{
+    order:1;
+    height:min(55vw, 420px);
+    position:relative;
+  }
+  .lx-hero-img,
+  .lx-hero-placeholder{
+    position:absolute;
+  }
+}
+
 @media (max-width:480px){
-  .hero-actions{ flex-direction:column; align-items:stretch; }
-  .hero-actions .btn{ width:100%; }
+  .lx-hero-data{ flex-direction:column; gap:1.25rem; }
+  .lx-hero-stat-divider{ width:2rem; height:1px; align-self:auto; }
 }
-@media (prefers-reduced-motion: reduce){
-  .hero-swimmers{ display:none; }
-  .hero-badge--top, .hero-badge--bottom{ animation:none; }
+
+@media (prefers-reduced-motion:reduce){
+  .lx-hero-btn-primary,
+  .lx-hero-btn-primary svg,
+  .lx-hero-btn-ghost{ transition:none; }
 }
 {% endstylesheet %}
 
@@ -184,25 +292,20 @@
 {
   "name": "Hero",
   "settings": [
-    { "type": "header", "content": "Copy" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "311,733+ couples helped worldwide" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "The science of starting a family." },
-    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Pharmaceutical-grade fertility supplements and clinic-grade diagnostics — trusted by leading specialists in 40+ countries." },
-    { "type": "header", "content": "Buttons" },
-    { "type": "text", "id": "btn1_text", "label": "Primary button", "default": "Find your product" },
-    { "type": "url", "id": "btn1_link", "label": "Primary button link" },
-    { "type": "text", "id": "btn2_text", "label": "Secondary button", "default": "Our science" },
-    { "type": "url", "id": "btn2_link", "label": "Secondary button link" },
-    { "type": "header", "content": "Hero image" },
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "header", "content": "Floating top-left badge" },
-    { "type": "checkbox", "id": "show_badge", "label": "Show top badge", "default": true },
-    { "type": "text", "id": "badge_top_title", "label": "Title", "default": "Specialist recommended" },
-    { "type": "text", "id": "badge_top_subtitle", "label": "Subtitle", "default": "Peer-reviewed formulas" },
-    { "type": "header", "content": "Floating bottom-right review badge" },
-    { "type": "checkbox", "id": "show_review", "label": "Show review badge", "default": true },
-    { "type": "text", "id": "review_score", "label": "Score", "default": "4.9 / 5" },
-    { "type": "text", "id": "review_count", "label": "Reviews count", "default": "2,400+ verified reviews" }
+    { "type":"text",     "id":"eyebrow",      "label":"Eyebrow",        "default":"Evidence-Based Fertility Support" },
+    { "type":"textarea", "id":"heading",       "label":"Heading",        "default":"Science-backed support for your fertility journey" },
+    { "type":"text",     "id":"mark_word",     "label":"Word to underline (amber)", "default":"fertility journey" },
+    { "type":"textarea", "id":"subheading",    "label":"Subheading",     "default":"Clinically formulated supplements and testing kits trusted by over 311,000 couples." },
+    { "type":"text",     "id":"btn1_text",     "label":"Primary CTA",    "default":"Shop the Protocol" },
+    { "type":"url",      "id":"btn1_link",     "label":"Primary CTA link" },
+    { "type":"text",     "id":"btn2_text",     "label":"Secondary CTA",  "default":"Read the science" },
+    { "type":"url",      "id":"btn2_link",     "label":"Secondary CTA link" },
+    { "type":"image_picker", "id":"image",     "label":"Hero image" },
+    { "type":"text",     "id":"image_alt",     "label":"Image alt text" },
+    { "type":"text",     "id":"stat1_value",   "label":"Stat 1 value",   "default":"94%" },
+    { "type":"text",     "id":"stat1_label",   "label":"Stat 1 label",   "default":"of couples see improvement within 90 days" },
+    { "type":"text",     "id":"stat2_value",   "label":"Stat 2 value",   "default":"311k+" },
+    { "type":"text",     "id":"stat2_label",   "label":"Stat 2 label",   "default":"couples supported since 2014" }
   ],
   "presets": [{ "name": "Hero" }]
 }
